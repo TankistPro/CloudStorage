@@ -2,7 +2,10 @@
 
     &__controllers {}
 
-    &__main {}
+    &__main {
+        border-radius: 5px;
+        overflow: hidden;
+    }
 
     &__header {
         .table__row {
@@ -15,21 +18,34 @@
     &__body {
         .table__row {
             cursor: pointer;
+            background-color: #fff;
+            transition: .3s all;
 
-            &:nth-child(2n) {
-                background-color: rgba(137, 137, 137, 0.128);
+            &:hover {
+                transition: .3s all;
+                background-color: rgb(249, 249, 249);
             }
+
+            &:not(:last-child) {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+            }
+
+            // &:nth-child(2n) {
+            //     background-color: rgba(147, 146, 146, 0.064);
+            // }
         }
     }
 
     &__row {
         display: grid;
         grid-template-columns: 70px 2fr 0.5fr 1fr 1fr;
-        padding: 15px 0;
+        padding: 15px;
     }
 
     &__column {
         display: flex;
+        align-items: center;
+        column-gap: 10px;
 
         &_center {
             justify-content: center;

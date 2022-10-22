@@ -7,14 +7,21 @@
 }
 
 body {
-    background-color: rgb(0, 30, 60);
+    background-color: rgba(0, 30, 60, 0.1);
 }
 
-#root {
+#root {}
+
+.container, .header__wrapper {
     width: 1024px;
     margin: 0 auto;
 }
 
-.App {}
+.App {
+}
 
-.page {}
+.page {
+    .breadcrumbs {
+        margin: 20px 0;
+    }
+}

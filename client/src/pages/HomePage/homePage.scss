@@ -1,6 +1,6 @@
 .home-page {
-    background-color: white;
+
     .table {
-        height: 100vh;
+        height: calc(100vh - 56px - 40px - 24px);
     }
 }

@@ -1,0 +1,50 @@
+.header {
+    height: 56px;
+    background-color: #fff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.265);
+    background-color: rgba(0, 30, 60, 0.6);
+
+    &__left {
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+        width: 60%;
+    }
+
+    &__wrapper {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+
+            &__info {
+                color: #fff;
+                font-weight: 500;
+            }
+        }
+    }
+
+    &__workspace-group {
+        scale: 0.6;
+    }
+
+    &__search {
+        flex-shrink: 0;
+        flex: 1;
+
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            height: 40px;
+            font-size: 1rem;
+            padding: 0 10px;
+            outline: none;
+            border-radius: 3px;
+            border: none;
+        }
+    }
+}

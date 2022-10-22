@@ -12,7 +12,7 @@ export const AuthPage = () => {
             <h1>Добро пожаловать!</h1>
             <div className="auth-form">
               <TextField id="standard-basic" label="E-mail" variant="standard" />
-              <TextField id="standard-basic" label="Пароль" variant="standard" />
+              <TextField id="standard-basic" label="Пароль" type="password" variant="standard" />
             </div>
             <div className='auth-bottom'>
               <Button variant="contained">Войти</Button>
