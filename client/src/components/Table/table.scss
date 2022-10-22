@@ -1,0 +1,44 @@
+.table {
+
+    &__controllers {}
+
+    &__main {}
+
+    &__header {
+        .table__row {
+            background-color: rgba(0, 30, 60, 0.4);
+            font-size: 1.1rem;
+            color: #fff;
+        }
+    }
+
+    &__body {
+        .table__row {
+            cursor: pointer;
+
+            &:nth-child(2n) {
+                background-color: rgba(137, 137, 137, 0.128);
+            }
+        }
+    }
+
+    &__row {
+        display: grid;
+        grid-template-columns: 70px 2fr 0.5fr 1fr 1fr;
+        padding: 15px 0;
+    }
+
+    &__column {
+        display: flex;
+
+        &_center {
+            justify-content: center;
+        }
+    }
+
+    &__pagination {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 30px;
+    }
+}
