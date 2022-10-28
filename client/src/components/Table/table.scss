@@ -36,11 +36,11 @@
         }
     }
 
-    &__row {
-        display: grid;
-        grid-template-columns: 70px 2fr 0.5fr 1fr 1fr;
-        padding: 15px;
-    }
+    // &__row {
+    //     display: grid;
+    //     grid-template-columns: 70px 2fr 0.5fr 1fr 1fr;
+    //     padding: 15px;
+    // }
 
     &__column {
         display: flex;

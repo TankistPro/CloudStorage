@@ -1,10 +1,10 @@
 import React from 'react'
-import { Pagination } from '@mui/material'
 
 import './table.scss'
 
 import folderImg from '../../images/folder.svg';
 import fileImg from '../../images/file.svg';
+import { TableRow } from './TableRow/TableRow';
 
 export const Table = () => {
   return (
@@ -23,71 +23,12 @@ export const Table = () => {
                 </div>
             </div>
             <div className="table__body">
-                <div className="table__row">
-                    <div className='table__column'>1</div>
-                    <div className='table__column'>
-                        <img src={folderImg} alt="folder" />
-                        Test.png
-                    </div>
-                    <div className='table__column'>12гб</div>
-                    <div className='table__column'>12.08.2022</div>
-                    <div className='table__column'>15.11.2022</div>
-                </div>
-                <div className="table__row">
-                    <div className='table__column'>1</div>
-                    <div className='table__column'>
-                        <img src={fileImg} alt="folder" />
-                        Test.png
-                    </div>
-                    <div className='table__column'>12гб</div>
-                    <div className='table__column'>12.08.2022</div>
-                    <div className='table__column'>15.11.2022</div>
-                </div>
-                <div className="table__row">
-                    <div className='table__column'>1</div>
-                    <div className='table__column'>
-                        <img src={folderImg} alt="folder" />
-                        Test.png
-                    </div>
-                    <div className='table__column'>11ГБ</div>
-                    <div className='table__column'>12.08.2022</div>
-                    <div className='table__column'>15.11.2022</div>
-                </div>
-                <div className="table__row">
-                    <div className='table__column'>1</div>
-                    <div className='table__column'>
-                        <img src={folderImg} alt="folder" />
-                        Test.png
-                    </div>
-                    <div className='table__column'>12гб</div>
-                    <div className='table__column'>12.08.2022</div>
-                    <div className='table__column'>15.11.2022</div>
-                </div>
-                <div className="table__row">
-                    <div className='table__column'>1</div>
-                    <div className='table__column'>
-                        <img src={folderImg} alt="folder" />
-                        Test.png
-                    </div>
-                    <div className='table__column'>12гб</div>
-                    <div className='table__column'>12.08.2022</div>
-                    <div className='table__column'>15.11.2022</div>
-                </div>
-                <div className="table__row">
-                    <div className='table__column'>1</div>
-                    <div className='table__column'>
-                        <img src={fileImg} alt="folder" />
-                        Test.png
-                    </div>
-                    <div className='table__column'>12гб</div>
-                    <div className='table__column'>12.08.2022</div>
-                    <div className='table__column'>15.11.2022</div>
-                </div>
+                {[1, 2, 3, 4, 5, 6].map(index => (
+                    <TableRow fileType={ index % 2 === 0 ? "file" : "folder"} />
+                ))
+                }
             </div>
         </div>
-        {/* <div className="table__pagination">
-            <Pagination count={10} variant="outlined" shape="rounded" />
-        </div> */}
     </div>
   )
 }
