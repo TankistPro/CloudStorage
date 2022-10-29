@@ -1,16 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {}
+const initialState = {
+    isAuth: true
+}
 
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
         SET_USER_STATE: (state, action) => {
-            state = action.payload
+            state = action.payload;
+            state.isAuth = true;
         },
         REMOVE_USER_STATE: (state) => {
             state = {}
+            state.isAuth = false;
         }
     }
 })

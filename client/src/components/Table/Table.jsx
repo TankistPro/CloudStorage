@@ -2,8 +2,6 @@ import React from 'react'
 
 import './table.scss'
 
-import folderImg from '../../images/folder.svg';
-import fileImg from '../../images/file.svg';
 import { TableRow } from './TableRow/TableRow';
 
 export const Table = () => {
@@ -24,9 +22,8 @@ export const Table = () => {
             </div>
             <div className="table__body">
                 {[1, 2, 3, 4, 5, 6].map(index => (
-                    <TableRow fileType={ index % 2 === 0 ? "file" : "folder"} />
-                ))
-                }
+                    <TableRow fileType={ index % 2 === 0 ? "file" : "folder"} key={index} />
+                ))}
             </div>
         </div>
     </div>
