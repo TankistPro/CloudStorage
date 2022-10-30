@@ -1,13 +1,25 @@
 const express = require('express');
 const router = require('./routes/index');
+const sequelize = require('./db/connect');
+
+const UserModel = require('./db/models/User.model');
 
 const app = express();
 const PORT = 5520 || process.env.PORT;
 
-module.exports.startServerV1 = () => {
-    app.use('/api/v1', router);
+module.exports.startServerV1 = async () => {
+    try{
+        await sequelize.authenticate();
+        await sequelize.sync({ alter: true });
 
-    app.listen(PORT, () => {
-        console.log(`[OK] Server is running on PORT ${ PORT }!`)
-    })
+        console.log('Connection has been established successfully.');
+
+        app.use('/api/v1', router);
+
+        app.listen(PORT, () => {
+            console.log(`[OK] Server is running on PORT ${ PORT }!`)
+        })
+    } catch (e) {
+        console.log('[ERROR] Unable to connect to the database', e)
+    }
 }
