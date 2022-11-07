@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-router.get('/', (req, res) => {
-    res.send("Api v1")
-})
+const AuthRoute = require('./auth.route');
+
+router.use('/auth', AuthRoute);
 
 module.exports = router;

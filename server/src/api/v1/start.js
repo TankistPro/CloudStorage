@@ -14,6 +14,7 @@ module.exports.startServerV1 = async () => {
 
         console.log('Connection has been established successfully.');
 
+        app.use(express.json());
         app.use('/api/v1', router);
 
         app.listen(PORT, () => {
