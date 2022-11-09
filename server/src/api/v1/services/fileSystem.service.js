@@ -18,6 +18,14 @@ class FileSystemService {
 
         return userFolder;
     }
+
+    createFolder() {}
+
+    removeFolder() {}
+
+    uploadFile() {}
+
+    removeFile() {}
 }
 
 module.exports.FileSystemService = new FileSystemService();
