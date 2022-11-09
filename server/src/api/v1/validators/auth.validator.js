@@ -26,4 +26,16 @@ const registrationValidator = checkSchema({
     }
 })
 
-module.exports.registrationValidator = registrationValidator
+const authorizationValidator = checkSchema({
+    email: {
+        isEmail: {}
+    },
+    password: {
+        notEmpty: {}
+    },
+})
+
+module.exports = {
+    registrationValidator,
+    authorizationValidator
+}
