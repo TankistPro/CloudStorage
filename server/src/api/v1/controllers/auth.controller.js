@@ -7,24 +7,15 @@ class AuthController {
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) {
-                return res.status(400).json({
-                    errors: errors.array()
-                });
+                return res.error(errors.array())
             }
 
             const { email, password } = req.body;
 
             const tokens = await AuthService.login(email, password);
-
-            return res.status(200).json({
-                status: true,
-                ...tokens
-            });
+            return res.success(tokens);
         } catch (e) {
-            return res.status(400).json({
-                status: false,
-                message: e.message
-            });
+            return res.error(e.message);
         }
     }
 
@@ -34,20 +25,13 @@ class AuthController {
             const errors = validationResult(req);
 
             if (!errors.isEmpty()) {
-                return res.status(400).json({
-                    errors: errors.array()
-                });
+                return res.error(errors.array())
             }
 
             const response = await AuthService.registration(userPayload);
-
-            return res.status(200).json({
-                status: response
-            });
+            return res.success(response);
         } catch (e) {
-            return res.status(400).json({
-                message: e.message
-            });
+            return res.error(e.message);
         }
     }
 }

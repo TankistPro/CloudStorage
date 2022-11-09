@@ -4,19 +4,13 @@ const authProtectMiddleware = async (req, res, next) => {
     const token = req.headers.authorization || null;
 
     if (!token) {
-        return res.status(401).json({
-            status: false,
-            message: "Token empty"
-        })
+        return  res.error("Token empty", 401);
     }
 
     const payload = await TokenService.verifyAccessToken(token);
 
     if (!payload) {
-        return res.status(401).json({
-            status: false,
-            message: "Invalid token"
-        })
+        return  res.error("Invalid token", 401);
     }
 
     req.payload = payload;

@@ -1,6 +1,6 @@
 class UserController {
     getMe(req, res) {
-        console.log(req.payload)
+        return res.success(req.payload);
     }
 }
 

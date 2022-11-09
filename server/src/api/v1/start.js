@@ -12,6 +12,8 @@ module.exports.startServerV1 = async () => {
 
         console.log('Connection has been established successfully.');
 
+        app.use(require('./middleware/response.middleware'));
+
         app.use(express.json());
         app.use('/api/v1', router);
 
