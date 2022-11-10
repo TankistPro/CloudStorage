@@ -6,5 +6,4 @@ const { FilesystemController } = require('../controllers/filesystem.controller')
 
 router.get('/', authProtectMiddleware, FilesystemController.parseCurrentPath);
 
-
 module.exports = router;

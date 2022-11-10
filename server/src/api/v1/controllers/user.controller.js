@@ -1,6 +1,12 @@
+const { UserService } = require('../services/user.service');
+
 class UserController {
-    getMe(req, res) {
-        return res.success(req.payload);
+    async getMe(req, res) {
+        const { id } = req.payload;
+
+        const user = await UserService.getUserPayloadById(id);
+
+        return res.success(user);
     }
 }
 
