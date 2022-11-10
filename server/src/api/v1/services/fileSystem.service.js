@@ -19,6 +19,8 @@ class FileSystemService {
         return userFolder;
     }
 
+    parseCurrentPath(path) {}
+
     createFolder() {}
 
     removeFolder() {}
