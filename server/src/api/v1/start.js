@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const router = require('./routes/index');
 const sequelize = require('./db/connect');
 
@@ -15,6 +16,12 @@ module.exports.startServerV1 = async () => {
         app.use(require('./middleware/response.middleware'));
 
         app.use(express.json());
+
+        app.use(cors({
+            origin: ['http://localhost:3000'],
+            credentials: true
+        }))
+
         app.use('/api/v1', router);
 
         app.listen(PORT, () => {
