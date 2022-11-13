@@ -4,9 +4,11 @@ import { Settings, Logout, PersonAdd } from '@mui/icons-material'
 
 import './userProfileBage.scss'
 import {useSelector} from "react-redux";
+import {useLogout} from "../../../hooks/useLogout";
 
 export const UserProfileBage = () => {
     const user = useSelector(state => state.user.user);
+    const { logout } = useLogout();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -88,7 +90,7 @@ export const UserProfileBage = () => {
                 </ListItemIcon>
                 Настроики
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={logout}>
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>

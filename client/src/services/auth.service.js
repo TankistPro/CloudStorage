@@ -6,6 +6,11 @@ class AuthService {
     }
 
     registration() {}
+
+    logout() {
+        localStorage.removeItem('access');
+        localStorage.removeItem('refresh');
+    }
 }
 
 export default new AuthService();
