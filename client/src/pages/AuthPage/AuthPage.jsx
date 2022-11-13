@@ -1,24 +1,15 @@
 import React from 'react'
-import {useDispatch, useSelector} from "react-redux";
 
 import './authPage.scss';
 
 import {TextField, Button} from '@mui/material'
-import {loginAction} from "../../store/actions/auth.action";
+import {useLogin} from "../../hooks/useLogin";
 
 export const AuthPage = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const user = useSelector(state => state.user);
-
-  const dispatch = useDispatch();
-
-  const login = React.useCallback(() => {
-    dispatch(loginAction({
-      email, password
-    }))
-  }, [email, password, user])
+  const { login, errors } = useLogin();
 
   return (
     <div className='page auth-page'>
@@ -28,10 +19,10 @@ export const AuthPage = () => {
             <div className="auth-form">
               <TextField id="standard-basic" onInput={(e) => setEmail(e.target.value)} label="E-mail" variant="standard" />
               <TextField id="standard-basic" onInput={(e) => setPassword(e.target.value)}  label="Пароль" type="password" variant="standard" />
-              <p className='error'>{ user.error.message }</p>
+              <p className='error'>{ errors.message }</p>
             </div>
             <div className='auth-bottom'>
-              <Button variant="contained" onClick={login}>Войти</Button>
+              <Button variant="contained" onClick={() => login(email, password)}>Войти</Button>
               <Button variant="outlined">Зарегистрироваться</Button>
             </div>
           </div>

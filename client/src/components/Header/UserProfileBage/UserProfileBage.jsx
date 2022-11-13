@@ -3,15 +3,18 @@ import { Avatar, IconButton, MenuItem, Menu, Divider, ListItemIcon, Tooltip } fr
 import { Settings, Logout, PersonAdd } from '@mui/icons-material'
 
 import './userProfileBage.scss'
+import {useSelector} from "react-redux";
 
 export const UserProfileBage = () => {
+    const user = useSelector(state => state.user.user);
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-  
+
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
-  
+
     const handleClose = () => {
       setAnchorEl(null);
     };
@@ -19,7 +22,7 @@ export const UserProfileBage = () => {
   return (
     <div className="user-profile">
           <div className="user-profile__info">
-            <p>Гусев Николай</p>
+            <p>{ user?.firstName } { user?.lastName }</p>
           </div>
           <div className="user-profile__avatar">
           <Tooltip title="Настройки аккаунта">

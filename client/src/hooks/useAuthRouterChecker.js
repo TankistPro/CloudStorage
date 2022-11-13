@@ -1,19 +1,26 @@
 import React from 'react';
 
-import {useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useLocation, useNavigate} from "react-router-dom";
+import {fetchUserData} from "../store/actions/auth.action";
 
 export const useAuthRouterChecker = () => {
-    const isAuth = useSelector(state => state.user.isAuth);
+    const dispatch = useDispatch();
+
+    const accessToken = localStorage.getItem('access');
 
     const navigate = useNavigate();
     const location = useLocation();
 
     React.useEffect(() => {
-        if (!isAuth) {
+        if (!accessToken) {
             navigate('/auth')
         } else if (location.pathname === '/auth') {
-            navigate('/')
+            navigate('/');
         }
-    }, [isAuth, location.pathname])
+
+        if (accessToken) {
+            dispatch(fetchUserData());
+        }
+    }, [location.pathname])
 }

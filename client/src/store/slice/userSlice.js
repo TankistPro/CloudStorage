@@ -21,6 +21,9 @@ export const userSlice = createSlice({
             state.user = {}
             state.isAuth = false;
         },
+        STATE_AUTH_FLAG: (state, action) => {
+          state.isAuth = action.payload;
+        },
         SET_ERROR_STATE: (state, action) => {
             state.error.status = true;
             state.error.message = action.payload;
@@ -32,6 +35,6 @@ export const userSlice = createSlice({
     }
 })
 
-export const { SET_USER_STATE, REMOVE_USER_STATE, SET_ERROR_STATE, REMOVE_ERROR_STATE } = userSlice.actions;
+export const { SET_USER_STATE, REMOVE_USER_STATE, SET_ERROR_STATE, REMOVE_ERROR_STATE, STATE_AUTH_FLAG } = userSlice.actions;
 
 export default userSlice.reducer;

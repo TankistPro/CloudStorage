@@ -8,6 +8,4 @@ class AuthService {
     registration() {}
 }
 
-
-
 export default new AuthService();

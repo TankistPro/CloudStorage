@@ -12,16 +12,16 @@ import { HomePage } from '../../pages/HomePage/HomePage';
 import { useAuthRouterChecker } from '../../hooks/useAuthRouterChecker';
 
 function App() {
-  useAuthRouterChecker();
+    useAuthRouterChecker();
 
-  return (
-    <div className="App">
-      <Routes>
-        <Route path='/auth' element={<AuthPage />} />
-        <Route path='/' element={<HomePage />} />
-      </Routes>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Routes>
+                <Route path='/auth' element={<AuthPage />} />
+                <Route path='/' element={<HomePage />} />
+            </Routes>
+        </div>
+    );
 }
 
 export default App;
