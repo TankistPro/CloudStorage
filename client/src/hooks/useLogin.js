@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 
 export const useLogin = () => {
     const user = useSelector(state => state.user);
-
+    const [loginAttempts, setLoginAttempts] = React.useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -13,7 +13,8 @@ export const useLogin = () => {
         await dispatch(
             loginAction({
             email, password
-        }))
+        }));
+        setLoginAttempts(prevState => prevState + 1);
     }, [])
 
     React.useEffect(() => {
@@ -25,6 +26,7 @@ export const useLogin = () => {
     return {
         login,
         user: user.user,
-        errors: user.error
+        errors: user.error,
+        loginAttempts
     }
 }

@@ -19,7 +19,7 @@ export const loginAction = (loginPayload) => {
             let error = e.response.data?.message;
 
             if (error instanceof Object) {
-                error = "Enter correct data"
+                error = "Entered incorrect data"
             }
 
             dispatch(SET_ERROR_STATE(error));
