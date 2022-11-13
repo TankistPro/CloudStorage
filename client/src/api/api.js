@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AuthService from "../services/auth.service";
 
 export const api = axios.create({
     baseURL: 'http://localhost:5520/api/v1',
@@ -18,8 +19,7 @@ api.interceptors.response.use(response => {
     const status = error.response.status;
 
     if (status === 401) {
-        localStorage.removeItem('access');
-        localStorage.removeItem('refresh');
+        AuthService.logout();
     }
 
     return Promise.reject(error);
