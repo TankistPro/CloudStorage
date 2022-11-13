@@ -5,39 +5,29 @@ import './tableRow.scss'
 
 import folderImg from '../../../images/folder.svg';
 import fileImg from '../../../images/file.svg';
+import {displayTime} from "../../../helpers/time.helper";
+import {parseSize} from "../../../helpers/file.helper";
 
-export const TableRow = (props) => {
+export const TableRow = ({ file }) => {
   return (
     <div className="table__row">
-        <div className='table__column'>1</div>
+        <div className='table__column'>-</div>
         <div className='table__column'>
-            <img src={ props.fileType === 'file' ? fileImg : folderImg} alt="folder" />
-            { props.fileName }
+            <img src={ file.type === 'File' ? fileImg : folderImg} alt="folder" />
+            { file.name }
         </div>
-        <div className='table__column'>{ props.size }гб</div>
-        <div className='table__column'>12.08.2022</div>
-        <div className='table__column'>15.11.2022</div>
+        <div className='table__column'>{ file.type === 'File' ? parseSize(file.stat.size) : '' }</div>
+        <div className='table__column'>{ displayTime(file.stat.ctime) }</div>
+        <div className='table__column'>{ displayTime(file.stat.birthtime) }</div>
     </div>
   )
 }
 
 TableRow.propType = {
-    id: PropTypes.number,
-    fileType: PropTypes.oneOf(['file', 'folder']),
-    fileName: PropTypes.string,
-    size: PropTypes.number,
-    dateCreated: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ]),
-    dateModify: PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.string
-    ])
-}
-
-TableRow.defaultProps = {
-    fileType: 'folder',
-    size: 122,
-    fileName: 'Test'
+    file: {
+        name: PropTypes.string,
+        type: PropTypes.oneOf(['File', 'Folder']),
+        extension: PropTypes.string,
+        stat: {}
+    }
 }

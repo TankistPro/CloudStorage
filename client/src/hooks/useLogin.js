@@ -19,7 +19,7 @@ export const useLogin = () => {
 
     React.useEffect(() => {
         if (user.isAuth) {
-            navigate('/')
+            navigate('/');
         }
     }, [user]);
 

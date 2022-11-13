@@ -20,6 +20,7 @@ api.interceptors.response.use(response => {
 
     if (status === 401) {
         AuthService.logout();
+        window.location.href = '/auth'
     }
 
     return Promise.reject(error);
