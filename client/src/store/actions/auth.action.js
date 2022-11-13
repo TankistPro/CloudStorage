@@ -2,6 +2,7 @@ import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
 
 import {REMOVE_ERROR_STATE, SET_ERROR_STATE, SET_USER_STATE, STATE_AUTH_FLAG} from "../slice/userSlice";
+import {ADD_TO_PATH_STACK} from "../slice/fileSystemSlice";
 
 export const loginAction = (loginPayload) => {
     return async dispatch => {
@@ -13,7 +14,7 @@ export const loginAction = (loginPayload) => {
                 localStorage.setItem('access', data.payload.accessToken); // TODO: хранить токет в cookie
 
                 dispatch(REMOVE_ERROR_STATE());
-                dispatch(STATE_AUTH_FLAG(true))
+                dispatch(STATE_AUTH_FLAG(true));
             }
         } catch (e) {
             let error = e.response.data?.message;
@@ -34,7 +35,8 @@ export const fetchUserData = () => {
             const { data } = await UserService.getMe();
 
             if (data.status) {
-                dispatch(SET_USER_STATE(data.payload))
+                dispatch(SET_USER_STATE(data.payload));
+                dispatch(ADD_TO_PATH_STACK(data.payload.baseWorkspacePath));
             }
         } catch (e) {
             let error = e.response.data.message;

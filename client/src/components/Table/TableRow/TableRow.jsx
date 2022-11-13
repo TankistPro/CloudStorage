@@ -7,16 +7,31 @@ import folderImg from '../../../images/folder.svg';
 import fileImg from '../../../images/file.svg';
 import {displayTime} from "../../../helpers/time.helper";
 import {parseSize} from "../../../helpers/file.helper";
+import {FileType} from "../../../enums/file.enum";
+import {useFileSystem} from "../../../hooks/useFileSystem";
 
 export const TableRow = ({ file }) => {
+
+    const { openFolder } = useFileSystem()
+
+    const fileImage = React.useMemo(() => {
+        return file.type === FileType.File ? fileImg : folderImg
+    }, [file])
+
+    const openHandler = async () => {
+        if (file.type === FileType.Folder) {
+            await openFolder(file.name)
+        } else if (file.type === FileType.File) {}
+    }
+
   return (
-    <div className="table__row">
+    <div className="table__row" onClick={openHandler}>
         <div className='table__column'>-</div>
         <div className='table__column'>
-            <img src={ file.type === 'File' ? fileImg : folderImg} alt="folder" />
+            <img src={ fileImage } alt="folder" />
             { file.name }
         </div>
-        <div className='table__column'>{ file.type === 'File' ? parseSize(file.stat.size) : '' }</div>
+        <div className='table__column'>{ file.type === FileType.File ? parseSize(file.stat.size) : '' }</div>
         <div className='table__column'>{ displayTime(file.stat.ctime) }</div>
         <div className='table__column'>{ displayTime(file.stat.birthtime) }</div>
     </div>

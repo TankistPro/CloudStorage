@@ -22,9 +22,14 @@ export const Table = () => {
                 </div>
             </div>
             <div className="table__body">
-                {files.length && files.map((file, index) => (
-                    <TableRow file={file} key={index} />
-                ))}
+                {
+                    files.length ? files.map((file, index) => (
+                        <TableRow file={file} key={index} />
+                    )) :
+                        <>
+                            <p>Пусто</p>
+                        </>
+                }
             </div>
         </div>
     </div>
