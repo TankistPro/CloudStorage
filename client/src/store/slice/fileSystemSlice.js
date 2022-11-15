@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    currentFolder: [],
-    pathStack: []
+    currentFolder: []
 }
 
 const fileSystemSlice = createSlice({
@@ -14,13 +13,10 @@ const fileSystemSlice = createSlice({
         },
         RESET_CURRENT_FOLDER: (state) => {
             state.currentFolder = []
-        },
-        ADD_TO_PATH_STACK: (state, action) => {
-            state.pathStack = [...state.pathStack,action.payload ]
         }
     }
 })
 
-export const { SET_CURRENT_FOLDER, RESET_CURRENT_FOLDER, ADD_TO_PATH_STACK } = fileSystemSlice.actions;
+export const { SET_CURRENT_FOLDER, RESET_CURRENT_FOLDER } = fileSystemSlice.actions;
 
 export default fileSystemSlice.reducer;

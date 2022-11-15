@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Routes,
   Route,
+    Navigate
 } from "react-router-dom";
 
 import './app.scss';
@@ -18,7 +19,11 @@ function App() {
         <div className="App">
             <Routes>
                 <Route path='/auth' element={<AuthPage />} />
-                <Route path='/' element={<HomePage />} />
+                <Route path='/home'>
+                    <Route path=":path" element={<HomePage />} />
+                    <Route path="" element={<HomePage />} />
+                </Route>
+                <Route path='*' element={<Navigate to='/home' replace />} />
             </Routes>
         </div>
     );

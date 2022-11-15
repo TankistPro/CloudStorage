@@ -2,10 +2,14 @@ import React from 'react'
 
 import { Breadcrumbs, Link, Typography } from '@mui/material'
 import {useSelector} from "react-redux";
+import {useFileSystem} from "../../hooks/useFileSystem";
 
 export const BreadcrumbsNav = () => {
     const baseWorkspacePath = useSelector(state => state.user?.user?.baseWorkspacePath);
-    const pathStack = useSelector(state => state.fileSystem.pathStack);
+
+    const { parseFsPath } = useFileSystem();
+
+    const pathStack = parseFsPath();
 
     const renderItem = (fileName, index) => {
         const name = baseWorkspacePath === fileName ? "Home" : fileName

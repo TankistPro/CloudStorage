@@ -16,7 +16,7 @@ export const useAuthRouterChecker = () => {
         if (!accessToken) {
             navigate('/auth')
         } else if (location.pathname === '/auth') {
-            navigate('/');
+            navigate('/home');
         }
 
         if (accessToken) {

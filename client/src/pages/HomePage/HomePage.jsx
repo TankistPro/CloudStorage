@@ -1,5 +1,5 @@
 import React from 'react'
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 import { BreadcrumbsNav } from '../../components/BreadcrumbsNav/BreadcrumbsNav'
 import { Header } from '../../components/Header/Header'
@@ -7,17 +7,20 @@ import { Table } from '../../components/Table/Table'
 
 import './homePage.scss'
 
-import {fetchCurrentFolder} from "../../store/actions/fileSystem.action";
+import {useLocation} from "react-router-dom";
+import {useFileSystem} from "../../hooks/useFileSystem";
 
 export const HomePage = () => {
     const baseWorkspacePath = useSelector(state => state.user?.user?.baseWorkspacePath);
-    const dispatch = useDispatch();
+    const location = useLocation();
+
+    const { fetchFolderHandler } = useFileSystem();
 
     React.useEffect(() => {
         if (baseWorkspacePath) {
-            dispatch(fetchCurrentFolder(baseWorkspacePath))
+            fetchFolderHandler();
         }
-    }, [baseWorkspacePath])
+    }, [location.search, baseWorkspacePath])
 
   return (
     <div className='page home-page'>

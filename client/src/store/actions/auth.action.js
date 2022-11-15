@@ -2,7 +2,6 @@ import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
 
 import {REMOVE_ERROR_STATE, SET_ERROR_STATE, SET_USER_STATE, STATE_AUTH_FLAG} from "../slice/userSlice";
-import {ADD_TO_PATH_STACK} from "../slice/fileSystemSlice";
 
 export const loginAction = (loginPayload) => {
     return async dispatch => {
@@ -36,7 +35,6 @@ export const fetchUserData = () => {
 
             if (data.status) {
                 dispatch(SET_USER_STATE(data.payload));
-                dispatch(ADD_TO_PATH_STACK(data.payload.baseWorkspacePath));
             }
         } catch (e) {
             let error = e.response.data.message;
