@@ -4,7 +4,7 @@ import { Settings, Logout, PersonAdd } from '@mui/icons-material'
 
 import './userProfileBage.scss'
 import {useSelector} from "react-redux";
-import {useLogout} from "../../../hooks/useLogout";
+import {usePassport} from "../../../hooks/usePassport";
 
 const PaperProps = {
     elevation: 0,
@@ -38,7 +38,7 @@ const anchorOrigin = { horizontal: 'right', vertical: 'bottom' }
 
 export const UserProfileBage = () => {
     const user = useSelector(state => state.user.user);
-    const { logout } = useLogout();
+    const { logout } = usePassport();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);

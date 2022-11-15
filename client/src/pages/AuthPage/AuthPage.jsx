@@ -3,20 +3,20 @@ import React from 'react'
 import './authPage.scss';
 
 import {TextField, Button} from '@mui/material'
-import {useLogin} from "../../hooks/useLogin";
 import Toast from "../../components/Toast/Toast";
+import {usePassport} from "../../hooks/usePassport";
 
 export const AuthPage = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  const { login, errors, loginAttempts } = useLogin();
+  const { loginErrors, login, loginAttempts} = usePassport();
 
   React.useEffect(() => {
-    if (errors.status) {
+    if (loginErrors.status) {
       Toast({
         toastType: 'error',
-        text: errors.message
+        text: loginErrors.message
       })
     }
   }, [loginAttempts])
