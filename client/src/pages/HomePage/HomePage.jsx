@@ -14,11 +14,11 @@ export const HomePage = () => {
     const baseWorkspacePath = useSelector(state => state.user?.user?.baseWorkspacePath);
     const location = useLocation();
 
-    const { fetchFolderHandler } = useFileSystem();
+    const { fetchFolders } = useFileSystem();
 
     React.useEffect(() => {
         if (baseWorkspacePath) {
-            fetchFolderHandler();
+            fetchFolders();
         }
     }, [location.search, baseWorkspacePath])
 

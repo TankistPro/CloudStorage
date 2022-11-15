@@ -21,7 +21,7 @@ export const useFileSystem = () => {
         }
     }
 
-    const fetchFolderHandler = () => {
+    const fetchFolders = () => {
         if (location.pathname.startsWith('/home') && baseWorkspacePath) {
             const param = searchParams.get('path');
             let newPath = baseWorkspacePath;
@@ -50,7 +50,7 @@ export const useFileSystem = () => {
 
     return {
         openFolder,
-        fetchFolderHandler,
+        fetchFolders,
         parseFsPath
     }
 }
