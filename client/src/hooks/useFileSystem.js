@@ -34,8 +34,22 @@ export const useFileSystem = () => {
         }
     }
 
+    const goToBackFolder = (folderName) => {
+        let pathStack = parseFsPath();
+
+        if (folderName === baseWorkspacePath) {
+            setSearchParams({})
+        } else {
+            pathStack.splice(0, 1);
+            const folderIndex = pathStack.findIndex(p => p === folderName);
+
+            let newPath = pathStack.slice(0, folderIndex + 1).join('/');
+            setSearchParams({ path: "/" + newPath })
+        }
+    }
+
     /**
-     * Возвращает путь в виде массива -> ['0asad0-1212-12121as', 'folder', 'test'],
+     * Возвращает текущий путь в виде массива -> ['0asad0-1212-12121as', 'folder', 'test'],
      * что соответствует данному пути -> '0asad0-1212-12121as/folder/test'
     */
     const parseFsPath = () => {
@@ -51,6 +65,7 @@ export const useFileSystem = () => {
     return {
         openFolder,
         fetchFolders,
-        parseFsPath
+        parseFsPath,
+        goToBackFolder
     }
 }

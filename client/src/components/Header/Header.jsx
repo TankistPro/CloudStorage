@@ -4,7 +4,6 @@ import { Button } from '@mui/material'
 import './header.scss'
 
 import { UserProfileBage } from './UserProfileBage/UserProfileBage';
-import { WorkspaceBage } from './WorkspaceBage/WorkspaceBage';
 import { HeaderSearch } from './HeaderSearch/HeaderSearch';
 
 export const Header = () => {
@@ -13,9 +12,7 @@ export const Header = () => {
       <div className="header__wrapper">
         <div className="header__left">
           <HeaderSearch />
-          <div className='header__workspace-group'>
-            <WorkspaceBage />
-          </div>
+          <div className='header__workspace-group'></div>
           <div className="header__upload">
             <Button variant="contained" component="label">
               Загрузить

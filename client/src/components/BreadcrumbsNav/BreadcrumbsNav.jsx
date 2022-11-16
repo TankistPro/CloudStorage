@@ -1,13 +1,15 @@
 import React from 'react'
 
-import { Breadcrumbs, Link, Typography } from '@mui/material'
+import { Breadcrumbs, Typography } from '@mui/material'
 import {useSelector} from "react-redux";
 import {useFileSystem} from "../../hooks/useFileSystem";
+
+import './breadcrumbsNav.scss';
 
 export const BreadcrumbsNav = () => {
     const baseWorkspacePath = useSelector(state => state.user?.user?.baseWorkspacePath);
 
-    const { parseFsPath } = useFileSystem();
+    const { parseFsPath, goToBackFolder } = useFileSystem();
 
     const pathStack = parseFsPath();
 
@@ -18,7 +20,7 @@ export const BreadcrumbsNav = () => {
             return <Typography key={index} color="text.primary">{ name }</Typography>
         }
 
-        return <Link underline="hover" key={index} color="inherit" href="/">{ name }</Link>
+        return <p onClick={() => goToBackFolder(fileName)} className='breadcrumbs__link' key={index} color="inherit">{ name }</p>
     }
 
   return (
