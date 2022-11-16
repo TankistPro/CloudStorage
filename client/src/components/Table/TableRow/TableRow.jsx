@@ -5,6 +5,8 @@ import './tableRow.scss'
 
 import folderImg from '../../../images/folder.svg';
 import fileImg from '../../../images/file.svg';
+import moreOption from '../../../images/more.svg';
+
 import {displayTime} from "../../../helpers/time.helper";
 import {parseSize} from "../../../helpers/file.helper";
 import {FileType} from "../../../enums/file.enum";
@@ -34,6 +36,9 @@ export const TableRow = ({ file }) => {
         <div className='table__column'>{ file.type === FileType.File ? parseSize(file.stat.size) : '' }</div>
         <div className='table__column'>{ displayTime(file.stat.ctime) }</div>
         <div className='table__column'>{ displayTime(file.stat.birthtime) }</div>
+        <div className='table__column options'>
+            <img className='more-option' src={ moreOption } alt="more"/>
+        </div>
     </div>
   )
 }

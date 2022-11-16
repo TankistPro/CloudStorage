@@ -19,6 +19,7 @@ export const Table = () => {
                     <div className='table__column'>Размер</div>
                     <div className='table__column'>Дата изменения</div>
                     <div className='table__column'>Дата создания</div>
+                    <div className='table__column' />
                 </div>
             </div>
             <div className="table__body">
