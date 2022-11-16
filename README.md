@@ -1,4 +1,4 @@
 # CloudStorage
 Stack: React.js, Express.js, MUI
 
-<img width="1280" alt="image" src="https://user-images.githubusercontent.com/58086757/202181754-58fc52b9-2e57-475b-aae0-77b44cfed0a2.png">
+<img width="1280" alt="image" src="https://user-images.githubusercontent.com/58086757/202181923-8bef417c-8541-449e-a36c-9624c220e39b.png">
