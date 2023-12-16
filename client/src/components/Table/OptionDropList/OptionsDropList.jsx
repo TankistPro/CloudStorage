@@ -16,45 +16,54 @@ import './optionDropList.scss';
 
 import moreOption from '../../../images/more.svg';
 
+import { useFileAction } from '../../../hooks/useFileAction';
+
 const OptionsDropList = ({ toggleOption, isOpenDropListOption }) => {
+    const { renameFile, removeFile, copyFileLink } = useFileAction();
     
-  return (
+    const menuHandler = (event, fc) => {
+        event.stopPropagation();
+        fc();
+        toggleOption(event);
+    }
+
+    return (
     <div className='drop-controller'>
         <img className='more-option' src={ moreOption } alt="more" onClick={(event) => toggleOption(event)} />
         <Paper className={`drop-controller__list ${ isOpenDropListOption ? 'open' : '' }`} sx={{ width: 320 }}>
             <MenuList>
-                <MenuItem>
-                <ListItemIcon>
-                    <DriveFileRenameOutlineIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>Переименовать</ListItemText>
-                <Typography variant="body2" color="text.secondary">
-                    ⌘X
-                </Typography>
+                <MenuItem onClick={(event) => menuHandler(event, renameFile)}>
+                    <ListItemIcon>
+                        <DriveFileRenameOutlineIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Переименовать</ListItemText>
+                    <Typography variant="body2" color="text.secondary">
+                        ⌘X
+                    </Typography>
+                </MenuItem>
+                <MenuItem onClick={(event) => menuHandler(event, copyFileLink)}>
+                    <ListItemIcon>
+                        <ContentCopy fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Копировать ссылку</ListItemText>
+                    <Typography variant="body2" color="text.secondary">
+                        ⌘C
+                    </Typography>
                 </MenuItem>
                 <MenuItem>
-                <ListItemIcon>
-                    <ContentCopy fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>Копировать ссылку</ListItemText>
-                <Typography variant="body2" color="text.secondary">
-                    ⌘C
-                </Typography>
-                </MenuItem>
-                <MenuItem>
-                <ListItemIcon>
-                    <SettingsIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText>Свойства</ListItemText>
-                <Typography variant="body2" color="text.secondary">
-                    ⌘V
-                </Typography>
+                    <ListItemIcon>
+                        <SettingsIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Свойства</ListItemText>
+                    <Typography variant="body2" color="text.secondary">
+                        ⌘V
+                    </Typography>
                 </MenuItem>
                 <Divider />
-                <MenuItem>
-                <ListItemIcon>
-                    <DeleteIcon fontSize="small" />
-                </ListItemIcon>
+                <MenuItem onClick={(event) => menuHandler(event, removeFile)}>
+                    <ListItemIcon>
+                        <DeleteIcon fontSize="small" />
+                    </ListItemIcon>
                     <ListItemText>Удалить</ListItemText>
                 </MenuItem>
             </MenuList>
@@ -63,4 +72,4 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption }) => {
   )
 }
 
-export default OptionsDropList
+export default OptionsDropList;
