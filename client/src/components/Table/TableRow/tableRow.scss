@@ -3,17 +3,17 @@
     grid-template-columns: 70px 2fr 0.5fr 1fr 1fr 20px;
     padding: 15px;
 
-    .table__column.options {
-        opacity: 0;
-        transition: .2s all;
-        visibility: hidden;
-    }
+    // .table__column.options {
+    //     opacity: 0;
+    //     transition: .2s all;
+    //     visibility: hidden;
+    // }
 
-    &:hover {
-        .table__column.options {
-            opacity: 1;
-            transition: .2s all;
-            visibility: inherit;
-        }
-    }
+    // &:hover {
+    //     .table__column.options {
+    //         opacity: 1;
+    //         transition: .2s all;
+    //         visibility: inherit;
+    //     }
+    // }
 }

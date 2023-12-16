@@ -1,21 +1,20 @@
 import React from 'react'
-import PropTypes from "prop-types";
 
 import './tableRow.scss'
 
+import OptionsDropList from '../OptionDropList/OptionsDropList';
+
 import folderImg from '../../../images/folder.svg';
 import fileImg from '../../../images/file.svg';
-import moreOption from '../../../images/more.svg';
 
 import {displayTime} from "../../../helpers/time.helper";
 import {parseSize} from "../../../helpers/file.helper";
 import {FileType} from "../../../enums/file.enum";
 import {useFileSystem} from "../../../hooks/useFileSystem";
 
-export const TableRow = ({ file }) => {
-
+export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }) => {
     const { openFolder } = useFileSystem()
-
+    
     const fileImage = React.useMemo(() => {
         return file.type === FileType.File ? fileImg : folderImg
     }, [file])
@@ -24,6 +23,14 @@ export const TableRow = ({ file }) => {
         if (file.type === FileType.Folder) {
             await openFolder(file.name)
         } else if (file.type === FileType.File) {}
+    }
+    
+    const toggleOption = (e) => {
+        e.stopPropagation();
+        const index = file.stat.birthtimeMs;
+
+        if (index === currentDropListIndex) setCurrentDropListIndex(null);
+        else setCurrentDropListIndex(file.stat.birthtimeMs);
     }
 
   return (
@@ -37,17 +44,8 @@ export const TableRow = ({ file }) => {
         <div className='table__column'>{ displayTime(file.stat.ctime) }</div>
         <div className='table__column'>{ displayTime(file.stat.birthtime) }</div>
         <div className='table__column options'>
-            <img className='more-option' src={ moreOption } alt="more"/>
+            <OptionsDropList toggleOption={toggleOption} isOpenDropListOption={file.stat.birthtimeMs === currentDropListIndex}  />
         </div>
     </div>
   )
-}
-
-TableRow.propType = {
-    file: {
-        name: PropTypes.string,
-        type: PropTypes.oneOf(['File', 'Folder']),
-        extension: PropTypes.string,
-        stat: {}
-    }
 }

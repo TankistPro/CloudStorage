@@ -1,0 +1,17 @@
+.drop-controller {
+    position: relative;
+
+    &__list {
+        display: none;
+        
+
+        &.open {
+            display: block;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            display: block;
+            z-index: 100;
+        }
+    }
+}
