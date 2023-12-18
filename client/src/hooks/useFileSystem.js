@@ -62,10 +62,17 @@ export const useFileSystem = () => {
         return [baseWorkspacePath, ...param.split('/').filter(s => s.length)]
     }
 
+    const uploadFiles = (files) => {
+        if (!files.length) return;
+        
+        console.log(files);
+    }
+
     return {
         openFolder,
         fetchFolders,
         parseFsPath,
-        goToBackFolder
+        goToBackFolder,
+        uploadFiles
     }
 }

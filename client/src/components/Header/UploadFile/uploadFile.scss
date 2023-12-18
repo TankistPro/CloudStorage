@@ -1,4 +1,23 @@
 .upload-wrapper {
+    &__btn {
+        position: relative;
+
+        p {
+            background-color: #fff;
+            border-radius: 50%;
+            color: #1976d2;
+            width: 15px;
+            height: 15px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            position: absolute;
+            top: -6px;
+            right: -6px;
+        }
+    }
 
     &__list {
         background-color: #fff;
@@ -63,6 +82,13 @@
             &__controllers {
                 margin-right: 0;
                 margin-left: auto;
+            }
+
+            .empty-list {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
             }
         }
     }
