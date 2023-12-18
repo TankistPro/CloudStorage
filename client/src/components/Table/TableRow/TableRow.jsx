@@ -19,7 +19,7 @@ export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }
         return file.type === FileType.File ? fileImg : folderImg
     }, [file])
 
-    const openHandler = async (event) => {
+    const openHandler = async () => {
         if (file.type === FileType.Folder) {
             await openFolder(file.name)
         } else if (file.type === FileType.File) {}

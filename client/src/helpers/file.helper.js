@@ -3,4 +3,8 @@ export const parseSize = (size) => {
     return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['б', 'кб', 'мб', 'гб', 'тб'][i];
 }
 
+export const getFileExtension = (fileName) => {
+    return fileName.slice(fileName.lastIndexOf(".") + 1, fileName.length)
+}
+
 export const parseFileId = () => {}

@@ -1,0 +1,80 @@
+.upload-wrapper {
+
+    &__list {
+        background-color: #fff;
+        border-radius: 0 0 10px 10px;
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: calc(100% + 8px);
+        box-shadow: 0 0 45px -19px  #000;
+        box-sizing: border-box;
+        padding: 10px 15px;
+        display: none;
+
+        .preview-list {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                width: 5px;               /* ширина всей полосы прокрутки */
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: #1976d2;    /* цвет бегунка */
+                border-radius: 5px;       /* округлось бегунка */
+            }
+
+            &::-webkit-scrollbar-track {
+                background: rgba(0, 30, 60, 0.05);        /* цвет зоны отслеживания */
+            }
+
+            &__item {
+                display: flex;
+                align-items: center;
+
+                &:not(:last-child) {
+                    margin-bottom: 10px;
+                }
+            }
+
+            &__img {
+                width: 150px;
+                height: 100px;
+                margin-right: 10px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
+
+            &__info {
+                max-width: 275px;
+            }
+
+            &__index {
+                margin-right: 10px;
+            }
+
+            &__controllers {
+                margin-right: 0;
+                margin-left: auto;
+            }
+        }
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+
+        span {
+            display: flex;
+            gap: 10px;
+        }
+    }
+}

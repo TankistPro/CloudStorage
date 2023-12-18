@@ -1,10 +1,10 @@
 import React from 'react'
-import { Button } from '@mui/material'
 
 import './header.scss'
 
 import { UserProfileBage } from './UserProfileBage/UserProfileBage';
 import { HeaderSearch } from './HeaderSearch/HeaderSearch';
+import { UploadFile } from './UploadFile/UploadFile';
 
 export const Header = () => {
   return (
@@ -14,10 +14,7 @@ export const Header = () => {
           <HeaderSearch />
           <div className='header__workspace-group'></div>
           <div className="header__upload">
-            <Button variant="contained" component="label">
-              Загрузить
-              <input hidden accept="image/*" multiple type="file" />
-            </Button>
+            <UploadFile />
           </div>
         </div>
         <UserProfileBage />
