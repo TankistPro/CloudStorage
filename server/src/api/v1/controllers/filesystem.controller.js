@@ -1,5 +1,6 @@
 const { FileSystemService } = require('../services/fileSystem.service');
-const {validationResult} = require("express-validator");
+const { s3YandexService } = require('../services/s3Yandex.service');
+const { validationResult } = require("express-validator");
 
 class FilesystemController {
     async parseCurrentPath(req, res) {
@@ -15,6 +16,22 @@ class FilesystemController {
             const pathPayload = await FileSystemService.parseCurrentPath(path);
 
             return res.success(pathPayload, 200);
+        } catch (e) {
+            return res.error(e.message);
+        }
+    }
+
+    async uploadFiles(req, res) {
+        try {
+            const files = req.files;
+
+            if (!files) {
+                return res.error('Empty FormData!');
+            }
+
+            const status = await s3YandexService.uploadFiles(files);
+
+            return res.success(status)
         } catch (e) {
             return res.error(e.message);
         }

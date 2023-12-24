@@ -1,7 +1,7 @@
 const HTTP_UTIL = require('../utils/http.util');
 
 module.exports = (req, res, next) => {
-    res.success = (payload, statusCode) => {
+    res.success = (payload, statusCode = 200) => {
         HTTP_UTIL.success(res, payload, statusCode);
     }
 
