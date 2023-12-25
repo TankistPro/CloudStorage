@@ -5,8 +5,8 @@ class FileSystemService {
         return await api.get(`/fs?path=/${path}`);
     }
 
-    async uploadFiles(files) {
-        return;
+    async uploadFiles(filesFormData,) {
+        return await api.post(`fs/upload-files`, filesFormData);
     }
 }
 

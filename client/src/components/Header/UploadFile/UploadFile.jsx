@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 import './uploadFile.scss'
 
+import Toast from "../../../components/Toast/Toast";
 import { getFileExtension } from '../../../helpers/file.helper';
 import { ImageExtension } from '../../../enums/file.enum';
 import { useFileSystem } from '../../../hooks/useFileSystem';
@@ -35,6 +36,24 @@ export const UploadFile = () => {
         } else {}
 
         setFilesData([...filesData, file]);
+    }
+
+    const uploadFileHandler = async () => {
+        const response = await uploadFiles(filesData);
+
+        if (response) {
+            Toast({
+                toastType: 'success',
+                text: "Файлы успешно загружены!"
+              })
+        } else {
+            Toast({
+                toastType: 'error',
+                text: "Не удалось загрузить файлы!"
+              })
+        }
+
+        removeAll();
     }
 
     const removeFromFileData = (index) => {
@@ -73,7 +92,7 @@ export const UploadFile = () => {
                 }   
             </div>
             <div className="upload-wrapper__footer">
-                <Button variant="outlined" onClick={() => uploadFiles(filesData)} disabled={!filesData.length} startIcon={<DownloadForOfflineIcon />}>
+                <Button variant="outlined" onClick={uploadFileHandler} disabled={!filesData.length} startIcon={<DownloadForOfflineIcon />}>
                         Загрузить
                     </Button>
                 <span>

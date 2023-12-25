@@ -14,3 +14,17 @@ export const fetchCurrentFolder = (path) => {
         }
     }
 }
+
+export const uploadFilesAction = (filesFormData) => {
+    return async dispatch => {
+        try {
+            const { data } = await FileSystemService.uploadFiles(filesFormData);
+
+            if (data.status) {
+                return true
+            }
+        } catch (e) {
+            return false
+        }
+    }
+}

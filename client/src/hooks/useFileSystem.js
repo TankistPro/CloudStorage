@@ -1,8 +1,8 @@
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-import {fetchCurrentFolder} from "../store/actions/fileSystem.action";
+import {fetchCurrentFolder, uploadFilesAction} from "../store/actions/fileSystem.action";
 import {useLocation, useSearchParams} from "react-router-dom";
-import React from "react";
 
 export const useFileSystem = () => {
     const baseWorkspacePath = useSelector(state => state.user?.user?.baseWorkspacePath);
@@ -30,7 +30,7 @@ export const useFileSystem = () => {
                 newPath = baseWorkspacePath + param;
             }
 
-            dispatch(fetchCurrentFolder(newPath))
+            dispatch(fetchCurrentFolder(newPath));
         }
     }
 
@@ -62,10 +62,24 @@ export const useFileSystem = () => {
         return [baseWorkspacePath, ...param.split('/').filter(s => s.length)]
     }
 
-    const uploadFiles = (files) => {
-        if (!files.length) return;
+    const uploadFiles = async (filesArray) => {
+        if (!filesArray.length) return;
         
-        console.log(files);
+        const currentPath = parseFsPath().join('/'); 
+        const formData = new FormData();
+
+        filesArray.forEach((file, index) => {
+            formData.append(index, file);
+        })
+        
+        formData.append('savePath', currentPath);
+        const response = await dispatch(uploadFilesAction(formData));
+
+        if (response) {
+            await dispatch(fetchCurrentFolder(currentPath));
+        }
+
+        return response;
     }
 
     return {

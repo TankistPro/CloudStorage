@@ -1,5 +1,7 @@
 const EasyYandexS3 = require('easy-yandex-s3').default;
 
+// TODO: npm i easy-yandex-s3 - для работы сервиса
+
 class s3YandexService {
     #s3 = new EasyYandexS3({
         auth: {

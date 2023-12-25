@@ -54,19 +54,18 @@ class FileSystemService {
 
     removeFolder() {}
 
-    async uploadFiles(files) {
+    async uploadFiles(filesArray, savePath) {
         try {
-            Object.keys(files).forEach(async key => {
-                console.log(files[key])
-                const fileBuffer = Buffer.from(files[key]);
-
-                await fs.writeFileSync(this.#baseDir + "/" + files[key], fileBuffer);
+            filesArray.forEach(async file => {
+                let { originalname, buffer, size } = file;
+                originalname = Buffer.from(originalname, 'latin1').toString('utf-8');
+                
+                await fs.writeFileSync(this.#baseDir + "/" + savePath + "/" + originalname, buffer, "utf8");
             })
 
-            return true
+            return true;
         } catch (e) {
-            console.log(e)
-            throw new Error('Failed to write files')
+            throw new Error('Failed to write files');
         }
     }
 
