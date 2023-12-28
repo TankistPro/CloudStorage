@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path')
 
 const multer = require('multer');
 const bodyParser = require('body-parser');
@@ -27,6 +28,9 @@ module.exports.startServerV1 = async () => {
             origin: ['http://localhost:3000'],
             credentials: true
         }))
+
+        // TODO: AUTH PROTECT!
+        app.use('/cdn', express.static(path.join(__dirname, '../../../users')));
 
         app.use('/api/v1', router);
 

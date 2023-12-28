@@ -1,0 +1,47 @@
+.d-viewer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0,0,0, 0.5);;
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    &__close {
+        position: absolute;
+        z-index: 10001;
+        color: #000000;
+        font-size: 50px;
+        transform: rotate(45deg);
+        right: 20px;
+        top: -5px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    &__open {
+        display: flex;
+    }
+
+    #react-doc-viewer{
+        min-width: 500px;
+        min-height: 300px;
+    }
+
+    &.viewer-img {
+
+        #react-doc-viewer{
+            width: 60%;
+            height: 60%;
+        }
+
+        .d-viewer__close {
+            top: 20%;
+            right: 21%;
+            font-size: 40px;
+        }
+    }
+}

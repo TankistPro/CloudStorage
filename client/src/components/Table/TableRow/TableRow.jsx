@@ -11,10 +11,12 @@ import {displayTime} from "../../../helpers/time.helper";
 import {parseSize} from "../../../helpers/file.helper";
 import {FileType} from "../../../enums/file.enum";
 import {useFileSystem} from "../../../hooks/useFileSystem";
+import { useDocViewer } from '../../../hooks/useDocViewer';
 
 export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }) => {
     const { openFolder } = useFileSystem()
-    
+    const { openDocViewer } = useDocViewer();
+
     const fileImage = React.useMemo(() => {
         return file.type === FileType.File ? fileImg : folderImg
     }, [file])
@@ -22,7 +24,9 @@ export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }
     const openHandler = async () => {
         if (file.type === FileType.Folder) {
             await openFolder(file.name)
-        } else if (file.type === FileType.File) {}
+        } else if (file.type === FileType.File) {
+            openDocViewer(file.name);
+        }
     }
     
     const toggleOption = (e) => {

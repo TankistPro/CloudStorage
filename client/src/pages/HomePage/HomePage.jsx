@@ -1,6 +1,7 @@
 import React from 'react'
 import {useSelector} from "react-redux";
 
+import { DockViewer } from '../../components/DockViewer/DockViewer';
 import { BreadcrumbsNav } from '../../components/BreadcrumbsNav/BreadcrumbsNav'
 import { Header } from '../../components/Header/Header'
 import { Table } from '../../components/Table/Table'
@@ -25,6 +26,7 @@ export const HomePage = () => {
   return (
     <div className='page home-page'>
       <Header />
+      <DockViewer />
       <main className="main container">
         <BreadcrumbsNav />
         <Table />
