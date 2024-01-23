@@ -23,13 +23,30 @@ class FilesystemController {
     async uploadFiles(req, res) {
         try {
             const filesArray = req.files;
-            const savePath = req.body.savePath;
+            const { savePath } = req.body;
 
             if (!(filesArray && filesArray.length)) {
                 return res.error('Ошибка! Файлы не переданы.');
             }
-            
+
             const status = await FileSystemService.uploadFiles(filesArray, savePath);
+
+            return res.success(status);
+        } catch (e) {
+            return res.error(e.message);
+        }
+    }
+
+    async removeFile(req, res){
+        try {
+            console.log(req.body)
+            const { filePath } = req.body;
+
+            if (!filePath.length) {
+                return res.error('Пустой путь до файла');
+            }
+
+            const status = await FileSystemService.removeFile(filePath);
 
             return res.success(status);
         } catch (e) {

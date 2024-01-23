@@ -57,12 +57,12 @@ class FileSystemService {
 
     async uploadFiles(filesArray, savePath) {
         try {
-            filesArray.forEach(async file => {
+            for (const file of filesArray) {
                 let { originalname, buffer, size } = file;
                 originalname = Buffer.from(originalname, 'latin1').toString('utf-8');
 
                 await fs.writeFileSync(this.#baseDir + "/" + savePath + "/" + originalname, buffer, "utf8");
-            })
+            }
 
             return true;
         } catch (e) {
@@ -70,7 +70,24 @@ class FileSystemService {
         }
     }
 
-    removeFile() {}
+    async removeFile(path) {
+        const filePathToRemove = this.#baseDir + "/" + path
+        const isExist = fs.existsSync(filePathToRemove);
+
+        if (!isExist)
+            throw new Error("File does not exist")
+
+        try {
+            // TODO: переписать на fs.rmSync - для удалени файлов и директорий
+            await fs.unlinkSync(filePathToRemove);
+
+            return true;
+        } catch (e) {
+            console.log(e.message)
+            throw new Error('Failed to remove file')
+        }
+
+    }
 }
 
 module.exports.FileSystemService = new FileSystemService();

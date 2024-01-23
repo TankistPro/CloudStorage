@@ -13,10 +13,16 @@ const fileSystemSlice = createSlice({
         },
         RESET_CURRENT_FOLDER: (state) => {
             state.currentFolder = []
+        },
+        SPLICE_DATA: (state, action) => {
+            const name = action.payload;
+            const index = state.currentFolder.findIndex(e => e.name === name);
+
+            state.currentFolder.splice(index, 1);
         }
     }
 })
 
-export const { SET_CURRENT_FOLDER, RESET_CURRENT_FOLDER } = fileSystemSlice.actions;
+export const { SET_CURRENT_FOLDER, RESET_CURRENT_FOLDER, SPLICE_DATA } = fileSystemSlice.actions;
 
 export default fileSystemSlice.reducer;

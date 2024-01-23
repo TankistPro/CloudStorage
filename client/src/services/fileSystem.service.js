@@ -8,6 +8,14 @@ class FileSystemService {
     async uploadFiles(filesFormData,) {
         return await api.post(`fs/upload-files`, filesFormData);
     }
+
+    async removeFile(filePath){
+        return await api.delete('/fs/remove-file', {
+            data: {
+                filePath
+            }
+        });
+    }
 }
 
 export default new FileSystemService();

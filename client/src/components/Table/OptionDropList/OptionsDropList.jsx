@@ -16,15 +16,29 @@ import './optionDropList.scss';
 
 import moreOption from '../../../images/more.svg';
 
+import Toast from "../../../components/Toast/Toast";
 import { useFileAction } from '../../../hooks/useFileAction';
 
-const OptionsDropList = ({ toggleOption, isOpenDropListOption }) => {
+const OptionsDropList = ({ toggleOption, isOpenDropListOption, file }) => {
     const { renameFile, removeFile, copyFileLink } = useFileAction();
-    
-    const menuHandler = (event, fc) => {
+
+    const menuHandler = async (event, fc) => {
         event.stopPropagation();
-        fc();
+        const status = await fc(file.name);
+
+        openToast(status)
+
         toggleOption(event);
+    }
+
+    const openToast = (status) => {
+        const toastType = status ? 'success' : 'error';
+        const text = status ? "Файл успешно удален!" : "Не удалось удалить файл";
+
+        Toast({
+            toastType,
+            text
+        })
     }
 
     return (

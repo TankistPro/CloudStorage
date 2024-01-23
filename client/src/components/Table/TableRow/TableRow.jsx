@@ -28,7 +28,7 @@ export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }
             openDocViewer(file.name);
         }
     }
-    
+
     const toggleOption = (e) => {
         e.stopPropagation();
         const index = file.stat.birthtimeMs;
@@ -48,7 +48,7 @@ export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }
         <div className='table__column'>{ displayTime(file.stat.ctime) }</div>
         <div className='table__column'>{ displayTime(file.stat.birthtime) }</div>
         <div className='table__column options'>
-            <OptionsDropList toggleOption={toggleOption} isOpenDropListOption={file.stat.birthtimeMs === currentDropListIndex}  />
+            <OptionsDropList toggleOption={toggleOption} file={file} isOpenDropListOption={file.stat.birthtimeMs === currentDropListIndex}  />
         </div>
     </div>
   )
