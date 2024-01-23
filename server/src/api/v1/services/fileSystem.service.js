@@ -37,12 +37,13 @@ class FileSystemService {
                 response.push({
                     name: file.name,
                     type: file.isFile() ? 'File' : file.isDirectory() ? 'Folder' : 'None',
+                    isFolder: file.isDirectory(),
                     extension: path.extname(file.name) || null,
                     stat
                 })
             })
 
-            return response
+            return response.sort((a, b) => b.isFolder - a.isFolder)
         } catch (e) {
             throw new Error('Failed to get data from this path')
         }
@@ -59,7 +60,7 @@ class FileSystemService {
             filesArray.forEach(async file => {
                 let { originalname, buffer, size } = file;
                 originalname = Buffer.from(originalname, 'latin1').toString('utf-8');
-                
+
                 await fs.writeFileSync(this.#baseDir + "/" + savePath + "/" + originalname, buffer, "utf8");
             })
 

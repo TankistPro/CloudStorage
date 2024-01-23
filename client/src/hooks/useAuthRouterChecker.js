@@ -20,7 +20,7 @@ export const useAuthRouterChecker = () => {
         }
 
         if (accessToken) {
-            dispatch(fetchUserData());
+            dispatch(fetchUserData()).then();
         }
     }, [location.pathname])
 }
