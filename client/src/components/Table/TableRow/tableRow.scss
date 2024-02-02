@@ -3,6 +3,40 @@
     grid-template-columns: 70px 2fr 0.5fr 1fr 1fr 20px;
     padding: 15px;
 
+    .edit-input {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 10px;
+        padding: 0 5px 0 0;
+
+        input {
+            width: 90%;
+            height: 20px;
+            outline: none;
+            border: 1px solid rgba(0, 0, 0, 0.32);
+            border-radius: 2px;
+            padding: 3px 6px;
+            font-size: 0.9rem;
+        }
+
+        span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3px;
+            background-color: rgba(0, 0, 0, 0.21);
+            border-radius: 50%;
+
+
+            img {
+                width: 90%;
+                height: 90%;
+            }
+        }
+    }
+
     // .table__column.options {
     //     opacity: 0;
     //     transition: .2s all;

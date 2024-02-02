@@ -18,15 +18,24 @@ import moreOption from '../../../images/more.svg';
 
 import Toast from "../../../components/Toast/Toast";
 import { useFileAction } from '../../../hooks/useFileAction';
+import {FileAction} from "../../../enums/file.enum";
 
-const OptionsDropList = ({ toggleOption, isOpenDropListOption, file }) => {
+const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit }) => {
     const { renameFile, removeFile, copyFileLink } = useFileAction();
 
-    const menuHandler = async (event, fc) => {
+    const menuHandler = async (event, fc, actionType) => {
         event.stopPropagation();
-        const status = await fc(file.name);
 
-        openToast(status)
+        if (actionType === FileAction.REMOVE_FILE) {
+            const status = await fc(file.name);
+            openToast(status);
+        }
+        if (actionType === FileAction.RENAME) {
+            toggleEdit();
+        }
+        if(actionType === FileAction.COPY_LINK) {
+            fc();
+        }
 
         toggleOption(event);
     }
@@ -46,7 +55,7 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file }) => {
         <img className='more-option' src={ moreOption } alt="more" onClick={(event) => toggleOption(event)} />
         <Paper className={`drop-controller__list ${ isOpenDropListOption ? 'open' : '' }`} sx={{ width: 320 }}>
             <MenuList>
-                <MenuItem onClick={(event) => menuHandler(event, renameFile)}>
+                <MenuItem onClick={(event) =>  menuHandler(event, null, FileAction.RENAME)}>
                     <ListItemIcon>
                         <DriveFileRenameOutlineIcon fontSize="small" />
                     </ListItemIcon>
@@ -55,7 +64,7 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file }) => {
                         ⌘X
                     </Typography>
                 </MenuItem>
-                <MenuItem onClick={(event) => menuHandler(event, copyFileLink)}>
+                <MenuItem onClick={(event) => menuHandler(event, copyFileLink, FileAction.COPY_LINK)}>
                     <ListItemIcon>
                         <ContentCopy fontSize="small" />
                     </ListItemIcon>
@@ -74,7 +83,7 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file }) => {
                     </Typography>
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={(event) => menuHandler(event, removeFile)}>
+                <MenuItem onClick={(event) => menuHandler(event, removeFile, FileAction.REMOVE_FILE)}>
                     <ListItemIcon>
                         <DeleteIcon fontSize="small" />
                     </ListItemIcon>
