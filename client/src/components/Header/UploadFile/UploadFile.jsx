@@ -16,20 +16,39 @@ import { PreviewItem } from './PreviewItem/PreviewItem';
 export const UploadFile = () => {
     const [filesData, setFilesData] = React.useState([]);
     const [previewList, setPreviewList] = React.useState([]);
-
     const [isOpenUploadMenu, setIsOpenUploadMenu] = React.useState(false);
 
+    const $uploadMenu = React.useRef(null);
+
     const { uploadFiles } = useFileSystem();
+
+    React.useEffect(() => {
+        function closeOnClick(event) {
+            const target = event.target;
+
+            if (!target.closest('.upload-wrapper') && !target.closest('.preview-list__item')) {
+                setIsOpenUploadMenu(false);
+            }
+        }
+
+        if (isOpenUploadMenu) {
+            window.addEventListener('click', closeOnClick)
+        }
+
+        return () => {
+            window.removeEventListener('click', closeOnClick)
+        }
+    }, [isOpenUploadMenu])
 
     const fileHandler = (event) => {
         const file = event.target.files[0];
         const fileExtension = getFileExtension(file.name);
-        
+
         if (ImageExtension.includes(fileExtension)) {
             const reader = new FileReader();
-        
+
             reader.readAsDataURL(file);
-        
+
             reader.onload = function() {
                 setPreviewList([...previewList, reader.result]);
             };
@@ -66,7 +85,7 @@ export const UploadFile = () => {
 
     const removeAll = () => {
         if (!filesData.length) return;
-        
+
         setFilesData([]);
         setPreviewList([])
     }
@@ -79,34 +98,39 @@ export const UploadFile = () => {
             }
             <AddIcon />
         </Button>
-        <div className="upload-wrapper__list" style={{ display: isOpenUploadMenu ? "block" : "none" }}>
-            <div className="preview-list">
-                {filesData.length ? 
-                    filesData.map((file, index) =>
-                        <PreviewItem removeFromFileData={removeFromFileData} previewUrl={previewList[index]} file={file} key={index}  index={index} />
-                    )
-                : 
-                <div className="empty-list">
-                    <p>Список для добавления пуст</p>
+        {isOpenUploadMenu &&
+            <div className="upload-wrapper__list" ref={$uploadMenu}>
+                <div className="preview-list">
+                    {filesData.length ?
+                        filesData.map((file, index) =>
+                            <PreviewItem removeFromFileData={removeFromFileData} previewUrl={previewList[index]}
+                                         file={file} key={index} index={index}/>
+                        )
+                        :
+                        <div className="empty-list">
+                            <p>Список для добавления пуст</p>
+                        </div>
+                    }
                 </div>
-                }   
-            </div>
-            <div className="upload-wrapper__footer">
-                <Button variant="outlined" onClick={uploadFileHandler} disabled={!filesData.length} startIcon={<DownloadForOfflineIcon />}>
+                <div className="upload-wrapper__footer">
+                    <Button variant="outlined" onClick={uploadFileHandler} disabled={!filesData.length}
+                            startIcon={<DownloadForOfflineIcon/>}>
                         Загрузить
                     </Button>
-                <span>
+                    <span>
                     <Button variant="contained" component="label">
                         Добавить файл
-                        <input hidden multiple type="file" onChange={fileHandler} />
+                        <input hidden multiple type="file" onChange={fileHandler}/>
                     </Button>
-                    <Button variant="contained" disabled={!filesData.length} startIcon={<DeleteIcon />} color="error" onClick={removeAll}>
+                    <Button variant="contained" disabled={!filesData.length} startIcon={<DeleteIcon/>} color="error"
+                            onClick={removeAll}>
                         Очистить все
                     </Button>
                 </span>
+                </div>
             </div>
-        </div>
+        }
     </div>
-    
+
   )
 }
