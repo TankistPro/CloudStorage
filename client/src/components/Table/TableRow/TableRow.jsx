@@ -31,8 +31,9 @@ export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }
         } else if (file.type === FileType.File) {
 
             // FIXME: Временно закрыл открытие файлов, кроме фотогорафий
-            const fileExtension = getFileExtension(file.name);
-            if (ImageExtension.includes(fileExtension)) openDocViewer(file.name);
+            // const fileExtension = getFileExtension(file.name);
+            // if (ImageExtension.includes(fileExtension))
+                openDocViewer(file.name);
         }
     }
 

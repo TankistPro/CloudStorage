@@ -1,25 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import FileViewer from 'react-file-viewer';
 
 import './dockViewer.scss'
 
 import { useDocViewer } from '../../hooks/useDocViewer';
-import { ImageExtension } from '../../enums/file.enum';
-
-const config = {
-    header: {
-      disableHeader: false,
-      disableFileName: false,
-      retainURLParams: true,
-    },
-    csvDelimiter: ",", // "," as default,
-    pdfZoom: {
-      defaultZoom: 0.7, // 1 as default,
-      zoomJump: 0.1, // 0.1 as default,
-    },
-    pdfVerticalScrollByDefault: true, // false as default
-  }
 
 export const DockViewer = () => {
     const docViewer = useSelector(state => state.docViewer);
@@ -27,10 +12,11 @@ export const DockViewer = () => {
     const {closeDocViewer} = useDocViewer();
 
     React.useEffect(() => {
+        console.log(docViewer)
         function closeOnClick(event) {
             const target = event.target;
 
-            if (!target.closest('#react-doc-viewer') && !target.closest('.table__row')) {
+            if (!target.closest('.pg-viewer-wrapper') && !target.closest('.table__row')) {
                 closeDocViewer()
             }
         }
@@ -48,16 +34,13 @@ export const DockViewer = () => {
         <>
             {docViewer?.isOpen &&
                 <div
-                    className={`d-viewer d-viewer__open ${ImageExtension.includes(docViewer?.fileExtension) ? 'viewer-img' : 'viewer-doc'}`}
+                    className={`d-viewer d-viewer__open `}
                     /*className={`d-viewer ${docViewer?.isOpen ? 'd-viewer__open' : ''} ${ImageExtension.includes(docViewer?.fileExtension) ? 'viewer-img' : ''}`}*/>
                     {/*<div className="d-viewer__close" onClick={() => closeDocViewer()}>+</div>*/}
-                    <DocViewer
-                        documents={[{
-                            uri: docViewer?.filePath
-                        }]}
-                        config={config}
-                        pluginRenderers={DocViewerRenderers}
-                    />
+                    <FileViewer
+                        fileType={docViewer?.fileExtension}
+                        filePath={docViewer?.filePath}
+                        />
                 </div>
             }
         </>

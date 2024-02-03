@@ -1,10 +1,8 @@
 .table {
-
     &__controllers {}
 
     &__main {
         border-radius: 5px;
-        // overflow: hidden;
     }
 
     &__header {
@@ -16,6 +14,8 @@
     }
 
     &__body {
+        max-height: calc(100vh - 56px - 64px - 60px);
+        overflow-y: scroll;
 
         .table__row {
             cursor: pointer;
