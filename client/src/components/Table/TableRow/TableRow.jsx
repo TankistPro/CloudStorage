@@ -9,8 +9,8 @@ import fileImg from '../../../images/file.svg';
 
 import RenameFile from "../RenameFile/RenameFile";
 import {displayTime} from "../../../helpers/time.helper";
-import {parseSize} from "../../../helpers/file.helper";
-import {FileType} from "../../../enums/file.enum";
+import {getFileExtension, parseSize} from "../../../helpers/file.helper";
+import {FileType, ImageExtension} from "../../../enums/file.enum";
 import {useFileSystem} from "../../../hooks/useFileSystem";
 import { useDocViewer } from '../../../hooks/useDocViewer';
 
@@ -29,7 +29,10 @@ export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }
         if (file.type === FileType.Folder) {
             await openFolder(file.name)
         } else if (file.type === FileType.File) {
-            openDocViewer(file.name);
+
+            // FIXME: Временно закрыл открытие файлов, кроме фотогорафий
+            const fileExtension = getFileExtension(file.name);
+            if (ImageExtension.includes(fileExtension)) openDocViewer(file.name);
         }
     }
 
