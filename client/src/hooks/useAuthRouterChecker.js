@@ -15,12 +15,10 @@ export const useAuthRouterChecker = () => {
     React.useEffect(() => {
         if (!accessToken) {
             navigate('/auth')
+        } else if (accessToken) {
+            dispatch(fetchUserData()).then();
         } else if (location.pathname === '/auth') {
             navigate('/home');
-        }
-
-        if (accessToken) {
-            dispatch(fetchUserData()).then();
         }
     }, [location.pathname])
 }

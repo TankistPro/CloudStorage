@@ -3,7 +3,8 @@ import {loginAction} from "../store/actions/auth.action";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import AuthService from "../services/auth.service";
-import {REMOVE_ERROR_STATE, REMOVE_USER_STATE} from "../store/slice/userSlice";
+import {REMOVE_ERROR_STATE, REMOVE_USER_STATE, STATE_AUTH_FLAG, TOGGLE_AUTH_LOADING} from "../store/slice/userSlice";
+import {RESET_FS_DATA, TOGGLE_FS_LOADING} from "../store/slice/fileSystemSlice";
 
 export const usePassport = () => {
     const user = useSelector(state => state.user);
@@ -26,6 +27,7 @@ export const usePassport = () => {
 
         dispatch(REMOVE_USER_STATE());
         dispatch(REMOVE_ERROR_STATE());
+        dispatch(RESET_FS_DATA());
 
         navigate('/auth');
     }

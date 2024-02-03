@@ -4,3 +4,15 @@
         height: calc(100vh - 56px - 40px - 24px);
     }
 }
+
+.main-loader {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .css-18lrjg1-MuiCircularProgress-root {
+        width: 90px !important;
+        height: 90px !important;
+    }
+}

@@ -1,17 +1,17 @@
 import FileSystemService from '../../services/fileSystem.service';
-import {SET_CURRENT_FOLDER, SPLICE_DATA} from "../slice/fileSystemSlice";
+import {SET_CURRENT_FOLDER, SPLICE_DATA, TOGGLE_FS_LOADING} from "../slice/fileSystemSlice";
 
 export const fetchCurrentFolder = (path) => {
     return async dispatch => {
         try {
+            dispatch(TOGGLE_FS_LOADING(true));
             const { data } = await FileSystemService.fetchCurrentFolder(path);
 
             if (data.status) {
                 dispatch(SET_CURRENT_FOLDER(data.payload))
             }
-        } catch (e) {
-
-        }
+        } catch (e) {}
+        dispatch(TOGGLE_FS_LOADING(false));
     }
 }
 

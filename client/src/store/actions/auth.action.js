@@ -1,7 +1,13 @@
 import AuthService from '../../services/auth.service';
 import UserService from '../../services/user.service';
 
-import {REMOVE_ERROR_STATE, SET_ERROR_STATE, SET_USER_STATE, STATE_AUTH_FLAG} from "../slice/userSlice";
+import {
+    REMOVE_ERROR_STATE,
+    SET_ERROR_STATE,
+    SET_USER_STATE,
+    STATE_AUTH_FLAG,
+    TOGGLE_AUTH_LOADING
+} from "../slice/userSlice";
 
 export const loginAction = (loginPayload) => {
     return async dispatch => {
@@ -31,6 +37,7 @@ export const loginAction = (loginPayload) => {
 export const fetchUserData = () => {
     return async dispatch => {
         try {
+            dispatch(TOGGLE_AUTH_LOADING(true));
             const { data } = await UserService.getMe();
 
             if (data.status) {
@@ -41,5 +48,7 @@ export const fetchUserData = () => {
 
             dispatch(SET_ERROR_STATE(error));
         }
+
+        dispatch(TOGGLE_AUTH_LOADING(false));
     }
 }
