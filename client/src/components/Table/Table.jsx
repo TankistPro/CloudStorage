@@ -4,9 +4,12 @@ import { useSelector } from "react-redux";
 import "./table.scss";
 
 import { TableRow } from "./TableRow/TableRow";
+import Loader from "../Loader/Loader";
 
 export const Table = () => {
   const files = useSelector((state) => state.fileSystem.currentFolder);
+  const isLoading = useSelector((state) => state.fileSystem.isLoading);
+
   const [currentDropListIndex, setCurrentDropListIndex] = React.useState(null);
 
   return (
@@ -24,7 +27,7 @@ export const Table = () => {
           </div>
         </div>
         <div className="table__body">
-          {files.length ? (
+          {(files.length && !isLoading) ? (
             files.map((file, index) => (
               <TableRow
                 file={file}
@@ -34,11 +37,13 @@ export const Table = () => {
                 currentDropListIndex={currentDropListIndex}
               />
             ))
-          ) : (
-            <>
+          ) : (!files.length && !isLoading) ? (
               <p>Пусто</p>
-            </>
-          )}
+          ) :
+              <>
+                <Loader loadingText={"Получаем данные..."} />
+              </>
+          }
         </div>
       </div>
     </div>

@@ -21,6 +21,7 @@ export const loginAction = (loginPayload) => {
                 dispatch(REMOVE_ERROR_STATE());
                 dispatch(STATE_AUTH_FLAG(true));
             }
+            return true
         } catch (e) {
             let error = e.response.data?.message;
 
@@ -30,6 +31,8 @@ export const loginAction = (loginPayload) => {
 
             dispatch(SET_ERROR_STATE(error));
             dispatch(STATE_AUTH_FLAG(false));
+
+            return false
         }
     }
 }
@@ -42,11 +45,15 @@ export const fetchUserData = () => {
 
             if (data.status) {
                 dispatch(SET_USER_STATE(data.payload));
+                dispatch(TOGGLE_AUTH_LOADING(false));
+
+                return true
             }
         } catch (e) {
             let error = e.response.data.message;
 
             dispatch(SET_ERROR_STATE(error));
+            return false
         }
 
         dispatch(TOGGLE_AUTH_LOADING(false));

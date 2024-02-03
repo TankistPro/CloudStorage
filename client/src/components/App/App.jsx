@@ -1,38 +1,43 @@
 import React from 'react';
 
 import {
-  Routes,
-  Route,
-    Navigate
+    Routes,
+    Route, Navigate, useNavigate, useLocation,
 } from "react-router-dom";
 
 import './app.scss';
 
 import { AuthPage } from '../../pages/AuthPage/AuthPage.jsx';
 import { HomePage } from '../../pages/HomePage/HomePage';
-import { useAuthRouterChecker } from '../../hooks/useAuthRouterChecker';
 import HomeLayout from "../../layouts/HomeLayout/HomeLayout";
+import SettingPage from "../../pages/SettingPage/SettingPage";
+import {PrivateRoutes} from "../../routes/PrivateRoutes";
+import {useDispatch, useSelector} from "react-redux";
 
 function App() {
-    useAuthRouterChecker();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const accessToken = localStorage.getItem('access');
+
+    React.useEffect(() => {
+        if (accessToken && (location.pathname === '/auth' || location.pathname === '/' )) navigate('/home')
+    }, [location.pathname])
+
+    const HomeLayoutHandler = (children) => {
+        return  <HomeLayout>
+            { children }
+        </HomeLayout>
+    }
 
     return (
         <div className="App">
             <Routes>
-                <Route path='/auth' element={<AuthPage />} />
-                <Route path='/home'>
-                    <Route path=":path" element={
-                        <HomeLayout>
-                            <HomePage />
-                        </HomeLayout>
-                    } />
-                    <Route path="" element={
-                        <HomeLayout>
-                            <HomePage />
-                        </HomeLayout>
-                    } />
-                </Route>
-                <Route path='*' element={<Navigate to='/home' replace />} />
+                    <Route element={<PrivateRoutes />}>
+                        <Route path="/home" element={HomeLayoutHandler(<HomePage />)} />
+                        <Route path='/settings' element={HomeLayoutHandler(<SettingPage />)}></Route>
+                    </Route>
+                    <Route path='/auth' element={<AuthPage />} />
+                />
             </Routes>
         </div>
     );

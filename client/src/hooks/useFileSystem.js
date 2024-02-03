@@ -22,8 +22,8 @@ export const useFileSystem = () => {
     }
 
     const fetchFolders = () => {
-        if (location.pathname.startsWith('/home') && baseWorkspacePath) {
-            const param = searchParams.get('path');
+        if (baseWorkspacePath) {
+            const param = searchParams.get('path') ;
             let newPath = baseWorkspacePath;
 
             if (param) {
@@ -64,14 +64,14 @@ export const useFileSystem = () => {
 
     const uploadFiles = async (filesArray) => {
         if (!filesArray.length) return;
-        
-        const currentPath = parseFsPath().join('/'); 
+
+        const currentPath = parseFsPath().join('/');
         const formData = new FormData();
 
         filesArray.forEach((file, index) => {
             formData.append(index, file);
         })
-        
+
         formData.append('savePath', currentPath);
         const response = await dispatch(uploadFilesAction(formData));
 

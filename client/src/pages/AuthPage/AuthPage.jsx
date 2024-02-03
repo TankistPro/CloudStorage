@@ -5,11 +5,13 @@ import './authPage.scss';
 import {TextField, Button} from '@mui/material'
 import Toast from "../../components/Toast/Toast";
 import {usePassport} from "../../hooks/usePassport";
+import {useNavigate} from "react-router-dom";
 
 export const AuthPage = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  const navigate = useNavigate();
   const { loginErrors, login, loginAttempts} = usePassport();
 
   React.useEffect(() => {
@@ -23,7 +25,11 @@ export const AuthPage = () => {
 
   const loginHandler = async () => {
     if (email.trim().length && password.trim().length) {
-      await login(email, password)
+      const status = await login(email, password);
+
+      if (status) {
+        navigate("/home");
+      }
     }
   }
 

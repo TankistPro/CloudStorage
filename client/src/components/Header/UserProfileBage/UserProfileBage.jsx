@@ -5,6 +5,7 @@ import { Settings, Logout, PersonAdd } from '@mui/icons-material'
 import './userProfileBage.scss'
 import {useSelector} from "react-redux";
 import {usePassport} from "../../../hooks/usePassport";
+import {useNavigate} from "react-router-dom";
 
 const PaperProps = {
     elevation: 0,
@@ -38,6 +39,8 @@ const anchorOrigin = { horizontal: 'right', vertical: 'bottom' }
 
 export const UserProfileBage = () => {
     const user = useSelector(state => state.user.user);
+    const navigate = useNavigate();
+
     const { logout } = usePassport();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -89,7 +92,7 @@ export const UserProfileBage = () => {
                 </ListItemIcon>
                 Добавить другой аккаунт
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={() => navigate("/settings")}>
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>

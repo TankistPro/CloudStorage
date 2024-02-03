@@ -12,7 +12,6 @@ export const DockViewer = () => {
     const {closeDocViewer} = useDocViewer();
 
     React.useEffect(() => {
-        console.log(docViewer)
         function closeOnClick(event) {
             const target = event.target;
 
