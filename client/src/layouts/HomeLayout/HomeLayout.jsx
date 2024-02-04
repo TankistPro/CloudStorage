@@ -1,5 +1,5 @@
 import React from 'react';
-import {Header} from "../../components/Header/Header";
+import {Header} from "../../components/SharedComponents/Header/Header";
 import {DockViewer} from "../../components/SharedComponents/DockViewer/DockViewer";
 
 const HomeLayout = ({ children }) => {

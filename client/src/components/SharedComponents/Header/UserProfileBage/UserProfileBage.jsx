@@ -4,7 +4,7 @@ import { Settings, Logout, PersonAdd } from '@mui/icons-material'
 
 import './userProfileBage.scss'
 import {useSelector} from "react-redux";
-import {usePassport} from "../../../hooks/usePassport";
+import {usePassport} from "../../../../hooks/usePassport";
 import {useNavigate} from "react-router-dom";
 
 const PaperProps = {
