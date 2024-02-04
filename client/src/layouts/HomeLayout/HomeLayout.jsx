@@ -1,6 +1,6 @@
 import React from 'react';
 import {Header} from "../../components/Header/Header";
-import {DockViewer} from "../../components/DockViewer/DockViewer";
+import {DockViewer} from "../../components/SharedComponents/DockViewer/DockViewer";
 
 const HomeLayout = ({ children }) => {
     return (

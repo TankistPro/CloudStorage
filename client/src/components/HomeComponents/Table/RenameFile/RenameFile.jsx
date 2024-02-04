@@ -1,7 +1,7 @@
 import React from 'react';
 
-import OkImg from "../../../images/ok.svg";
-import NoImg from "../../../images/no.svg";
+import OkImg from "../../../../images/ok.svg";
+import NoImg from "../../../../images/no.svg";
 
 const RenameFile = ({ toggleRenameFileHandler, file }) => {
     const [newFileName, setNewFileName] = React.useState(file.name);

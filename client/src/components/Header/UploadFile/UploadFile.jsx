@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 import './uploadFile.scss'
 
-import Toast from "../../../components/Toast/Toast";
+import Toast from "../../SharedComponents/Toast/Toast";
 import { getFileExtension } from '../../../helpers/file.helper';
 import { ImageExtension } from '../../../enums/file.enum';
 import { useFileSystem } from '../../../hooks/useFileSystem';

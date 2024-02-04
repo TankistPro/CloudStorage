@@ -14,11 +14,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 import './optionDropList.scss';
 
-import moreOption from '../../../images/more.svg';
+import moreOption from '../../../../images/more.svg';
 
-import Toast from "../../../components/Toast/Toast";
-import { useFileAction } from '../../../hooks/useFileAction';
-import {FileAction} from "../../../enums/file.enum";
+import Toast from "../../../SharedComponents/Toast/Toast";
+import { useFileAction } from '../../../../hooks/useFileAction';
+import {FileAction} from "../../../../enums/file.enum";
 
 const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit }) => {
     const { renameFile, removeFile, copyFileLink } = useFileAction();

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Breadcrumbs, Typography } from '@mui/material'
 import {useSelector} from "react-redux";
-import {useFileSystem} from "../../hooks/useFileSystem";
+import {useFileSystem} from "../../../hooks/useFileSystem";
 
 import './breadcrumbsNav.scss';
 

@@ -4,7 +4,7 @@ import FileViewer from 'react-file-viewer';
 
 import './dockViewer.scss'
 
-import { useDocViewer } from '../../hooks/useDocViewer';
+import { useDocViewer } from '../../../hooks/useDocViewer';
 
 export const DockViewer = () => {
     const docViewer = useSelector(state => state.docViewer);

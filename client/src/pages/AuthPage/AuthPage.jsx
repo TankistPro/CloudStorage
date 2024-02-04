@@ -3,7 +3,7 @@ import React from 'react'
 import './authPage.scss';
 
 import {TextField, Button} from '@mui/material'
-import Toast from "../../components/Toast/Toast";
+import Toast from "../../components/SharedComponents/Toast/Toast";
 import {usePassport} from "../../hooks/usePassport";
 import {useNavigate} from "react-router-dom";
 

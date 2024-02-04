@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { BreadcrumbsNav } from '../../components/BreadcrumbsNav/BreadcrumbsNav'
-import { Table } from '../../components/Table/Table'
+import { BreadcrumbsNav } from '../../components/HomeComponents/BreadcrumbsNav/BreadcrumbsNav'
+import { Table } from '../../components/HomeComponents/Table/Table'
 
 import './homePage.scss'
 import {useSelector} from "react-redux";

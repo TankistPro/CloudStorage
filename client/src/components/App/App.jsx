@@ -33,6 +33,7 @@ function App() {
         <div className="App">
             <Routes>
                     <Route element={<PrivateRoutes />}>
+                        <Route path="/" element={HomeLayoutHandler(<HomePage />)} />
                         <Route path="/home" element={HomeLayoutHandler(<HomePage />)} />
                         <Route path='/settings' element={HomeLayoutHandler(<SettingPage />)}></Route>
                     </Route>
