@@ -12,6 +12,7 @@ import { getFileExtension } from '@helpers/file.helper';
 import { ImageExtension } from '@enums/file.enum';
 import { useFileSystem } from '@hooks/useFileSystem';
 import { PreviewItem } from './PreviewItem/PreviewItem';
+import BaseButton from "@UI/BaseButton/BaseButton.jsx";
 
 export const UploadFile = () => {
     const [filesData, setFilesData] = React.useState([]);
@@ -92,12 +93,16 @@ export const UploadFile = () => {
 
   return (
     <div className="upload-wrapper">
-        <Button className="upload-wrapper__btn" variant="contained" onClick={() => setIsOpenUploadMenu(!isOpenUploadMenu)}>
+        <BaseButton
+            className="upload-wrapper__btn"
+            variant="contained"
+            onClick={() => setIsOpenUploadMenu(!isOpenUploadMenu)}
+        >
             {filesData.length > 0 &&
                 <p>{  filesData.length }</p>
             }
             <AddIcon />
-        </Button>
+        </BaseButton>
         {isOpenUploadMenu &&
             <div className="upload-wrapper__list" ref={$uploadMenu}>
                 <div className="preview-list">
@@ -113,20 +118,32 @@ export const UploadFile = () => {
                     }
                 </div>
                 <div className="upload-wrapper__footer">
-                    <Button variant="outlined" onClick={uploadFileHandler} disabled={!filesData.length}
-                            startIcon={<DownloadForOfflineIcon/>}>
+                    <BaseButton
+                        variant="outlined"
+                        onClick={uploadFileHandler}
+                        disabled={!filesData.length}
+                        startIcon={<DownloadForOfflineIcon/>}
+                    >
                         Загрузить
-                    </Button>
+                    </BaseButton>
                     <span>
-                    <Button variant="contained" component="label">
-                        Добавить файл
-                        <input hidden multiple type="file" onChange={fileHandler}/>
-                    </Button>
-                    <Button variant="contained" disabled={!filesData.length} startIcon={<DeleteIcon/>} color="error"
-                            onClick={removeAll}>
-                        Очистить все
-                    </Button>
-                </span>
+                        <BaseButton
+                            variant="contained"
+                            component="label"
+                        >
+                             Добавить файл
+                            <input hidden multiple type="file" onChange={fileHandler}/>
+                        </BaseButton>
+                        <BaseButton
+                            variant="contained"
+                            disabled={!filesData.length}
+                            startIcon={<DeleteIcon/>}
+                            color="error"
+                            onClick={removeAll}
+                        >
+                            Очистить все
+                        </BaseButton>
+                    </span>
                 </div>
             </div>
         }

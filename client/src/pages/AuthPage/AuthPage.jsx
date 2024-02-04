@@ -3,10 +3,11 @@ import {useNavigate} from "react-router-dom";
 
 import './authPage.scss';
 
-import {TextField, Button} from '@mui/material'
 import Toast from "@components/SharedComponents/Toast/Toast";
 import {usePassport} from "@hooks/usePassport";
 
+import BaseField from "@components/UI/BaseField/BaseField.jsx";
+import BaseButton from "@UI/BaseButton/BaseButton.jsx";
 
 export const AuthPage = () => {
   const [email, setEmail] = React.useState('');
@@ -40,12 +41,31 @@ export const AuthPage = () => {
           <div className='auth-page__wrapper'>
             <h1>Добро пожаловать!</h1>
             <div className="auth-form">
-              <TextField id="standard-basic" onInput={(e) => setEmail(e.target.value)} label="E-mail" variant="standard" />
-              <TextField id="standard-basic" onInput={(e) => setPassword(e.target.value)}  label="Пароль" type="password" variant="standard" />
+              <BaseField
+                  fieldId="standard-basic"
+                  onInput={(e) => setEmail(e.target.value)}
+                  label="E-mail"
+                  variant="standard"
+                  type="text"
+              />
+              <BaseField
+                  fieldId="standard-basic"
+                  onInput={(e) => setPassword(e.target.value)}
+                  label="Пароль"
+                  variant="standard"
+                  type="password"
+              />
             </div>
             <div className='auth-bottom'>
-              <Button variant="contained" onClick={loginHandler}>Войти</Button>
-              <Button variant="outlined">Зарегистрироваться</Button>
+              <BaseButton
+                  variant="contained"
+                  onClick={loginHandler}>
+                Войти
+              </BaseButton>
+              <BaseButton
+                  variant="outlined">
+                Зарегистрироваться
+              </BaseButton>
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
 .env
 .idea/workspace.xml
 /server/users
+/.idea/vcs.xml
