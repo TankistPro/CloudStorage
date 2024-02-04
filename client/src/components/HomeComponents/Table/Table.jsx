@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import "./table.scss";
 
 import { TableRow } from "./TableRow/TableRow";
-import Loader from "../../SharedComponents/Loader/Loader";
+import Loader from "@SharedComponents/Loader/Loader";
 
 export const Table = () => {
   const files = useSelector((state) => state.fileSystem.currentFolder);

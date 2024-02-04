@@ -1,11 +1,12 @@
 import React from 'react'
+import {useNavigate} from "react-router-dom";
 
 import './authPage.scss';
 
 import {TextField, Button} from '@mui/material'
-import Toast from "../../components/SharedComponents/Toast/Toast";
-import {usePassport} from "../../hooks/usePassport";
-import {useNavigate} from "react-router-dom";
+import Toast from "@components/SharedComponents/Toast/Toast";
+import {usePassport} from "@hooks/usePassport";
+
 
 export const AuthPage = () => {
   const [email, setEmail] = React.useState('');

@@ -4,15 +4,15 @@ import './tableRow.scss'
 
 import OptionsDropList from '../OptionDropList/OptionsDropList';
 
-import folderImg from '../../../../images/folder.svg';
-import fileImg from '../../../../images/file.svg';
+import folderImg from '@images/folder.svg';
+import fileImg from '@images/file.svg';
 
 import RenameFile from "../RenameFile/RenameFile";
-import {displayTime} from "../../../../helpers/time.helper";
-import {parseSize} from "../../../../helpers/file.helper";
-import {FileType} from "../../../../enums/file.enum";
-import {useFileSystem} from "../../../../hooks/useFileSystem";
-import { useDocViewer } from '../../../../hooks/useDocViewer';
+import {displayTime} from "@helpers/time.helper";
+import {parseSize} from "@helpers/file.helper";
+import {FileType} from "@enums/file.enum.js";
+import {useFileSystem} from "@hooks/useFileSystem";
+import { useDocViewer } from '@hooks/useDocViewer';
 
 export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }) => {
     const [isEdited, setIsEdited] = React.useState(false);

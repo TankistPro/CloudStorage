@@ -1,7 +1,6 @@
-import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-import {fetchCurrentFolder, uploadFilesAction} from "../store/actions/fileSystem.action";
+import {fetchCurrentFolder, uploadFilesAction} from "@store/actions/fileSystem.action";
 import {useLocation, useSearchParams} from "react-router-dom";
 
 export const useFileSystem = () => {

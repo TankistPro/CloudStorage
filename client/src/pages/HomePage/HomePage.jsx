@@ -1,12 +1,12 @@
 import React from 'react'
-
-import { BreadcrumbsNav } from '../../components/HomeComponents/BreadcrumbsNav/BreadcrumbsNav'
-import { Table } from '../../components/HomeComponents/Table/Table'
-
-import './homePage.scss'
 import {useSelector} from "react-redux";
 import {useLocation} from "react-router-dom";
-import {useFileSystem} from "../../hooks/useFileSystem";
+
+import { BreadcrumbsNav } from '@components/HomeComponents/BreadcrumbsNav/BreadcrumbsNav'
+import { Table } from '@components/HomeComponents/Table/Table'
+import {useFileSystem} from "@hooks/useFileSystem";
+
+import './homePage.scss'
 
 export const HomePage = () => {
     const baseWorkspacePath = useSelector(state => state.user?.user?.baseWorkspacePath);

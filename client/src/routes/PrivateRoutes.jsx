@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {useDispatch, useSelector} from "react-redux";
-import {Navigate, Outlet, useLocation, useNavigate} from "react-router-dom";
-import {fetchUserData} from "../store/actions/auth.action";
+import {Navigate, Outlet, useLocation} from "react-router-dom";
+import {fetchUserData} from "@store/actions/auth.action";
 
 export const PrivateRoutes = () => {
     const dispatch = useDispatch();

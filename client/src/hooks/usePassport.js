@@ -1,10 +1,10 @@
 import React, {useCallback} from "react";
-import {loginAction} from "../store/actions/auth.action";
 import {useDispatch, useSelector} from "react-redux";
-import {useLocation, useNavigate} from "react-router-dom";
-import AuthService from "../services/auth.service";
-import {REMOVE_ERROR_STATE, REMOVE_USER_STATE, STATE_AUTH_FLAG, TOGGLE_AUTH_LOADING} from "../store/slice/userSlice";
-import {RESET_FS_DATA, TOGGLE_FS_LOADING} from "../store/slice/fileSystemSlice";
+import {useNavigate} from "react-router-dom";
+import {loginAction} from "@store/actions/auth.action";
+import AuthService from "@services/auth.service";
+import {REMOVE_ERROR_STATE, REMOVE_USER_STATE} from "@store/slice/userSlice";
+import {RESET_FS_DATA} from "@store/slice/fileSystemSlice";
 
 export const usePassport = () => {
     const user = useSelector(state => state.user);

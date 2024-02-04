@@ -1,4 +1,4 @@
-import FileSystemService from '../../services/fileSystem.service';
+import FileSystemService from '@services/fileSystem.service';
 import {SET_CURRENT_FOLDER, SPLICE_DATA, TOGGLE_FS_LOADING} from "../slice/fileSystemSlice";
 
 export const fetchCurrentFolder = (path) => {

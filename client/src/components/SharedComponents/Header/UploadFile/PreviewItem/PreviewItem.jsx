@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
-import { parseSize } from '../../../../../helpers/file.helper';
+import { parseSize } from '@helpers/file.helper';
 
 export const PreviewItem = ({ index, file, previewUrl, removeFromFileData }) => {
 

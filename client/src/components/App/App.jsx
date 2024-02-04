@@ -2,17 +2,16 @@ import React from 'react';
 
 import {
     Routes,
-    Route, Navigate, useNavigate, useLocation,
+    Route, useNavigate, useLocation,
 } from "react-router-dom";
 
 import './app.scss';
 
-import { AuthPage } from '../../pages/AuthPage/AuthPage.jsx';
-import { HomePage } from '../../pages/HomePage/HomePage';
-import HomeLayout from "../../layouts/HomeLayout/HomeLayout";
-import SettingPage from "../../pages/SettingPage/SettingPage";
+import { AuthPage } from '@pages/AuthPage/AuthPage.jsx';
+import { HomePage } from '@pages/HomePage/HomePage';
+import HomeLayout from "@layouts/HomeLayout/HomeLayout";
+import SettingPage from "@pages/SettingPage/SettingPage";
 import {PrivateRoutes} from "../../routes/PrivateRoutes";
-import {useDispatch, useSelector} from "react-redux";
 
 function App() {
     const location = useLocation();
@@ -32,13 +31,12 @@ function App() {
     return (
         <div className="App">
             <Routes>
-                    <Route element={<PrivateRoutes />}>
+                    <Route element={<PrivateRoutes />} >
                         <Route path="/" element={HomeLayoutHandler(<HomePage />)} />
                         <Route path="/home" element={HomeLayoutHandler(<HomePage />)} />
                         <Route path='/settings' element={HomeLayoutHandler(<SettingPage />)}></Route>
                     </Route>
                     <Route path='/auth' element={<AuthPage />} />
-                />
             </Routes>
         </div>
     );

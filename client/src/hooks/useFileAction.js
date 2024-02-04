@@ -1,6 +1,6 @@
-import {useFileSystem} from "./useFileSystem";
 import {useDispatch} from "react-redux";
-import {removeFileAction} from "../store/actions/fileSystem.action";
+import {useFileSystem} from "./useFileSystem";
+import {removeFileAction} from "@store/actions/fileSystem.action";
 
 export const useFileAction = () => {
     const { parseFsPath } = useFileSystem();
