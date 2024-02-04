@@ -5,7 +5,8 @@ import {useSelector} from "react-redux";
 import './general.scss';
 import BaseButton from "@UI/BaseButton/BaseButton.jsx";
 import ImageCropper from "@SharedComponents/ImageCropperEditor/ImageCropperEditor.jsx";
-
+import {InputAdornment} from "@mui/material";
+import LanguageIcon from '@mui/icons-material/Language';
 
 const General = () => {
     const user = useSelector(state => state.user.user);
@@ -34,6 +35,28 @@ const General = () => {
                         value={lastName}
                         disabled
                         onInput={(e) => setLastName(e.target.value)}
+                    />
+                    <BaseField
+                        label="Описание"
+                        multiline
+                        variant="filled"
+                        placeholder="Расскажите всем о себе (ваши увлечения, хобби)..."
+                        disabled
+                        rows={4}
+                    />
+                    <BaseField
+                        id="input-with-icon-textfield"
+                        label="Ссылка на ваш сайт"
+                        variant="standard"
+                        disabled
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <LanguageIcon />
+                                </InputAdornment>
+                            ),
+                        }}
+                        value="https://nikolaygusev.ru/"
                     />
                     <div className="btn-controllers">
                         <BaseButton variant="outlined">Изменить</BaseButton>
