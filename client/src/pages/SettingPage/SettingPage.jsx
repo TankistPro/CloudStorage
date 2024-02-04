@@ -1,10 +1,12 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 
-import {Box, Button, ButtonGroup} from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import './settingPage.scss';
+import AsideMenu from "@SettingComponents/AsideMenu/AsideMenu.jsx";
+import BaseButton from "@UI/BaseButton/BaseButton.jsx";
+import General from "@SettingComponents/Tabs/General/General.jsx";
 
 const SettingPage = () => {
     const navigate = useNavigate();
@@ -12,29 +14,19 @@ const SettingPage = () => {
     return (
         <main className="main container">
             <div className="back-btn">
-                <Button variant="contained" startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
+                <BaseButton
+                    variant="contained"
+                    startIcon={<ArrowBackIcon />}
+                    onClick={() => navigate(-1)}
+                >
                     Назад
-                </Button>
+                </BaseButton>
             </div>
             <div className="settings">
-                <aside className="settings-aside">
-                    <Box>
-                        <ButtonGroup
-                        orientation="vertical"
-                        aria-label="vertical contained button group"
-                        variant="text"
-                        sx={{
-                            width: '100%'
-                        }}
-                    >
-                        <Button key="one">Общие</Button>
-                        <Button key="two">Безопасность</Button>
-                    </ButtonGroup>
-                    </Box>
-                </aside>
-                <section className="settings-section">
-                    settings-section
-                </section>
+                <AsideMenu/>
+                <div className="settings-section">
+                    <General />
+                </div>
             </div>
         </main>
     );

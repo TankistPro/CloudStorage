@@ -1,0 +1,19 @@
+.tab {
+  h2 {
+    margin-bottom: 20px;
+  }
+}
+
+.general-tab {
+  .btn-controllers {
+    display: flex;
+    gap: 20px;
+  }
+
+  .base-input {
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
+}

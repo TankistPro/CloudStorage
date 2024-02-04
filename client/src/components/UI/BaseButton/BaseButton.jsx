@@ -3,11 +3,21 @@ import React from 'react';
 import './baseButton.scss';
 import {Button} from "@mui/material";
 
-const BaseButton = ({ variant, onClick, children, ...props}) => {
+const BaseButton = ({ useWrapperDiv = true, children, ...props}) => {
+    const renderButton = () => {
+        return <Button className="base-button" {...props}>{children}</Button>
+    }
     return (
-        <div className="base-button">
-            <Button variant={variant} onClick={onClick} {...props}>{ children }</Button>
-        </div>
+        <>
+            {!useWrapperDiv ?
+                renderButton()
+                : (
+                    <div className="base-button-wrapper">
+                        { renderButton() }
+                    </div>
+                )
+            }
+        </>
     );
 };
 

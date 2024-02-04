@@ -6,6 +6,7 @@ import './userProfileBage.scss'
 import {useSelector} from "react-redux";
 import {usePassport} from "@hooks/usePassport";
 import {useNavigate} from "react-router-dom";
+import defaultAvatar from "@images/default-avatar.png";
 
 const PaperProps = {
     elevation: 0,
@@ -69,7 +70,10 @@ export const UserProfileBage = () => {
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
             >
-              <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+              <Avatar
+                  src={defaultAvatar}
+                  sx={{ width: 42, height: 42 }}
+              />
             </IconButton>
           </Tooltip>
             <Menu

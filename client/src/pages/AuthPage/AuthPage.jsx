@@ -42,14 +42,14 @@ export const AuthPage = () => {
             <h1>Добро пожаловать!</h1>
             <div className="auth-form">
               <BaseField
-                  fieldId="standard-basic"
+                  id="standard-basic"
                   onInput={(e) => setEmail(e.target.value)}
                   label="E-mail"
                   variant="standard"
                   type="text"
               />
               <BaseField
-                  fieldId="standard-basic"
+                  id="standard-basic"
                   onInput={(e) => setPassword(e.target.value)}
                   label="Пароль"
                   variant="standard"
