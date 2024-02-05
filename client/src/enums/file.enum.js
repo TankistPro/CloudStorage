@@ -10,3 +10,4 @@ export const FileAction = {
 }
 
 export const ImageExtension = ['png', 'jpeg', 'jpg', 'gif', 'webp'];
+export const VideoExtension = ['mp4', 'avi', 'mpeg']

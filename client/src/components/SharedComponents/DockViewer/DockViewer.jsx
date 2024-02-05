@@ -5,6 +5,7 @@ import './dockViewer.scss'
 
 import { useDocViewer } from '@hooks/useDocViewer';
 import PSPDFKit from "pspdfkit";
+import {useAutoCloseModal} from "@hooks/useAutoCloseModal.js";
 
 export const DockViewer = () => {
     const docViewer = useSelector(state => state.docViewer);
@@ -12,23 +13,7 @@ export const DockViewer = () => {
 
     const {closeDocViewer} = useDocViewer();
 
-    React.useEffect(() => {
-        function closeOnClick(event) {
-            const target = event.target;
-
-            if (!target.closest('.pg-viewer-wrapper') && !target.closest('.table__row')) {
-                closeDocViewer()
-            }
-        }
-
-        if (docViewer?.isOpen) {
-            window.addEventListener('click', closeOnClick)
-        }
-
-        return () => {
-            window.removeEventListener('click', closeOnClick)
-        }
-    }, [docViewer?.isOpen])
+    // useAutoCloseModal(['.pg-viewer-wrapper', '.table__row'], closeDocViewer, docViewer?.isOpen)
 
     React.useEffect(() => {
         if (!docViewer?.isOpen) return

@@ -13,6 +13,7 @@ import {parseSize} from "@helpers/file.helper";
 import {FileType} from "@enums/file.enum.js";
 import {useFileSystem} from "@hooks/useFileSystem";
 import { useDocViewer } from '@hooks/useDocViewer';
+import BaseDropList from "@UI/BaseDropList/BaseDropList.jsx";
 
 export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }) => {
     const [isEdited, setIsEdited] = React.useState(false);

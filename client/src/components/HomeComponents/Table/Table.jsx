@@ -5,6 +5,7 @@ import "./table.scss";
 
 import { TableRow } from "./TableRow/TableRow";
 import Loader from "@SharedComponents/Loader/Loader";
+import BaseDropList from "@UI/BaseDropList/BaseDropList.jsx";
 
 export const Table = () => {
   const files = useSelector((state) => state.fileSystem.currentFolder);
@@ -23,7 +24,21 @@ export const Table = () => {
             <div className="table__column">Размер</div>
             <div className="table__column">Дата изменения</div>
             <div className="table__column">Дата создания</div>
-            <div className="table__column" />
+            <div className="table__column">
+              <BaseDropList
+                  width={200}
+                  menuItems={[
+                  {
+                    onClickEvent: () => {},
+                    text: "Создать каталог",
+                  },
+                  {
+                    onClickEvent: () => {},
+                    text: "Настройки таблицы",
+                  }
+                ]}
+              />
+            </div>
           </div>
         </div>
         <div className="table__body">

@@ -13,6 +13,7 @@ import { ImageExtension } from '@enums/file.enum';
 import { useFileSystem } from '@hooks/useFileSystem';
 import { PreviewItem } from './PreviewItem/PreviewItem';
 import BaseButton from "@UI/BaseButton/BaseButton.jsx";
+import {useAutoCloseModal} from "@hooks/useAutoCloseModal.js";
 
 export const UploadFile = () => {
     const [filesData, setFilesData] = React.useState([]);
@@ -23,23 +24,7 @@ export const UploadFile = () => {
 
     const { uploadFiles } = useFileSystem();
 
-    React.useEffect(() => {
-        function closeOnClick(event) {
-            const target = event.target;
-
-            if (!target.closest('.upload-wrapper') && !target.closest('.preview-list__item')) {
-                setIsOpenUploadMenu(false);
-            }
-        }
-
-        if (isOpenUploadMenu) {
-            window.addEventListener('click', closeOnClick)
-        }
-
-        return () => {
-            window.removeEventListener('click', closeOnClick)
-        }
-    }, [isOpenUploadMenu])
+    useAutoCloseModal(['.upload-wrapper', '.preview-list__item'], isOpenUploadMenu, setIsOpenUploadMenu);
 
     const fileHandler = (event) => {
         const file = event.target.files[0];
