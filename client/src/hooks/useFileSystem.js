@@ -1,14 +1,13 @@
 import {useDispatch, useSelector} from "react-redux";
 
 import {fetchCurrentFolder, uploadFilesAction} from "@store/actions/fileSystem.action";
-import {useLocation, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 
 export const useFileSystem = () => {
     const baseWorkspacePath = useSelector(state => state.user?.user?.baseWorkspacePath);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const dispatch = useDispatch();
-    const location = useLocation();
 
     const openFolder =  async (fileName) => {
         const param = searchParams.get('path');
@@ -81,11 +80,22 @@ export const useFileSystem = () => {
         return response;
     }
 
+    /*
+    * Открытие файла для просмотра в отдельной вкладке браузера
+    * */
+    const openFileInNewTab = (fileName) => {
+        const filePath = parseFsPath().join('/') + "/" + fileName;
+        const path = `http://localhost:5520/cdn/${filePath}`;
+
+        window.open(path, '_blank');
+    }
+
     return {
         openFolder,
         fetchFolders,
         parseFsPath,
         goToBackFolder,
-        uploadFiles
+        uploadFiles,
+        openFileInNewTab
     }
 }

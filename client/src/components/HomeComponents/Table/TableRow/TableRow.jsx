@@ -17,9 +17,7 @@ import { useDocViewer } from '@hooks/useDocViewer';
 export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }) => {
     const [isEdited, setIsEdited] = React.useState(false);
 
-
-    const { openFolder } = useFileSystem()
-    const { openDocViewer } = useDocViewer();
+    const { openFolder, openFileInNewTab } = useFileSystem()
 
     const fileImage = React.useMemo(() => {
         return file.type === FileType.File ? fileImg : folderImg
@@ -27,13 +25,9 @@ export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }
 
     const openHandler = async () => {
         if (file.type === FileType.Folder) {
-            await openFolder(file.name)
+            await openFolder(file.name);
         } else if (file.type === FileType.File) {
-
-            // FIXME: Временно закрыл открытие файлов, кроме фотогорафий
-            // const fileExtension = getFileExtension(file.name);
-            // if (ImageExtension.includes(fileExtension))
-                openDocViewer(file.name);
+            openFileInNewTab(file.name);
         }
     }
 
