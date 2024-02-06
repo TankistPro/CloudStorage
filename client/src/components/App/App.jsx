@@ -12,6 +12,7 @@ import { HomePage } from '@pages/HomePage/HomePage';
 import HomeLayout from "@layouts/HomeLayout/HomeLayout";
 import SettingPage from "@pages/SettingPage/SettingPage";
 import {PrivateRoutes} from "../../routes/PrivateRoutes";
+import {ModalContextProvider} from "../../context/useModalContext.jsx";
 
 function App() {
     const location = useLocation();
@@ -29,16 +30,18 @@ function App() {
     }
 
     return (
-        <div className="App">
-            <Routes>
-                    <Route element={<PrivateRoutes />} >
-                        <Route path="/" element={HomeLayoutHandler(<HomePage />)} />
-                        <Route path="/home" element={HomeLayoutHandler(<HomePage />)} />
-                        <Route path='/settings' element={HomeLayoutHandler(<SettingPage />)}></Route>
+        <ModalContextProvider>
+            <div className="App">
+                <Routes>
+                    <Route element={<PrivateRoutes/>}>
+                        <Route path="/" element={HomeLayoutHandler(<HomePage/>)}/>
+                        <Route path="/home" element={HomeLayoutHandler(<HomePage/>)}/>
+                        <Route path='/settings' element={HomeLayoutHandler(<SettingPage/>)}></Route>
                     </Route>
-                    <Route path='/auth' element={<AuthPage />} />
-            </Routes>
-        </div>
+                    <Route path='/auth' element={<AuthPage/>}/>
+                </Routes>
+            </div>
+        </ModalContextProvider>
     );
 }
 

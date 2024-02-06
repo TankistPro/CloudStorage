@@ -90,6 +90,10 @@ export const useFileSystem = () => {
         window.open(path, '_blank');
     }
 
+    const createFolder = (folderName) => {
+
+    }
+
     return {
         openFolder,
         fetchFolders,

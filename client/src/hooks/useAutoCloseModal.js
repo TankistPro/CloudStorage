@@ -26,11 +26,11 @@ export const useAutoCloseModal = (targetElementClasses, dependence, closeModalFn
 
         if (dependence) {
             window.addEventListener('click', closeOnClick)
-        }
 
-        return () => {
-            console.log("Remove EventListener for " + targetElementClasses);
-            window.removeEventListener('click', closeOnClick)
+            return () => {
+                console.log("Remove EventListener for " + targetElementClasses);
+                window.removeEventListener('click', closeOnClick)
+            }
         }
     }, [dependence])
 }

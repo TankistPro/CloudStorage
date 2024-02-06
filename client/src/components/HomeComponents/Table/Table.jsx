@@ -6,12 +6,15 @@ import "./table.scss";
 import { TableRow } from "./TableRow/TableRow";
 import Loader from "@SharedComponents/Loader/Loader";
 import BaseDropList from "@UI/BaseDropList/BaseDropList.jsx";
+import {ModalContext} from "../../../context/useModalContext.jsx";
 
 export const Table = () => {
   const files = useSelector((state) => state.fileSystem.currentFolder);
   const isLoading = useSelector((state) => state.fileSystem.isLoading);
 
   const [currentDropListIndex, setCurrentDropListIndex] = React.useState(null);
+
+  const { openModal } = React.useContext(ModalContext);
 
   return (
     <div className="table">
@@ -29,7 +32,7 @@ export const Table = () => {
                   width={200}
                   menuItems={[
                   {
-                    onClickEvent: () => {},
+                    onClickEvent: () => {openModal()},
                     text: "Создать каталог",
                   },
                   {
