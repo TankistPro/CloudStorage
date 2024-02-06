@@ -4,7 +4,6 @@ export const useAutoCloseModal = (targetElementClasses, dependence, closeModalFn
     React.useEffect(() => {
         function closeOnClick(event) {
             const target = event.target;
-
             if (Array.isArray(targetElementClasses)) {
                 let check = 0;
 

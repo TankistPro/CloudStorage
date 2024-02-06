@@ -27,6 +27,7 @@ export default defineConfig({
             "@SharedComponents": path.resolve(__dirname, 'src/components/SharedComponents'),
             "@images": path.resolve(__dirname, 'src/images'),
             "@UI": path.resolve(__dirname, 'src/components/UI'),
+            "@context": path.resolve(__dirname, 'src/context')
         }
     },
     plugins: [

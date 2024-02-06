@@ -88,13 +88,21 @@ const ImageCropperEditor = () => {
                                 <Avatar
                                     alt="avatar"
                                     src={cropData}
-                                    sx={{width: '300px', height: '300px'}}
+                                    sx={{
+                                        width: '300px',
+                                        height: '300px',
+                                        border: "1px solid #000"
+                                }}
                                 />
                                 <p>300x300px</p>
                                 <Avatar
                                     alt="avatar"
                                     src={cropData}
-                                    sx={{width: '42px', height: '42px'}}
+                                    sx={{
+                                        width: '42px',
+                                        height: '42px',
+                                        border: "1px solid #000"
+                                }}
                                 />
                                 <p>42x42px</p>
                             </div>

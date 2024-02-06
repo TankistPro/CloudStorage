@@ -1,25 +1,43 @@
 import React from 'react';
 import BaseModal from "@SharedComponents/BaseModal/BaseModal.jsx";
+import CreateFolderContent from "@SharedComponents/BaseModal/ModalsActionsContent/CreateFolder/CreateFolder.jsx";
+import {ModalAction} from "@enums/modalAction.enums.js";
+import {useAutoCloseModal} from "@hooks/useAutoCloseModal.js";
+
 export const ModalContext = React.createContext();
 
 let { Provider } = ModalContext;
+
 export const ModalContextProvider = ({ children }) => {
     const [isOpenModal, setIsOpenModal] = React.useState(false);
-    const [modalContent, setModalContent] = React.useState('');
+    const [modalAction, setModalAction] = React.useState(null);
     const [title, setTitle] = React.useState('');
-    const [acceptButtonText, setAcceptButtonText] = React.useState('');
 
-    const openModal = (content, title, acceptBtnText) => {
-        setModalContent(content);
+    useAutoCloseModal('.MuiPaper-root', isOpenModal, setIsOpenModal);
+
+    /*
+    * Открытие модалного окна
+    * @param {string} title - текст верхнего заголовка (необязательный параметр)
+    * @param {ModalAction} action - тип мадального окна (обязательный параметр)
+    * */
+    const openModal = ( {title, action}) => {
+        setModalAction(action);
         setTitle(title);
-        setAcceptButtonText(acceptBtnText);
         setIsOpenModal(true);
     }
 
+    /*
+    * Закрытие модалного окна
+    * */
     const closeModal = () => {
         setIsOpenModal(false);
-        setModalContent('');
+        setModalAction(null)
         setTitle('');
+    }
+
+    const renderModalContent = () => {
+        if (modalAction === ModalAction.CREATE_FOLDER)
+            return <CreateFolderContent />
     }
 
     return (
@@ -33,9 +51,8 @@ export const ModalContextProvider = ({ children }) => {
             {isOpenModal &&
                 <BaseModal
                     modalTitle={title}
-                    acceptButtonText={acceptButtonText}
                 >
-                    {modalContent}
+                    { renderModalContent() }
                 </BaseModal>
             }
             { children }

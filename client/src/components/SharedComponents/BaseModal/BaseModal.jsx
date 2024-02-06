@@ -1,22 +1,23 @@
 import React from 'react';
 import BaseIconButton from "@UI/BaseIconButton/IconButton.jsx";
-import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "@mui/material";
-import BaseButton from "@UI/BaseButton/BaseButton.jsx";
+import {Dialog, DialogTitle} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import {ModalContext} from "../../../context/useModalContext.jsx";
+import {ModalContext} from "@context/useModalContext.jsx";
 
-const BaseModal = ({ acceptButtonText='Продолжить', modalTitle = "title", children }) => {
-    const { closeModal } = React.useContext(ModalContext);
+const BaseModal = ({ modalTitle, children }) => {
+    const { closeModal, isOpenModal } = React.useContext(ModalContext);
 
     return (
         <>
             <Dialog
                 aria-labelledby="customized-dialog-title"
-                open={true}
+                open={isOpenModal}
             >
-                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    { modalTitle }
-                </DialogTitle>
+                {modalTitle &&
+                    <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                        { modalTitle }
+                    </DialogTitle>
+                }
                 <BaseIconButton
                     aria-label="close"
                     onClick={() => closeModal()}
@@ -29,14 +30,7 @@ const BaseModal = ({ acceptButtonText='Продолжить', modalTitle = "titl
                 >
                     <CloseIcon />
                 </BaseIconButton>
-                <DialogContent dividers>
-                    { children }
-                </DialogContent>
-                <DialogActions>
-                    <BaseButton autoFocus>
-                        { acceptButtonText }
-                    </BaseButton>
-                </DialogActions>
+                { children }
             </Dialog>
         </>
     );

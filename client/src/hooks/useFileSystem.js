@@ -91,7 +91,7 @@ export const useFileSystem = () => {
     }
 
     const createFolder = (folderName) => {
-
+        console.log("Создание папки " + folderName);
     }
 
     return {
@@ -100,6 +100,7 @@ export const useFileSystem = () => {
         parseFsPath,
         goToBackFolder,
         uploadFiles,
-        openFileInNewTab
+        openFileInNewTab,
+        createFolder
     }
 }

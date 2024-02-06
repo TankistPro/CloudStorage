@@ -2,7 +2,7 @@ export const parseDate = (dateString) => {
     const d = new Date(dateString);
 
     const dYear = d.getFullYear();
-    const dMonth =("0" + d.getMonth()).slice(-2);
+    const dMonth =("0" + (d.getMonth() + 1)).slice(-2) ;
     const dDay = ("0" + d.getDate()).slice(-2);
     const dHour = ("0" + d.getHours()).slice(-2);
     const dMinutes = ("0" + d.getMinutes()).slice(-2);

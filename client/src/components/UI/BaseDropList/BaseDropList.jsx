@@ -11,9 +11,12 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import Divider from "@mui/material/Divider";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BaseIconButton from "@UI/BaseIconButton/IconButton.jsx";
+import {useAutoCloseModal} from "@hooks/useAutoCloseModal.js";
 
 const BaseDropList = ({ buttonElement, menuItems, width = 320 , typographyElement}) => {
     const [isOpenDropListOption, toggleOption] = React.useState(false);
+
+    useAutoCloseModal('.drop-controller', isOpenDropListOption, toggleOption);
 
     return (
         <div className='baseDropList drop-controller'>
