@@ -1,8 +1,10 @@
 import axios from 'axios';
 import AuthService from "@services/auth.service";
 
+export const baseURL = "http://localhost:5520/api/v1";
+
 export const api = axios.create({
-    baseURL: 'http://localhost:5520/api/v1',
+    baseURL: baseURL,
     timeout: 10000,
     withCredentials: true
 });

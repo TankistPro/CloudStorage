@@ -8,29 +8,26 @@ import {usePassport} from "@hooks/usePassport";
 
 import BaseField from "@components/UI/BaseField/BaseField.jsx";
 import BaseButton from "@UI/BaseButton/BaseButton.jsx";
+import {toast} from "react-toastify";
 
 export const AuthPage = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  const { login, loginErrors } = usePassport();
   const navigate = useNavigate();
-  const { loginErrors, login, loginAttempts} = usePassport();
-
-  React.useEffect(() => {
-    if (loginErrors.status) {
-      Toast({
-        toastType: 'error',
-        text: loginErrors.message
-      })
-    }
-  }, [loginAttempts])
 
   const loginHandler = async () => {
     if (email.trim().length && password.trim().length) {
       const status = await login(email, password);
-
       if (status) {
-        navigate("/home");
+        navigate("/home")
+      } else if (loginErrors.status) {
+        toast.success('ok')
+        Toast({
+          toastType: 'error',
+          text: loginErrors.message
+        })
       }
     }
   }
