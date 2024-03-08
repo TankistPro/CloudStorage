@@ -19,8 +19,12 @@ import moreOption from '@images/more.svg';
 import Toast from "@SharedComponents/Toast/Toast";
 import { useFileAction } from '@hooks/useFileAction';
 import {FileAction} from "@enums/file.enum";
+import {ModalAction} from "@enums/modalAction.enums.js";
+import {ModalContext} from "@context/useModalContext.jsx";
 
 const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit }) => {
+    const { openModal } = React.useContext(ModalContext);
+
     const { renameFile, removeFile, copyFileLink } = useFileAction();
     const $element = useRef(null);
 
@@ -32,7 +36,14 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit 
             openToast(status);
         }
         if (actionType === FileAction.RENAME) {
-            toggleEdit();
+            // toggleEdit();
+
+            const configModal = {
+                title: "Переименовать",
+                action: ModalAction.EDIT_FILE
+            };
+
+            openModal(configModal);
         }
         if(actionType === FileAction.COPY_LINK) {
             fc();
