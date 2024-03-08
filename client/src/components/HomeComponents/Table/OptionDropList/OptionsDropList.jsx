@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef} from 'react'
 
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
@@ -22,6 +22,7 @@ import {FileAction} from "@enums/file.enum";
 
 const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit }) => {
     const { renameFile, removeFile, copyFileLink } = useFileAction();
+    const $element = useRef(null);
 
     const menuHandler = async (event, fc, actionType) => {
         event.stopPropagation();
@@ -50,8 +51,20 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit 
         })
     }
 
+    React.useEffect(() => {
+        if (isOpenDropListOption) {
+            const windowHeight = window.innerHeight;
+            const elementPosition = $element.current.getBoundingClientRect();
+            const listElement = $element.current.querySelector('.drop-controller__list');
+
+            const isOutSideWindow = elementPosition.y + listElement.offsetHeight > windowHeight;
+
+            isOutSideWindow ? listElement.style.bottom = "100%" :  listElement.style.top = "100%";
+        }
+    }, [isOpenDropListOption])
+
     return (
-    <div className='drop-controller'>
+    <div className='drop-controller' ref={$element}>
         <img className='more-option' src={ moreOption } alt="more" onClick={(event) => toggleOption(event)} />
         <Paper className={`drop-controller__list ${ isOpenDropListOption ? 'open' : '' }`} sx={{ width: 320 }}>
             <MenuList>

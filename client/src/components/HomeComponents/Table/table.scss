@@ -15,8 +15,12 @@
     }
 
     &__body {
-        max-height: calc(100vh - 56px - 64px - 64px);
+        height: calc(100vh - 56px - 64px - 64px);
         overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
 
         .table__row {
             cursor: pointer;

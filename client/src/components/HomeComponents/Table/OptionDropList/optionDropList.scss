@@ -3,15 +3,12 @@
 
     &__list {
         display: none;
-        
 
         &.open {
             display: block;
             position: absolute;
-            top: 100%;
-            right: 0;
-            display: block;
-            z-index: 1001;
+            right: 28px;
+            z-index: 1005;
         }
     }
 }
