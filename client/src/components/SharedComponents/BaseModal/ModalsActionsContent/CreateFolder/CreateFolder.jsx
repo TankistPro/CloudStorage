@@ -8,6 +8,7 @@ import {useFileSystem} from "@hooks/useFileSystem.js";
 import BaseButton from "@UI/BaseButton/BaseButton.jsx";
 import {DialogActions, DialogContent} from "@mui/material";
 import {ModalContext} from "@context/useModalContext.jsx";
+import Toast from "@SharedComponents/Toast/Toast.jsx";
 
 const CreateFolder = () => {
     const [folderName, setFolderName] = React.useState('');
@@ -15,9 +16,17 @@ const CreateFolder = () => {
     const { createFolder } = useFileSystem();
     const {closeModal} = React.useContext(ModalContext);
 
-    const createFolderHandler = () => {
-        createFolder(folderName);
-        closeModal();
+    const createFolderHandler = async () => {
+        const response = await createFolder(folderName);
+
+        if (response.status) {
+            closeModal();
+        }
+
+        Toast({
+            toastType: response.status ? 'success' : 'error',
+            text:  response.status ? `Папка "${ response.newFolderName }" успешно создана` : response.error
+        })
     }
 
     return (

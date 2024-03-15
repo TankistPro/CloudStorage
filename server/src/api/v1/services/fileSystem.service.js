@@ -51,8 +51,6 @@ class FileSystemService {
 
     readFile() {}
 
-    createFolder() {}
-
     removeFolder() {}
 
     async uploadFiles(filesArray, savePath) {
@@ -79,7 +77,7 @@ class FileSystemService {
 
         try {
             // TODO: переписать на fs.rmSync - для удалени файлов и директорий
-            await fs.unlinkSync(filePathToRemove);
+            await fs.rmSync(filePathToRemove, { recursive: true });
 
             return true;
         } catch (e) {
@@ -87,6 +85,23 @@ class FileSystemService {
             throw new Error('Failed to remove file')
         }
 
+    }
+
+    async createFolder(path){
+        const folderPath = this.#baseDir + "/" + path;
+        const isExist = fs.existsSync(folderPath);
+
+        if(isExist) {
+            throw new Error("Folder is already exist")
+        }
+
+        try {
+            await fs.mkdirSync(folderPath);
+
+            return true;
+        } catch (e) {
+            throw new Error('Failed to create folder')
+        }
     }
 }
 

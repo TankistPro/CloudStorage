@@ -16,6 +16,12 @@ class FileSystemService {
             }
         });
     }
+
+    async createFolder(folderPath){
+        return await api.post('/fs/create-folder', {
+            folderPath
+        });
+    }
 }
 
 export default new FileSystemService();

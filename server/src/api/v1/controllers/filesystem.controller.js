@@ -1,5 +1,6 @@
 const { FileSystemService } = require('../services/fileSystem.service');
 const { validationResult } = require("express-validator");
+const {error} = require("../utils/http.util");
 
 class FilesystemController {
     async parseCurrentPath(req, res) {
@@ -48,6 +49,21 @@ class FilesystemController {
 
             const status = await FileSystemService.removeFile(filePath);
 
+            return res.success(status);
+        } catch (e) {
+            return res.error(e.message);
+        }
+    }
+
+    async createFolder(req, res) {
+        try {
+            const { folderPath } = req.body;
+
+            if (!folderPath.trim().length) {
+                return res.error('Некорректный путь');
+            }
+
+            const status = await FileSystemService.createFolder(folderPath);
             return res.success(status);
         } catch (e) {
             return res.error(e.message);

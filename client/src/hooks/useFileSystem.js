@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 
-import {fetchCurrentFolder, uploadFilesAction} from "@store/actions/fileSystem.action";
+import {createFolderAction, fetchCurrentFolder, uploadFilesAction} from "@store/actions/fileSystem.action";
 import {useSearchParams} from "react-router-dom";
 
 export const useFileSystem = () => {
@@ -19,7 +19,7 @@ export const useFileSystem = () => {
         }
     }
 
-    const fetchFolders = () => {
+    const fetchFolders = async () => {
         if (baseWorkspacePath) {
             const param = searchParams.get('path') ;
             let newPath = baseWorkspacePath;
@@ -28,7 +28,7 @@ export const useFileSystem = () => {
                 newPath = baseWorkspacePath + param;
             }
 
-            dispatch(fetchCurrentFolder(newPath));
+            await dispatch(fetchCurrentFolder(newPath));
         }
     }
 
@@ -90,8 +90,21 @@ export const useFileSystem = () => {
         window.open(path, '_blank');
     }
 
-    const createFolder = (folderName) => {
-        console.log("Создание папки " + folderName);
+    const createFolder = async (folderName) => {
+        const folderPath = parseFsPath().join('/') + "/" + folderName;
+        console.log("Создание папки " + folderPath);
+
+        const payload = await dispatch(createFolderAction(folderPath));
+
+        if (payload.status) {
+            await fetchFolders()
+        }
+
+        return {
+            status: payload.status,
+            error: payload?.message,
+            newFolderName: folderName
+        }
     }
 
     return {

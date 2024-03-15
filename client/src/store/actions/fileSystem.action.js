@@ -43,3 +43,17 @@ export const removeFileAction = (filePath, fileName) => {
         }
     }
 }
+
+export const createFolderAction = (folderPath) => {
+    return async dispatch => {
+        try {
+            const { data } = await FileSystemService.createFolder(folderPath);
+
+            if (data.status) {
+                return data
+            }
+        } catch (e) {
+            return e.response.data
+        }
+    }
+}
