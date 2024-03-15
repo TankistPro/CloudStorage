@@ -22,6 +22,13 @@ class FileSystemService {
             folderPath
         });
     }
+
+    async renameFile(oldFilePath, newFilePath){
+        return await api.post('/fs/rename-file', {
+            oldFilePath,
+            newFilePath
+        });
+    }
 }
 
 export default new FileSystemService();

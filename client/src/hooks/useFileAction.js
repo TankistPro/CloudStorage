@@ -1,12 +1,25 @@
 import {useDispatch} from "react-redux";
 import {useFileSystem} from "./useFileSystem";
-import {removeFileAction} from "@store/actions/fileSystem.action";
+import {removeFileAction, renameFileAction} from "@store/actions/fileSystem.action";
 
 export const useFileAction = () => {
-    const { parseFsPath } = useFileSystem();
+    const { parseFsPath, fetchFolders } = useFileSystem();
     const dispatch = useDispatch();
 
-    const renameFile = () => { console.log("Переименовать файл") };
+    const renameFile = async (oldFileName, newFileName) => {
+        const filePath = parseFsPath().join('/') + "/";
+
+        const oldFilePath = filePath + oldFileName;
+        const newFilePath = filePath + newFileName;
+
+        const response =  await dispatch(renameFileAction(oldFilePath, newFilePath))
+
+        // FIXME: для оптимизации выгоднее получать только файл который меняли, а не всю директорию как сейчас
+        if (response.status) {
+            await fetchFolders();
+        }
+        return response.status;
+    };
     const removeFile = async (fileName) => {
         const filePath = parseFsPath().join('/') + "/" + fileName;
         return await dispatch(removeFileAction(filePath, fileName));

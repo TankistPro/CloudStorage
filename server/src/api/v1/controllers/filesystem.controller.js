@@ -69,6 +69,21 @@ class FilesystemController {
             return res.error(e.message);
         }
     }
+
+    async renameFile(req, res) {
+        try {
+            const { oldFilePath, newFilePath } = req.body;
+
+            if (!oldFilePath?.trim().length || !newFilePath?.trim().length) {
+                return res.error('Некорректный путь');
+            }
+
+            const status = await FileSystemService.renameFile(oldFilePath, newFilePath);
+            return res.success(status);
+        } catch (e) {
+            return res.error(e.message);
+        }
+    }
 }
 
 module.exports.FilesystemController = new FilesystemController();

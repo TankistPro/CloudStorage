@@ -103,6 +103,23 @@ class FileSystemService {
             throw new Error('Failed to create folder')
         }
     }
+
+    async renameFile(oldPath, newPath){
+        const oldFilePath = this.#baseDir + "/" + oldPath;
+        const isExist = fs.existsSync(oldFilePath);
+
+        if(!isExist) {
+            throw new Error("Folder is already exist")
+        }
+        const newFilePath = this.#baseDir + "/" + newPath;
+        try {
+            // FIXME: работает, только если папка не содержит подпапок
+            await fs.renameSync(oldFilePath, newFilePath);
+            return newFilePath;
+        } catch (e) {
+            throw new Error(e)
+        }
+    }
 }
 
 module.exports.FileSystemService = new FileSystemService();

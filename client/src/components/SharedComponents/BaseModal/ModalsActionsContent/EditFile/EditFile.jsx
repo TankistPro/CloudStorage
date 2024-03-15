@@ -6,10 +6,21 @@ import BaseField from "@UI/BaseField/BaseField.jsx";
 import BaseButton from "@UI/BaseButton/BaseButton.jsx";
 
 import {ModalContext} from "@context/useModalContext.jsx";
+import {useFileAction} from "@hooks/useFileAction.js";
 
-const EditFile = () => {
-    const [fileName, setFolderName] = React.useState('');
+const EditFile = ({ currentFileName }) => {
+    const [newFileName, setNewFileName] = React.useState(currentFileName);
     const {closeModal} = React.useContext(ModalContext);
+
+    const { renameFile } = useFileAction();
+
+    const renameFileHandler = async () => {
+        const status = await renameFile(currentFileName, newFileName);
+
+        if (status) {
+            closeModal();
+        }
+    }
 
     return (<>
         <DialogContent dividers>
@@ -20,7 +31,8 @@ const EditFile = () => {
                     </label>
                     <BaseField
                         id="standard-basic"
-                        onInput={(e) => setFolderName(e.target.value)}
+                        onInput={(e) => setNewFileName(e.target.value)}
+                        value={newFileName}
                         label="Новое название"
                         placeholder="Введите название"
                         variant="standard"
@@ -33,6 +45,8 @@ const EditFile = () => {
         <DialogActions>
             <BaseButton
                 autoFocus
+                disabled={currentFileName === newFileName}
+                onClick={renameFileHandler}
             >
                 Переименовать
             </BaseButton>

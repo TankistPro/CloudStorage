@@ -25,7 +25,7 @@ import {ModalContext} from "@context/useModalContext.jsx";
 const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit }) => {
     const { openModal } = React.useContext(ModalContext);
 
-    const { renameFile, removeFile, copyFileLink } = useFileAction();
+    const { removeFile, copyFileLink } = useFileAction();
     const $element = useRef(null);
 
     const menuHandler = async (event, fc, actionType) => {
@@ -40,9 +40,10 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit 
 
             const configModal = {
                 title: "Переименовать",
-                action: ModalAction.EDIT_FILE
+                action: ModalAction.EDIT_FILE,
+                payload: { fileName: file.name }
             };
-
+            console.log(configModal);
             openModal(configModal);
         }
         if(actionType === FileAction.COPY_LINK) {

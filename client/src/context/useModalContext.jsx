@@ -13,6 +13,7 @@ export const ModalContextProvider = ({ children }) => {
     const [isOpenModal, setIsOpenModal] = React.useState(false);
     const [modalAction, setModalAction] = React.useState(null);
     const [title, setTitle] = React.useState('');
+    const [payload, setPayload] = React.useState({});
 
     useAutoCloseModal('.MuiPaper-root', isOpenModal, setIsOpenModal);
 
@@ -21,10 +22,11 @@ export const ModalContextProvider = ({ children }) => {
     * @param {string} title - текст верхнего заголовка (необязательный параметр)
     * @param {ModalAction} action - тип мадального окна (обязательный параметр)
     * */
-    const openModal = ( {title, action}) => {
+    const openModal = ( {title, action, payload}) => {
         setModalAction(action);
         setTitle(title);
         setIsOpenModal(true);
+        setPayload(payload);
     }
 
     /*
@@ -40,7 +42,7 @@ export const ModalContextProvider = ({ children }) => {
         if (modalAction === ModalAction.CREATE_FOLDER)
             return <CreateFolderContent />
         if (modalAction === ModalAction.EDIT_FILE)
-            return <EditFile />
+            return <EditFile currentFileName={payload.fileName} />
     }
 
     return (

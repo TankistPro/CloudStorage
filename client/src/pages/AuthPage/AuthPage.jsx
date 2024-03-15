@@ -23,7 +23,7 @@ export const AuthPage = () => {
         text: loginErrors.message
       })
     }
-  }, [loginAttempts])
+  }, [loginErrors.status])
 
   const loginHandler = async () => {
     if (email.trim().length && password.trim().length) {

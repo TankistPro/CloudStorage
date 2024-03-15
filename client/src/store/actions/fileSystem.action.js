@@ -57,3 +57,18 @@ export const createFolderAction = (folderPath) => {
         }
     }
 }
+
+export const renameFileAction = (oldPath, newPath) => {
+    return async dispatch => {
+        try {
+            const { data } = await FileSystemService.renameFile(oldPath, newPath);
+
+            if (data.status) {
+                return data
+            }
+        } catch (e) {
+            return e.response.data
+        }
+    }
+}
+
