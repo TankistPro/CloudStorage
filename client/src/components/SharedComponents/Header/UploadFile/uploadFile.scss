@@ -37,6 +37,16 @@
             display: flex;
             flex-direction: column;
             overflow-y: scroll;
+            border-radius: 10px;
+            border: 2px dashed transparent;
+
+            &.is-drag {
+                border-color: #a2a2a2;
+
+                .empty-list {
+                    background: rgba(162, 162, 162, 0.2);
+                }
+            }
 
             &::-webkit-scrollbar {
                 width: 5px;               /* ширина всей полосы прокрутки */
@@ -87,9 +97,21 @@
 
             .empty-list {
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 height: 100%;
+
+                img {
+                    width: 140px;
+                }
+
+                p {
+                    color: #a2a2a2;
+                    text-align: center;
+                    width: 80%;
+                    max-width: 500px;
+                }
             }
         }
     }

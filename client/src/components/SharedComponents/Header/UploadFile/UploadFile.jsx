@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { Button } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 import AddIcon from '@mui/icons-material/Add';
@@ -15,10 +14,13 @@ import { PreviewItem } from './PreviewItem/PreviewItem';
 import BaseButton from "@UI/BaseButton/BaseButton.jsx";
 import {useAutoCloseModal} from "@hooks/useAutoCloseModal.js";
 
+import UploadIcon from "@images/upload.svg";
+
 export const UploadFile = () => {
     const [filesData, setFilesData] = React.useState([]);
     const [previewList, setPreviewList] = React.useState([]);
     const [isOpenUploadMenu, setIsOpenUploadMenu] = React.useState(false);
+    const [isDragging, setIsDragging] = React.useState(false);
 
     const $uploadMenu = React.useRef(null);
 
@@ -26,21 +28,50 @@ export const UploadFile = () => {
 
     useAutoCloseModal(['.upload-wrapper', '.preview-list__item'], isOpenUploadMenu, setIsOpenUploadMenu);
 
+    const dragEnter = (event) => {
+        event.preventDefault();
+        setIsDragging(true);
+    }
+
+    const dragDrop = (event) => {
+        event.preventDefault();
+        const files = Array.from(event.dataTransfer.files);
+        uploadFileToPreviewList(files);
+        setIsDragging(false);
+    }
+
+    const dragOver = (event) => {
+        event.preventDefault();
+        setIsDragging(true);
+    }
+
+    const dragLeave = (event) => {
+        event.preventDefault();
+        setIsDragging(false);
+    }
+
+    const uploadFileToPreviewList = (files) => {
+
+        files.forEach(file => {
+            const fileExtension = getFileExtension(file.name);
+
+            if (ImageExtension.includes(fileExtension)) {
+                const reader = new FileReader();
+
+                reader.onload = function() {
+                    console.log(1)
+                    setPreviewList(prevList =>[...prevList, reader.result]);
+                };
+
+                reader.readAsDataURL(file);
+            } else {}
+
+            setFilesData(files => [...files, file]);
+        })
+    }
     const fileHandler = (event) => {
         const file = event.target.files[0];
-        const fileExtension = getFileExtension(file.name);
-
-        if (ImageExtension.includes(fileExtension)) {
-            const reader = new FileReader();
-
-            reader.readAsDataURL(file);
-
-            reader.onload = function() {
-                setPreviewList([...previewList, reader.result]);
-            };
-        } else {}
-
-        setFilesData([...filesData, file]);
+        uploadFileToPreviewList([file])
     }
 
     const uploadFileHandler = async () => {
@@ -89,16 +120,29 @@ export const UploadFile = () => {
             <AddIcon />
         </BaseButton>
         {isOpenUploadMenu &&
-            <div className="upload-wrapper__list" ref={$uploadMenu}>
-                <div className="preview-list">
+            <div
+                className="upload-wrapper__list"
+                ref={$uploadMenu}
+            >
+                <div
+                    className={`preview-list ${ isDragging ? 'is-drag' : '' }`}
+                    id="drag-field"
+                    onDragEnter={dragEnter}
+                    onDrop={dragDrop}
+                    onDragOver={dragOver}
+                    onDragLeave={dragLeave}
+                >
                     {filesData.length ?
                         filesData.map((file, index) =>
                             <PreviewItem removeFromFileData={removeFromFileData} previewUrl={previewList[index]}
                                          file={file} key={index} index={index}/>
                         )
                         :
-                        <div className="empty-list">
-                            <p>Список для добавления пуст</p>
+                        <div
+                            className="empty-list"
+                        >
+                            <img src={ UploadIcon } alt=""/>
+                            <p>Переместите сюда файлы для загрузки или нажмите на кнопку "Добавить файл"</p>
                         </div>
                     }
                 </div>

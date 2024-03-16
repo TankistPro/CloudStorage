@@ -13,7 +13,8 @@ body {
 #root {}
 
 .container, .header__wrapper {
-    width: 1024px;
+    width: 70%;
+    min-width: 1024px;
     margin: 0 auto;
 }
 
