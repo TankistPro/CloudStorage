@@ -6,18 +6,12 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 
 const router = require('./routes/index');
-const sequelize = require('./db/connect');
 
 const app = express();
 const PORT = 5520 || process.env.PORT;
 
 module.exports.startServerV1 = async () => {
     try{
-        await sequelize.authenticate();
-        await sequelize.sync({ alter: true });
-
-        console.log('Connection has been established successfully.');
-
         app.use(require('./middleware/response.middleware'));
 
         app.use(express.json());
