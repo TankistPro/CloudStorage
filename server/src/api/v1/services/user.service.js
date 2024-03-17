@@ -1,14 +1,21 @@
-const userModel = require('../db/models/User.model');
+const { prisma } = require('../../../../prisma/prismaClient');
 
 class UserService {
     /**
      * Получение информации о пользователе по ID (без пароля)
      */
     async getUserPayloadById(id) {
-        return await userModel.findOne({
-            where: { id },
-            attributes: ['id', 'firstName', 'lastName', 'email', 'avatarHash', 'baseWorkspacePath']
-        })
+        return await prisma.users.findUnique({
+            where: {id},
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                avatarHash: true,
+                baseWorkspacePath: true
+            }
+        });
     }
 }
 

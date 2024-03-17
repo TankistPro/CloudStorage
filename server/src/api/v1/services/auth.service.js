@@ -2,11 +2,11 @@ const { SecureService } = require('./secure.service');
 const { FileSystemService } = require('./fileSystem.service');
 const { TokenService } = require('./token.service');
 
-const userModel = require('../db/models/User.model');
+const {prisma} = require("../../../../prisma/prismaClient");
 
 class AuthService {
     async login(email, password) {
-        const user = await userModel.findOne({ where: { email } });
+        const user = await  prisma.users.findFirst({ where: { email: email } });
 
         if (!user) {
             throw new Error("Wrong email or password");
@@ -37,8 +37,7 @@ class AuthService {
     }
 
     async registration(userPayload) {
-        const candidate = await userModel.findOne( { where: { email: userPayload.email } });
-
+        const candidate = await prisma.users.findFirst({ where: { email: userPayload.email }});
         if (candidate) {
             throw new Error("User already exist");
         }
@@ -54,7 +53,7 @@ class AuthService {
         userPayload.baseWorkspacePath = userBaseWorkspacePath;
 
         try {
-            await userModel.create(userPayload);
+            await prisma.users.create(userPayload);
         } catch (e) {
             throw new Error(e.message);
         }
