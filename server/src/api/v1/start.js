@@ -6,6 +6,7 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 
 const router = require('./routes/index');
+const {connectToMongoDB} = require("../../mongoDB/config");
 
 const app = express();
 const PORT = 5520 || process.env.PORT;
@@ -13,6 +14,8 @@ const PORT = 5520 || process.env.PORT;
 module.exports.startServerV1 = async () => {
     try{
         app.use(require('./middleware/response.middleware'));
+
+        await connectToMongoDB();
 
         app.use(express.json());
         app.use(bodyParser.urlencoded({ extended: false }))
