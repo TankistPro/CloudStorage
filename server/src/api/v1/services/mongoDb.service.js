@@ -3,18 +3,16 @@ const {fileModel} = require("../../../mongoDB/models/file.model");
 
 class MongoDbService {
     #fileModel = fileModel;
-    async save() {
-
-
-        await model.save()
-    }
+    async save() {}
     async update(){}
     async removeFile(filePath, userId){
         const count = await fileModel.deleteOne({ userId, filePath });
 
         return count !== 0;
     }
-    async getUserFiles(){}
+    async getUserFiles(userId){
+        return await fileModel.find({userId}).exec();
+    }
     async saveFilesRange(data){
         data.map(file =>  ({
             fileName: file.fileName,
