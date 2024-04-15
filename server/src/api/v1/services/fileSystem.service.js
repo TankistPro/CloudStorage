@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path')
 
 const { uuid } = require('uuidv4');
+const { MongoDbService } = require("./mongoDb.service");
 
 class FileSystemService {
     #baseDir = path.join(__dirname, '../../../../users');
@@ -49,18 +50,25 @@ class FileSystemService {
         }
     }
 
-    readFile() {}
+    async uploadFiles(filesArray, savePath, userID) {
+        let preparedData = [];
 
-    removeFolder() {}
-
-    async uploadFiles(filesArray, savePath) {
         try {
             for (const file of filesArray) {
                 let { originalname, buffer, size } = file;
                 originalname = Buffer.from(originalname, 'latin1').toString('utf-8');
 
                 await fs.writeFileSync(this.#baseDir + "/" + savePath + "/" + originalname, buffer, "utf8");
+
+                const filePath = savePath.indexOf("/") > -1 ? savePath.slice(savePath.indexOf("/") + 1, savePath.length) + "/" + originalname : originalname
+
+                preparedData.push({
+                    filePath: filePath,
+                    fileName: originalname,
+                    userId: userID
+                })
             }
+            await  MongoDbService.saveFilesRange(preparedData);
 
             return true;
         } catch (e) {
@@ -68,7 +76,7 @@ class FileSystemService {
         }
     }
 
-    async removeFile(path) {
+    async removeFile(path, userID) {
         const filePathToRemove = this.#baseDir + "/" + path
         const isExist = fs.existsSync(filePathToRemove);
 
@@ -78,6 +86,7 @@ class FileSystemService {
         try {
             // TODO: переписать на fs.rmSync - для удалени файлов и директорий
             await fs.rmSync(filePathToRemove, { recursive: true });
+            await MongoDbService.removeFile(path.slice(path.indexOf("/") + 1, path.length), userID)
 
             return true;
         } catch (e) {
@@ -87,7 +96,7 @@ class FileSystemService {
 
     }
 
-    async createFolder(path){
+    async createFolder(path, userID){
         const folderPath = this.#baseDir + "/" + path;
         const isExist = fs.existsSync(folderPath);
 
@@ -97,6 +106,11 @@ class FileSystemService {
 
         try {
             await fs.mkdirSync(folderPath);
+            await MongoDbService.saveFilesRange([{
+                filePath:  path.slice(path.indexOf("/") + 1, path.length),
+                fileName: path.slice(path.lastIndexOf("/") + 1, path.length),
+                userId: userID
+            }])
 
             return true;
         } catch (e) {

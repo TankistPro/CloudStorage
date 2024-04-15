@@ -26,11 +26,13 @@ class FilesystemController {
             const filesArray = req.files;
             const { savePath } = req.body;
 
+            const { id } = req.payload;
+
             if (!(filesArray && filesArray.length)) {
                 return res.error('Ошибка! Файлы не переданы.');
             }
 
-            const status = await FileSystemService.uploadFiles(filesArray, savePath);
+            const status = await FileSystemService.uploadFiles(filesArray, savePath, id);
 
             return res.success(status);
         } catch (e) {
@@ -40,14 +42,14 @@ class FilesystemController {
 
     async removeFile(req, res){
         try {
-            console.log(req.body)
             const { filePath } = req.body;
+            const { id } = req.payload;
 
             if (!filePath.length) {
                 return res.error('Пустой путь до файла');
             }
 
-            const status = await FileSystemService.removeFile(filePath);
+            const status = await FileSystemService.removeFile(filePath, id);
 
             return res.success(status);
         } catch (e) {
@@ -58,12 +60,13 @@ class FilesystemController {
     async createFolder(req, res) {
         try {
             const { folderPath } = req.body;
+            const { id } = req.payload;
 
             if (!folderPath.trim().length) {
                 return res.error('Некорректный путь');
             }
 
-            const status = await FileSystemService.createFolder(folderPath);
+            const status = await FileSystemService.createFolder(folderPath, id);
             return res.success(status);
         } catch (e) {
             return res.error(e.message);

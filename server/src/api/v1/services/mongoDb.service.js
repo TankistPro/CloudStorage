@@ -4,18 +4,30 @@ const {fileModel} = require("../../../mongoDB/models/file.model");
 class MongoDbService {
     #fileModel = fileModel;
     async save() {
-        const model = new fileModel({
-            fileName: "123123",
-            filePath: "asdasdasdasd",
-            userId: 1
-        })
+
 
         await model.save()
     }
     async update(){}
-    async remove(){}
+    async removeFile(filePath, userId){
+        const count = await fileModel.deleteOne({ userId, filePath });
+
+        return count !== 0;
+    }
     async getUserFiles(){}
-    async saveRange(){}
+    async saveFilesRange(data){
+        data.map(file =>  ({
+            fileName: file.fileName,
+            filePath: file.filePath,
+            userId: file.userId
+        }))
+
+        try {
+            await fileModel.insertMany([...data])
+        } catch (e) {
+            new Error("Can not save file to MongoDB")
+        }
+    }
     async updateRange(){}
     async removeRange(){}
 }
