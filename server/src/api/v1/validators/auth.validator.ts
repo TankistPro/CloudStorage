@@ -1,4 +1,4 @@
-const { checkSchema } = require('express-validator');
+import {checkSchema} from 'express-validator';
 
 const registrationValidator = checkSchema({
     password: {
@@ -35,7 +35,7 @@ const authorizationValidator = checkSchema({
     },
 })
 
-module.exports = {
+export {
     registrationValidator,
     authorizationValidator
 }

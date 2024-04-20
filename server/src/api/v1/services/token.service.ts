@@ -1,34 +1,40 @@
-const jwt = require('jsonwebtoken');
+import {TokenPayloadEntity} from "../../../domain/entities";
 
-class TokenService {
+import jwt from 'jsonwebtoken';
+
+class TokenClassService {
     #accessSecretKey = process.env.ACCESS_SECRET_KEY;
     #refreshSecretKey = process.env.REFRESH_SECRET_KEY;
 
     #accessExpiresIn = '1h';
     #refreshExpiresIn = '1d';
 
-    generateAccessToken(payload) {
+    generateAccessToken(payload: TokenPayloadEntity) {
+        // @ts-ignore
         return jwt.sign(payload, this.#accessSecretKey, {
             expiresIn: this.#accessExpiresIn
         })
     }
 
-    generateRefreshToken(payload) {
+    generateRefreshToken(payload: TokenPayloadEntity) {
+        // @ts-ignore
         return jwt.sign(payload, this.#refreshSecretKey, {
             expiresIn: this.#refreshExpiresIn
         })
     }
 
-    verifyAccessToken(token) {
+    verifyAccessToken(token: string) {
         try {
+            // @ts-ignore
             return jwt.verify(token, this.#accessSecretKey);
         } catch (e) {
             return null;
         }
     }
 
-    verifyRefreshToken(token) {
+    verifyRefreshToken(token: string) {
         try {
+            // @ts-ignore
             return jwt.verify(token, this.#refreshSecretKey);
         } catch (e) {
             return null;
@@ -36,4 +42,4 @@ class TokenService {
     }
 }
 
-module.exports.TokenService = new TokenService();
+export const TokenService = new TokenClassService();

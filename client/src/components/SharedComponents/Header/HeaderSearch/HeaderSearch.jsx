@@ -75,7 +75,7 @@ export const HeaderSearch = () => {
                               </div>
                               <div className="dropmenu-item__content">
                                   <p>{item.filePath}</p>
-                                  <small>Расположение: {item.filePath}</small>
+                                  <small>Расположение: Home/{item.filePath}</small>
                               </div>
                           </li>
                       ))}

@@ -1,9 +1,9 @@
-const { FileSystemService } = require('../services/fileSystem.service');
-const { validationResult } = require("express-validator");
-const {error} = require("../utils/http.util");
+import {FileSystemService} from '../services/fileSystem.service';
+import {validationResult} from "express-validator";
+import {BaseRequest, BaseResponse} from "../../../domain/serverExtend";
 
-class FilesystemController {
-    async parseCurrentPath(req, res) {
+class FileSystemClassController {
+    async parseCurrentPath(req: BaseRequest, res: BaseResponse) {
         try {
             const errors = validationResult(req);
 
@@ -11,17 +11,17 @@ class FilesystemController {
                 return res.error(errors.array())
             }
 
-            const { path } = req.query; // path => /9dbb6470-d41a-40be-94f9-8cfe107c8396/folderName
+            const { path }  = req.query; // path => /9dbb6470-d41a-40be-94f9-8cfe107c8396/folderName
 
-            const pathPayload = await FileSystemService.parseCurrentPath(path);
+            const pathPayload = await FileSystemService.parseCurrentPath(path as string);
 
             return res.success(pathPayload, 200);
-        } catch (e) {
+        } catch (e: any) {
             return res.error(e.message);
         }
     }
 
-    async uploadFiles(req, res) {
+    async uploadFiles(req: BaseRequest, res: BaseResponse) {
         try {
             const filesArray = req.files;
             const { savePath } = req.body;
@@ -32,15 +32,15 @@ class FilesystemController {
                 return res.error('Ошибка! Файлы не переданы.');
             }
 
-            const status = await FileSystemService.uploadFiles(filesArray, savePath, id);
+            const status = await FileSystemService.uploadFiles(filesArray as Express.Multer.File[], savePath, id);
 
             return res.success(status);
-        } catch (e) {
+        } catch (e: any) {
             return res.error(e.message);
         }
     }
 
-    async removeFile(req, res){
+    async removeFile(req: BaseRequest, res: BaseResponse){
         try {
             const { filePath } = req.body;
             const { id } = req.payload;
@@ -52,12 +52,12 @@ class FilesystemController {
             const status = await FileSystemService.removeFile(filePath, id);
 
             return res.success(status);
-        } catch (e) {
+        } catch (e: any) {
             return res.error(e.message);
         }
     }
 
-    async createFolder(req, res) {
+    async createFolder(req: BaseRequest, res: BaseResponse) {
         try {
             const { folderPath } = req.body;
             const { id } = req.payload;
@@ -68,12 +68,12 @@ class FilesystemController {
 
             const status = await FileSystemService.createFolder(folderPath, id);
             return res.success(status);
-        } catch (e) {
+        } catch (e: any) {
             return res.error(e.message);
         }
     }
 
-    async renameFile(req, res) {
+    async renameFile(req: BaseRequest, res: BaseResponse) {
         try {
             const { oldFilePath, newFilePath } = req.body;
 
@@ -83,10 +83,10 @@ class FilesystemController {
 
             const status = await FileSystemService.renameFile(oldFilePath, newFilePath);
             return res.success(status);
-        } catch (e) {
+        } catch (e: any) {
             return res.error(e.message);
         }
     }
 }
 
-module.exports.FilesystemController = new FilesystemController();
+export const FilesystemController = new FileSystemClassController();

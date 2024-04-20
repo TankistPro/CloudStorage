@@ -1,24 +1,26 @@
-const { SecureService } = require('./secure.service');
-const { FileSystemService } = require('./fileSystem.service');
-const { TokenService } = require('./token.service');
+import {SecureService} from './secure.service';
+import {FileSystemService} from './fileSystem.service';
+import {TokenService} from './token.service';
 
-const {prisma} = require("../../../../prisma/prismaClient");
+// @ts-ignore
+import {prisma} from "../../../../prisma/prismaClient";
+import {TokenPayloadEntity, UserEntity} from "../../../domain/entities";
 
-class AuthService {
-    async login(email, password) {
+class AuthClassService {
+    async login(email: string, password: string) {
         const user = await  prisma.users.findFirst({ where: { email: email } });
 
         if (!user) {
             throw new Error("Wrong email or password");
         }
 
-        const status = await SecureService.compareHash(password, user.password);
+        const status = SecureService.compareHash(password, user.password);
 
         if (!status) {
             throw new Error("Wrong email or password");
         }
 
-        const tokenPayload = {
+        const tokenPayload: TokenPayloadEntity = {
             id: user.id,
             email: user.email
         }
@@ -36,7 +38,7 @@ class AuthService {
         }
     }
 
-    async registration(userPayload) {
+    async registration(userPayload: UserEntity) {
         const candidate = await prisma.users.findFirst({ where: { email: userPayload.email }});
         if (candidate) {
             throw new Error("User already exist");
@@ -53,8 +55,9 @@ class AuthService {
         userPayload.baseWorkspacePath = userBaseWorkspacePath;
 
         try {
+            // @ts-ignore
             await prisma.users.create(userPayload);
-        } catch (e) {
+        } catch (e: any) {
             throw new Error(e.message);
         }
 
@@ -62,4 +65,4 @@ class AuthService {
     }
 }
 
-module.exports.AuthService = new AuthService();
+export const AuthService = new AuthClassService();

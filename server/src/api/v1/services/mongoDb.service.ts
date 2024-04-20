@@ -1,20 +1,19 @@
-const {fileModel} = require("../../../mongoDB/models/file.model");
+import {fileModel} from "../../../mongoDB/models/file.model";
+import {FileMongoEntity} from "../../../domain/entities";
 
-
-class MongoDbService {
+class MongoDbClassService {
     #fileModel = fileModel;
     async save() {}
     async update(){}
-    async removeFile(filePath, userId){
+    async removeFile(filePath: string, userId: number): Promise<boolean> {
         const count = await fileModel.deleteOne({ userId, filePath });
-
-        return count !== 0;
+        return count.deletedCount !== 0;
     }
-    async getUserFiles(userId){
+    async getUserFiles(userId: number): Promise<any[]>{
         return await fileModel.find({userId}).exec();
     }
-    async saveFilesRange(data){
-        data.map(file =>  ({
+    async saveFilesRange(data: FileMongoEntity[]) : Promise<void> {
+        data.map(file  =>  ({
             fileName: file.fileName,
             filePath: file.filePath,
             userId: file.userId
@@ -30,4 +29,4 @@ class MongoDbService {
     async removeRange(){}
 }
 
-module.exports.MongoDbService = new MongoDbService();
+export const MongoDbService = new MongoDbClassService();

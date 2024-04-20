@@ -1,13 +1,14 @@
-const fs = require('fs');
-const path = require('path')
+import fs from 'fs';
+import path from 'path';
 
-const { uuid } = require('uuidv4');
-const { MongoDbService } = require("./mongoDb.service");
+import {uuid} from 'uuidv4';
+import {MongoDbService} from "./mongoDb.service";
+import {FileEntity} from "../../../domain/entities";
 
-class FileSystemService {
+class FileSystemClassService {
     #baseDir = path.join(__dirname, '../../../../users');
 
-    createUserBaseWorkspacePath() {
+    createUserBaseWorkspacePath(): string | null {
         const userFolder = uuid();
         const userPath = path.join(this.#baseDir, userFolder);
 
@@ -20,7 +21,7 @@ class FileSystemService {
         return userFolder;
     }
 
-    async parseCurrentPath(currentPath) {
+    async parseCurrentPath(currentPath: string) : Promise<FileEntity[]> {
         const parsePath = path.join(this.#baseDir, currentPath);
 
         if (!fs.existsSync(parsePath)) {
@@ -29,7 +30,7 @@ class FileSystemService {
 
         try {
             const files = fs.readdirSync(parsePath, { withFileTypes: true });
-            let response = [];
+            let response: FileEntity[] = [];
 
             files.forEach(file => {
                 const p = path.join(parsePath, file.name)
@@ -44,21 +45,23 @@ class FileSystemService {
                 })
             })
 
+            // @ts-ignore
             return response.sort((a, b) => b.isFolder - a.isFolder)
         } catch (e) {
             throw new Error('Failed to get data from this path')
         }
     }
 
-    async uploadFiles(filesArray, savePath, userID) {
+    async uploadFiles(filesArray: Express.Multer.File[], savePath: string, userID: number): Promise<boolean> {
         let preparedData = [];
 
         try {
             for (const file of filesArray) {
                 let { originalname, buffer, size } = file;
+                // @ts-ignore
                 originalname = Buffer.from(originalname, 'latin1').toString('utf-8');
 
-                await fs.writeFileSync(this.#baseDir + "/" + savePath + "/" + originalname, buffer, "utf8");
+                fs.writeFileSync(this.#baseDir + "/" + savePath + "/" + originalname, buffer, "utf8");
 
                 const filePath = savePath.indexOf("/") > -1 ? savePath.slice(savePath.indexOf("/") + 1, savePath.length) + "/" + originalname : originalname
 
@@ -71,12 +74,12 @@ class FileSystemService {
             await  MongoDbService.saveFilesRange(preparedData);
 
             return true;
-        } catch (e) {
+        } catch (e: any) {
             throw new Error('Failed to write files');
         }
     }
 
-    async removeFile(path, userID) {
+    async removeFile(path: string, userID: number) : Promise<boolean> {
         const filePathToRemove = this.#baseDir + "/" + path
         const isExist = fs.existsSync(filePathToRemove);
 
@@ -85,18 +88,18 @@ class FileSystemService {
 
         try {
             // TODO: переписать на fs.rmSync - для удалени файлов и директорий
-            await fs.rmSync(filePathToRemove, { recursive: true });
+            fs.rmSync(filePathToRemove, {recursive: true});
             await MongoDbService.removeFile(path.slice(path.indexOf("/") + 1, path.length), userID)
 
             return true;
-        } catch (e) {
+        } catch (e: any) {
             console.log(e.message)
             throw new Error('Failed to remove file')
         }
 
     }
 
-    async createFolder(path, userID){
+    async createFolder(path: string, userID: number) : Promise<boolean>{
         const folderPath = this.#baseDir + "/" + path;
         const isExist = fs.existsSync(folderPath);
 
@@ -105,7 +108,7 @@ class FileSystemService {
         }
 
         try {
-            await fs.mkdirSync(folderPath);
+            fs.mkdirSync(folderPath);
             await MongoDbService.saveFilesRange([{
                 filePath:  path.slice(path.indexOf("/") + 1, path.length),
                 fileName: path.slice(path.lastIndexOf("/") + 1, path.length),
@@ -118,7 +121,7 @@ class FileSystemService {
         }
     }
 
-    async renameFile(oldPath, newPath){
+    async renameFile(oldPath: string, newPath: string) : Promise<string>{
         const oldFilePath = this.#baseDir + "/" + oldPath;
         const isExist = fs.existsSync(oldFilePath);
 
@@ -128,12 +131,12 @@ class FileSystemService {
         const newFilePath = this.#baseDir + "/" + newPath;
         try {
             // FIXME: работает, только если папка не содержит подпапок
-            await fs.renameSync(oldFilePath, newFilePath);
+            fs.renameSync(oldFilePath, newFilePath);
             return newFilePath;
-        } catch (e) {
+        } catch (e: any) {
             throw new Error(e)
         }
     }
 }
 
-module.exports.FileSystemService = new FileSystemService();
+export const FileSystemService = new FileSystemClassService();

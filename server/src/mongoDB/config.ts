@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-module.exports.connectToMongoDB = async () => {
+export const connectToMongoDB = async () => {
+    // @ts-ignore
     await mongoose.connect(process.env.MongoDB_URI,{
         dbName: process.env.MongoDB_Name,
         useUnifiedTopology: true,

@@ -1,8 +1,11 @@
-const { AuthService } = require('../services/auth.service');
-const { validationResult } = require('express-validator');
+import {Response, Request} from 'express';
 
-class AuthController {
-    async login(req, res) {
+import {AuthService} from '../services/auth.service';
+import {validationResult} from 'express-validator';
+import {BaseResponse} from "../../../domain/serverExtend";
+
+class AuthClassController {
+    async login (req: Request, res: BaseResponse) {
         try {
             const errors = validationResult(req);
 
@@ -14,12 +17,12 @@ class AuthController {
 
             const tokens = await AuthService.login(email, password);
             return res.success(tokens);
-        } catch (e) {
+        } catch (e: any) {
             return res.error(e.message);
         }
     }
 
-    async registration(req, res) {
+    async registration(req: Request, res: BaseResponse) {
         try {
             const userPayload = req.body;
             const errors = validationResult(req);
@@ -30,10 +33,10 @@ class AuthController {
 
             const response = await AuthService.registration(userPayload);
             return res.success(response);
-        } catch (e) {
+        } catch (e: any) {
             return res.error(e.message);
         }
     }
 }
 
-module.exports.AuthController = new AuthController();
+export const AuthController = new AuthClassController();

@@ -1,10 +1,10 @@
 const router = require('express').Router();
 
-const { authProtectMiddleware } = require('../middleware/authProtect.middleware');
+import {authProtectMiddleware} from '../middleware/authProtect.middleware';
 
-const { FilesystemController } = require('../controllers/filesystem.controller');
+import {FilesystemController} from '../controllers/filesystem.controller';
 
-const { parseCurrentPathValidator }= require('../validators/fileSystem.validator');
+import {parseCurrentPathValidator} from '../validators/fileSystem.validator';
 
 router.get('/', parseCurrentPathValidator, authProtectMiddleware, FilesystemController.parseCurrentPath);
 router.post('/upload-files', authProtectMiddleware, FilesystemController.uploadFiles);
@@ -12,4 +12,4 @@ router.post('/create-folder', authProtectMiddleware, FilesystemController.create
 router.post('/rename-file', authProtectMiddleware, FilesystemController.renameFile);
 router.delete('/remove-file', authProtectMiddleware, FilesystemController.removeFile);
 
-module.exports = router;
+export default router;

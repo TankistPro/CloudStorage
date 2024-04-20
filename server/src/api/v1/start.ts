@@ -1,17 +1,18 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path')
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
 
-const multer = require('multer');
-const bodyParser = require('body-parser');
+import multer from 'multer';
+import bodyParser from 'body-parser';
 
-const router = require('./routes/index');
-const {connectToMongoDB} = require("../../mongoDB/config");
+
+import router from './routes/index';
+import {connectToMongoDB} from "../../mongoDB/config";
 
 const app = express();
 const PORT = 5520 || process.env.PORT;
 
-module.exports.startServerV1 = async () => {
+export const startServerV1 = async () => {
     try{
         app.use(require('./middleware/response.middleware'));
 

@@ -1,7 +1,7 @@
-const MiniSearch = require('minisearch');
-const {MongoDbService} = require("./mongoDb.service");
-class SearchService{
-    async search(stringToSearch, userID) {
+import MiniSearch, {SearchResult} from "minisearch";
+import {MongoDbService} from "./mongoDb.service";
+class SearchClassService{
+    async search(stringToSearch: string, userID: number): Promise<SearchResult[]> {
         const miniSearch = new MiniSearch({
             fields: ['fileName', 'filePath'],
             storeFields: ['fileName', 'filePath']
@@ -18,4 +18,4 @@ class SearchService{
     }
 }
 
-module.exports.SearchService = new SearchService()
+export const SearchService = new SearchClassService()
