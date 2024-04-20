@@ -8,7 +8,7 @@ class SearchService{
         })
 
         const userDocument = await MongoDbService.getUserFiles(userID);
-        console.log(userDocument, stringToSearch)
+
         miniSearch.addAll(userDocument);
 
         return miniSearch.search(stringToSearch,  {

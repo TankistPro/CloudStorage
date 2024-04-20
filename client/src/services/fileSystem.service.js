@@ -29,6 +29,10 @@ class FileSystemService {
             newFilePath
         });
     }
+
+    async search(searchQuery){
+        return await  api.get(`/search?q=${searchQuery}`)
+    }
 }
 
 export default new FileSystemService();

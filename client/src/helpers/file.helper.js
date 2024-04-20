@@ -4,7 +4,12 @@ export const parseSize = (size) => {
 }
 
 export const getFileExtension = (fileName) => {
-    return fileName.slice(fileName.lastIndexOf(".") + 1, fileName.length)
+    const isFile = fileName.lastIndexOf(".") > -1;
+
+    if (isFile) {
+        return fileName.slice(fileName.lastIndexOf(".") + 1, fileName.length)
+    }
+    return null
 }
 
 export const parseFileId = () => {}
