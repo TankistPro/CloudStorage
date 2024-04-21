@@ -45,7 +45,7 @@ export const useFileSystem = () => {
             let newPath = pathStack.slice(0, folderIndex + 1).join('/');
             setSearchParams({ path: "/" + newPath })
         }
-    }, [baseWorkspacePath])
+    }, [baseWorkspacePath, setSearchParams])
 
     /**
      * Возвращает текущий путь в виде массива -> ['0asad0-1212-12121as', 'folder', 'test'],
