@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useContext, useRef} from 'react'
 
 import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
@@ -21,14 +21,16 @@ import { useFileAction } from '@hooks/useFileAction';
 import {FileAction} from "@enums/file.enum";
 import {ModalAction} from "@enums/modalAction.enums.js";
 import {ModalContext} from "@context/useModalContext.jsx";
+import {DropListContext} from "@HomeComponents/Table/Table.jsx";
 
-const OptionsDropList = ({ toggleOption, isOpenDropListOption, file }) => {
+const OptionsDropList = ({file, fileIndex}) => {
     const { openModal } = React.useContext(ModalContext);
+    const { currentDropListIndex, toggleOptionDropList } = React.useContext(DropListContext);
 
     const { removeFile, copyFileLink } = useFileAction();
     const $element = useRef(null);
-console.log(toggleOption)
-    const menuHandler = async (event, fc, actionType) => {
+
+    const menuHandler = React.useCallback(async (event, fc, actionType) => {
         event.stopPropagation();
 
         if (actionType === FileAction.REMOVE_FILE) {
@@ -46,9 +48,12 @@ console.log(toggleOption)
         if(actionType === FileAction.COPY_LINK) {
             fc();
         }
-        console.log(toggleOption)
-        toggleOption(event, file);
-    }
+        toggleOptionDropList(event, -1);
+    }, [toggleOptionDropList])
+
+    const isOpenDropListOption = React.useMemo(() => {
+        return fileIndex === currentDropListIndex
+    }, [currentDropListIndex])
 
     const openToast = React.useCallback((status) => {
         const toastType = status ? 'success' : 'error';
@@ -87,7 +92,7 @@ console.log(toggleOption)
             src={ moreOptionsIcon }
             loading={"lazy"}
             alt="more"
-            onClick={React.useCallback((event) => toggleOption(event), [])}
+            onClick={React.useCallback((event) => toggleOptionDropList(event, fileIndex), [toggleOptionDropList])}
         />
         <Paper className={`drop-controller__list ${ openDropListClass }`} sx={{ width: 320 }}>
             <MenuList>

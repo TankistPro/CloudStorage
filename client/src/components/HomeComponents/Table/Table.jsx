@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useSelector } from "react-redux";
 
 import "./table.scss";
@@ -9,11 +9,13 @@ import BaseDropList from "@UI/BaseDropList/BaseDropList.jsx";
 import {ModalContext} from "@context/useModalContext.jsx";
 import {ModalAction} from "@enums/modalAction.enums.js";
 
+export const DropListContext = React.createContext();
+
 export const Table = () => {
   const files = useSelector((state) => state.fileSystem.currentFolder);
   const isLoading = useSelector((state) => state.fileSystem.isLoading);
 
-  const [currentDropListIndex, setCurrentDropListIndex] = React.useState(null);
+  const [currentDropListIndex, setCurrentDropListIndex] = React.useState(-1);
 
   const { openModal } = React.useContext(ModalContext);
 
@@ -26,13 +28,10 @@ export const Table = () => {
       openModal(configModal);
   }, [])
 
-    const toggleOption = React.useCallback((e, file) => {
+    const toggleOptionDropList = React.useCallback((e, fileIndex) => {
         e.stopPropagation();
-        console.log(file)
-        const index = file.stat.birthtimeMs;
-
-        if (index === currentDropListIndex) setCurrentDropListIndex(null);
-        else setCurrentDropListIndex(index);
+        if (fileIndex === currentDropListIndex) setCurrentDropListIndex(-1);
+        else setCurrentDropListIndex(fileIndex);
     }, [currentDropListIndex])
 
     const menuItems = React.useMemo(() => ([
@@ -55,45 +54,48 @@ export const Table = () => {
     },[files, isLoading])
 
   return (
-    <div className="table">
-      <div className="table__controllers"></div>
-      <div className="table__main">
-        <div className="table__header">
-          <div className="table__row">
-            <div className="table__column">ID</div>
-            <div className="table__column">Название</div>
-            <div className="table__column">Размер</div>
-            <div className="table__column">Дата изменения</div>
-            <div className="table__column">Дата создания</div>
-            <div className="table__column">
-              <BaseDropList
-                  width={200}
-                  menuItems={menuItems}
-              />
-            </div>
+      <DropListContext.Provider value={{
+          toggleOptionDropList,
+          currentDropListIndex,
+          setCurrentDropListIndex
+      }}>
+          <div className="table">
+              <div className="table__controllers"></div>
+              <div className="table__main">
+                  <div className="table__header">
+                      <div className="table__row">
+                          <div className="table__column">ID</div>
+                          <div className="table__column">Название</div>
+                          <div className="table__column">Размер</div>
+                          <div className="table__column">Дата изменения</div>
+                          <div className="table__column">Дата создания</div>
+                          <div className="table__column">
+                              <BaseDropList
+                                  width={200}
+                                  menuItems={menuItems}
+                              />
+                          </div>
+                      </div>
+                  </div>
+                  <div className="table__body">
+                      {isTableRowLoadedAndNotEmpty ? (
+                          files.map((file, index) => (
+                              <TableRow
+                                  file={file}
+                                  key={index}
+                                  index={index}
+                              />
+                          ))
+                      ) : isTableRowDataLoading ? (
+                              <p>Пусто</p>
+                          ) :
+                          <>
+                              <Loader loadingText={"Получаем данные..."}/>
+                          </>
+                      }
+                  </div>
+              </div>
           </div>
-        </div>
-        <div className="table__body">
-          {isTableRowLoadedAndNotEmpty ? (
-            files.map((file, index) => (
-              <TableRow
-                file={file}
-                key={index}
-                index={index}
-                setCurrentDropListIndex={setCurrentDropListIndex}
-                currentDropListIndex={currentDropListIndex}
-                toggleOption={toggleOption}
-              />
-            ))
-          ) : isTableRowDataLoading ? (
-              <p>Пусто</p>
-          ) :
-              <>
-                <Loader loadingText={"Получаем данные..."} />
-              </>
-          }
-        </div>
-      </div>
-    </div>
+      </DropListContext.Provider>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 
 import './tableRow.scss'
 
@@ -12,13 +12,12 @@ import {parseSize} from "@helpers/file.helper";
 import {FileType} from "@enums/file.enum.js";
 import {useFileSystem} from "@hooks/useFileSystem";
 
-export const TableRow = ({ file, currentDropListIndex, toggleOption }) => {
+export const TableRow = ({ file, index }) => {
     const { openFolder, openFileInNewTab } = useFileSystem()
 
     const fileImage = React.useMemo(() => {
         return file.type === FileType.File ? fileImg : folderImg
     }, [])
-
     const openHandler = React.useCallback(async () => {
         if (file.type === FileType.Folder) {
             await openFolder(file.name);
@@ -27,10 +26,6 @@ export const TableRow = ({ file, currentDropListIndex, toggleOption }) => {
         }
     }, [])
 
-    const isOpenDropListOption = React.useCallback((file) => {
-        return file.stat.birthtimeMs === currentDropListIndex
-    }, [currentDropListIndex])
-
     const fileSize = React.useCallback((file) => {
         return file.type === FileType.File ? parseSize(file.stat.size) : ''
     }, [])
@@ -38,7 +33,7 @@ export const TableRow = ({ file, currentDropListIndex, toggleOption }) => {
     const fileParseTime = React.useCallback((time) => {
         return displayTime(time)
     }, [])
-    console.log(toggleOption)
+
   return (
     <div className="table__row" onClick={openHandler}>
         <div className='table__column'>-</div>
@@ -51,9 +46,8 @@ export const TableRow = ({ file, currentDropListIndex, toggleOption }) => {
         <div className='table__column'>{ fileParseTime(file.stat.birthtime) }</div>
         <div className='table__column options'>
             <OptionsDropList
-                toggleOption={toggleOption}
                 file={file}
-                isOpenDropListOption={isOpenDropListOption(file)}
+                fileIndex={index}
             />
         </div>
     </div>
