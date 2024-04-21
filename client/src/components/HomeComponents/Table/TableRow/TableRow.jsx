@@ -12,44 +12,48 @@ import {parseSize} from "@helpers/file.helper";
 import {FileType} from "@enums/file.enum.js";
 import {useFileSystem} from "@hooks/useFileSystem";
 
-export const TableRow = ({ file, setCurrentDropListIndex, currentDropListIndex }) => {
+export const TableRow = ({ file, currentDropListIndex, toggleOption }) => {
     const { openFolder, openFileInNewTab } = useFileSystem()
 
     const fileImage = React.useMemo(() => {
         return file.type === FileType.File ? fileImg : folderImg
-    }, [file])
+    }, [])
 
-    const openHandler = async () => {
+    const openHandler = React.useCallback(async () => {
         if (file.type === FileType.Folder) {
             await openFolder(file.name);
         } else if (file.type === FileType.File) {
             openFileInNewTab(file.name);
         }
-    }
+    }, [])
 
-    const toggleOption = (e) => {
-        e.stopPropagation();
-        const index = file.stat.birthtimeMs;
+    const isOpenDropListOption = React.useCallback((file) => {
+        return file.stat.birthtimeMs === currentDropListIndex
+    }, [currentDropListIndex])
 
-        if (index === currentDropListIndex) setCurrentDropListIndex(null);
-        else setCurrentDropListIndex(file.stat.birthtimeMs);
-    }
+    const fileSize = React.useCallback((file) => {
+        return file.type === FileType.File ? parseSize(file.stat.size) : ''
+    }, [])
 
+    const fileParseTime = React.useCallback((time) => {
+        return displayTime(time)
+    }, [])
+    console.log(toggleOption)
   return (
     <div className="table__row" onClick={openHandler}>
         <div className='table__column'>-</div>
         <div className='table__column'>
-            <img src={ fileImage } alt="folder" />
+            <img src={ fileImage } loading={"lazy"} alt="folder" />
             { file.name }
         </div>
-        <div className='table__column'>{ file.type === FileType.File ? parseSize(file.stat.size) : '' }</div>
-        <div className='table__column'>{ displayTime(file.stat.ctime) }</div>
-        <div className='table__column'>{ displayTime(file.stat.birthtime) }</div>
+        <div className='table__column'>{ fileSize(file) }</div>
+        <div className='table__column'>{ fileParseTime(file.stat.ctime) }</div>
+        <div className='table__column'>{ fileParseTime(file.stat.birthtime) }</div>
         <div className='table__column options'>
             <OptionsDropList
                 toggleOption={toggleOption}
                 file={file}
-                isOpenDropListOption={file.stat.birthtimeMs === currentDropListIndex}
+                isOpenDropListOption={isOpenDropListOption(file)}
             />
         </div>
     </div>

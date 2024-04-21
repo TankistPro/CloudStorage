@@ -6,7 +6,6 @@ import {useDebounce} from "@hooks/useDebounce.js";
 import {useAutoCloseModal} from "@hooks/useAutoCloseModal.js";
 import {useSearch} from "@hooks/useSearch.js";
 import {getFileExtension} from "@helpers/file.helper.js";
-import {FileType} from "@enums/file.enum.js";
 
 import fileImg from "@images/file.svg";
 import folderImg from "@images/folder.svg";

@@ -23,9 +23,9 @@ export const AuthPage = () => {
         text: loginErrors.message
       })
     }
-  }, [loginErrors.status])
+  }, [loginAttempts, loginErrors.status])
 
-  const loginHandler = async () => {
+  const loginHandler = React.useCallback(async () => {
     if (email.trim().length && password.trim().length) {
       const status = await login(email, password);
 
@@ -33,7 +33,7 @@ export const AuthPage = () => {
         navigate("/home");
       }
     }
-  }
+  }, [email, password])
 
   return (
     <div className='page auth-page'>
@@ -43,14 +43,14 @@ export const AuthPage = () => {
             <div className="auth-form">
               <BaseField
                   id="standard-basic"
-                  onInput={(e) => setEmail(e.target.value)}
+                  onInput={React.useCallback((e) => setEmail(e.target.value), [email])}
                   label="E-mail"
                   variant="standard"
                   type="text"
               />
               <BaseField
                   id="standard-basic"
-                  onInput={(e) => setPassword(e.target.value)}
+                  onInput={React.useCallback((e) => setPassword(e.target.value), [password])}
                   label="Пароль"
                   variant="standard"
                   type="password"
@@ -59,11 +59,13 @@ export const AuthPage = () => {
             <div className='auth-bottom'>
               <BaseButton
                   variant="contained"
-                  onClick={loginHandler}>
+                  onClick={loginHandler}
+              >
                 Войти
               </BaseButton>
               <BaseButton
-                  variant="outlined">
+                  variant="outlined"
+              >
                 Зарегистрироваться
               </BaseButton>
             </div>

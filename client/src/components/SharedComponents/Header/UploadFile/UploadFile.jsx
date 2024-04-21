@@ -28,30 +28,29 @@ export const UploadFile = () => {
 
     useAutoCloseModal(['.upload-wrapper', '.preview-list__item'], isOpenUploadMenu, setIsOpenUploadMenu);
 
-    const dragEnter = (event) => {
+    const dragEnter = React.useCallback((event) => {
         event.preventDefault();
         setIsDragging(true);
-    }
+    }, [])
 
-    const dragDrop = (event) => {
+    const dragDrop = React.useCallback((event) => {
         event.preventDefault();
         const files = Array.from(event.dataTransfer.files);
         uploadFileToPreviewList(files);
         setIsDragging(false);
-    }
+    }, [])
 
-    const dragOver = (event) => {
+    const dragOver = React.useCallback((event) => {
         event.preventDefault();
         setIsDragging(true);
-    }
+    }, [])
 
-    const dragLeave = (event) => {
+    const dragLeave = React.useCallback((event) => {
         event.preventDefault();
         setIsDragging(false);
-    }
+    }, [])
 
-    const uploadFileToPreviewList = (files) => {
-
+    const uploadFileToPreviewList = React.useCallback((files) => {
         files.forEach(file => {
             const fileExtension = getFileExtension(file.name);
 
@@ -68,13 +67,14 @@ export const UploadFile = () => {
 
             setFilesData(files => [...files, file]);
         })
-    }
-    const fileHandler = (event) => {
+    }, [])
+
+    const fileHandler = React.useCallback((event) => {
         const file = event.target.files[0];
         uploadFileToPreviewList([file])
-    }
+    }, [])
 
-    const uploadFileHandler = async () => {
+    const uploadFileHandler = React.useCallback(async () => {
         const response = await uploadFiles(filesData);
 
         if (response) {
@@ -90,29 +90,41 @@ export const UploadFile = () => {
         }
 
         removeAll();
-    }
+    }, [filesData])
 
-    const removeFromFileData = (index) => {
+    const removeFromFileData = React.useCallback((index) => {
         filesData.splice(index, 1);
         previewList.splice(index, 1);
 
         setFilesData([...filesData]);
         setPreviewList([...previewList]);
-    }
+    }, [filesData, previewList])
 
-    const removeAll = () => {
+    const removeAll = React.useCallback(() => {
         if (!filesData.length) return;
 
         setFilesData([]);
         setPreviewList([])
-    }
+    }, [filesData])
+
+    const isFilesDataEmpty = React.useMemo(() => {
+        return !filesData.length
+    }, [filesData])
+
+    const deleteIcon = React.useMemo(() => {
+        return <DeleteIcon/>
+    }, [])
+
+    const downloadForOfflineIcon = React.useMemo(() => {
+        return <DownloadForOfflineIcon/>
+    }, [])
 
   return (
     <div className="upload-wrapper">
         <BaseButton
             className="upload-wrapper__btn"
             variant="contained"
-            onClick={() => setIsOpenUploadMenu(!isOpenUploadMenu)}
+            onClick={React.useCallback(() => setIsOpenUploadMenu(!isOpenUploadMenu), [isOpenUploadMenu])}
         >
             {filesData.length > 0 &&
                 <p>{  filesData.length }</p>
@@ -134,8 +146,13 @@ export const UploadFile = () => {
                 >
                     {filesData.length ?
                         filesData.map((file, index) =>
-                            <PreviewItem removeFromFileData={removeFromFileData} previewUrl={previewList[index]}
-                                         file={file} key={index} index={index}/>
+                            <PreviewItem
+                                removeFromFileData={removeFromFileData}
+                                previewUrl={previewList[index]}
+                                file={file}
+                                key={index}
+                                index={index}
+                            />
                         )
                         :
                         <div
@@ -150,8 +167,8 @@ export const UploadFile = () => {
                     <BaseButton
                         variant="outlined"
                         onClick={uploadFileHandler}
-                        disabled={!filesData.length}
-                        startIcon={<DownloadForOfflineIcon/>}
+                        disabled={isFilesDataEmpty}
+                        startIcon={downloadForOfflineIcon}
                     >
                         Загрузить
                     </BaseButton>
@@ -165,8 +182,8 @@ export const UploadFile = () => {
                         </BaseButton>
                         <BaseButton
                             variant="contained"
-                            disabled={!filesData.length}
-                            startIcon={<DeleteIcon/>}
+                            disabled={isFilesDataEmpty}
+                            startIcon={deleteIcon}
                             color="error"
                             onClick={removeAll}
                         >

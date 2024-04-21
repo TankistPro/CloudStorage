@@ -9,7 +9,7 @@ export const ModalContext = React.createContext();
 
 let { Provider } = ModalContext;
 
-export const ModalContextProvider = ({ children }) => {
+export const ModalContextProvider = React.memo(({ children }) => {
     const [isOpenModal, setIsOpenModal] = React.useState(false);
     const [modalAction, setModalAction] = React.useState(null);
     const [title, setTitle] = React.useState('');
@@ -22,28 +22,28 @@ export const ModalContextProvider = ({ children }) => {
     * @param {string} title - текст верхнего заголовка (необязательный параметр)
     * @param {ModalAction} action - тип мадального окна (обязательный параметр)
     * */
-    const openModal = ( {title, action, payload}) => {
+    const openModal = React.useCallback(( {title, action, payload}) => {
         setModalAction(action);
         setTitle(title);
         setIsOpenModal(true);
         setPayload(payload);
-    }
+    }, [])
 
     /*
     * Закрытие модалного окна
     * */
-    const closeModal = () => {
+    const closeModal = React.useCallback(() => {
         setIsOpenModal(false);
         setModalAction(null)
         setTitle('');
-    }
+    }, [])
 
-    const renderModalContent = () => {
+    const renderModalContent = React.useCallback(() => {
         if (modalAction === ModalAction.CREATE_FOLDER)
             return <CreateFolderContent />
         if (modalAction === ModalAction.EDIT_FILE)
             return <EditFile currentFileName={payload.fileName} />
-    }
+    }, [modalAction])
 
     return (
         <Provider
@@ -63,4 +63,4 @@ export const ModalContextProvider = ({ children }) => {
             { children }
         </Provider>
     )
-}
+})

@@ -8,7 +8,6 @@ import Loader from "@SharedComponents/Loader/Loader";
 import BaseDropList from "@UI/BaseDropList/BaseDropList.jsx";
 import {ModalContext} from "@context/useModalContext.jsx";
 import {ModalAction} from "@enums/modalAction.enums.js";
-import {useAutoCloseModal} from "@hooks/useAutoCloseModal.js";
 
 export const Table = () => {
   const files = useSelector((state) => state.fileSystem.currentFolder);
@@ -18,14 +17,42 @@ export const Table = () => {
 
   const { openModal } = React.useContext(ModalContext);
 
-  const createFolderModal = () => {
+  const createFolderModal = React.useCallback(() => {
       const configModal = {
           title: "Создание папки",
           action: ModalAction.CREATE_FOLDER
       };
 
       openModal(configModal);
-  }
+  }, [])
+
+    const toggleOption = React.useCallback((e, file) => {
+        e.stopPropagation();
+        console.log(file)
+        const index = file.stat.birthtimeMs;
+
+        if (index === currentDropListIndex) setCurrentDropListIndex(null);
+        else setCurrentDropListIndex(index);
+    }, [currentDropListIndex])
+
+    const menuItems = React.useMemo(() => ([
+        {
+            onClickEvent: createFolderModal,
+            text: "Создать каталог",
+        },
+        {
+            onClickEvent:() => {},
+            text: "Настройки таблицы",
+        }
+    ]), [])
+
+    const isTableRowLoadedAndNotEmpty = React.useMemo(() => {
+        return files.length && !isLoading
+    }, [files, isLoading])
+
+    const isTableRowDataLoading = React.useMemo(() => {
+        return !files.length && !isLoading
+    },[files, isLoading])
 
   return (
     <div className="table">
@@ -41,22 +68,13 @@ export const Table = () => {
             <div className="table__column">
               <BaseDropList
                   width={200}
-                  menuItems={[
-                  {
-                    onClickEvent: createFolderModal,
-                    text: "Создать каталог",
-                  },
-                  {
-                    onClickEvent: () => {},
-                    text: "Настройки таблицы",
-                  }
-                ]}
+                  menuItems={menuItems}
               />
             </div>
           </div>
         </div>
         <div className="table__body">
-          {(files.length && !isLoading) ? (
+          {isTableRowLoadedAndNotEmpty ? (
             files.map((file, index) => (
               <TableRow
                 file={file}
@@ -64,9 +82,10 @@ export const Table = () => {
                 index={index}
                 setCurrentDropListIndex={setCurrentDropListIndex}
                 currentDropListIndex={currentDropListIndex}
+                toggleOption={toggleOption}
               />
             ))
-          ) : (!files.length && !isLoading) ? (
+          ) : isTableRowDataLoading ? (
               <p>Пусто</p>
           ) :
               <>

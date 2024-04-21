@@ -3,7 +3,7 @@ import {TextField} from "@mui/material";
 
 import './baseField.scss';
 
-const BaseField = ({...props}) => {
+const BaseField = React.memo(({...props}) => {
     return (
         <div className="base-input">
             <TextField
@@ -11,6 +11,6 @@ const BaseField = ({...props}) => {
             />
         </div>
     );
-};
+});
 
 export default BaseField;

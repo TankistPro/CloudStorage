@@ -22,12 +22,12 @@ import {FileAction} from "@enums/file.enum";
 import {ModalAction} from "@enums/modalAction.enums.js";
 import {ModalContext} from "@context/useModalContext.jsx";
 
-const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit }) => {
+const OptionsDropList = ({ toggleOption, isOpenDropListOption, file }) => {
     const { openModal } = React.useContext(ModalContext);
 
     const { removeFile, copyFileLink } = useFileAction();
     const $element = useRef(null);
-
+console.log(toggleOption)
     const menuHandler = async (event, fc, actionType) => {
         event.stopPropagation();
 
@@ -36,24 +36,21 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit 
             openToast(status);
         }
         if (actionType === FileAction.RENAME) {
-            // toggleEdit();
-
             const configModal = {
                 title: "Переименовать",
                 action: ModalAction.EDIT_FILE,
                 payload: { fileName: file.name }
             };
-            console.log(configModal);
             openModal(configModal);
         }
         if(actionType === FileAction.COPY_LINK) {
             fc();
         }
-
-        toggleOption(event);
+        console.log(toggleOption)
+        toggleOption(event, file);
     }
 
-    const openToast = (status) => {
+    const openToast = React.useCallback((status) => {
         const toastType = status ? 'success' : 'error';
         const text = status ? "Файл успешно удален!" : "Не удалось удалить файл";
 
@@ -61,7 +58,7 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit 
             toastType,
             text
         })
-    }
+    }, [])
 
     React.useEffect(() => {
         if (isOpenDropListOption) {
@@ -75,12 +72,28 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit 
         }
     }, [isOpenDropListOption])
 
+    const openDropListClass = React.useMemo(() => {
+        return isOpenDropListOption ? 'open' : ''
+    }, [isOpenDropListOption])
+
+    const moreOptionsIcon = React.useMemo(() => {
+        return moreOption
+    }, [])
+
     return (
     <div className='drop-controller' ref={$element}>
-        <img className='more-option' src={ moreOption } alt="more" onClick={(event) => toggleOption(event)} />
-        <Paper className={`drop-controller__list ${ isOpenDropListOption ? 'open' : '' }`} sx={{ width: 320 }}>
+        <img
+            className='more-option'
+            src={ moreOptionsIcon }
+            loading={"lazy"}
+            alt="more"
+            onClick={React.useCallback((event) => toggleOption(event), [])}
+        />
+        <Paper className={`drop-controller__list ${ openDropListClass }`} sx={{ width: 320 }}>
             <MenuList>
-                <MenuItem onClick={(event) =>  menuHandler(event, null, FileAction.RENAME)}>
+                <MenuItem
+                    onClick={React.useCallback((event) =>  menuHandler(event, null, FileAction.RENAME), [])}
+                >
                     <ListItemIcon>
                         <DriveFileRenameOutlineIcon fontSize="small" />
                     </ListItemIcon>
@@ -89,7 +102,7 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit 
                         ⌘X
                     </Typography>
                 </MenuItem>
-                <MenuItem onClick={(event) => menuHandler(event, copyFileLink, FileAction.COPY_LINK)}>
+                <MenuItem onClick={React.useCallback((event) => menuHandler(event, copyFileLink, FileAction.COPY_LINK), [])}>
                     <ListItemIcon>
                         <ContentCopy fontSize="small" />
                     </ListItemIcon>
@@ -108,7 +121,7 @@ const OptionsDropList = ({ toggleOption, isOpenDropListOption, file, toggleEdit 
                     </Typography>
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={(event) => menuHandler(event, removeFile, FileAction.REMOVE_FILE)}>
+                <MenuItem onClick={React.useCallback((event) => menuHandler(event, removeFile, FileAction.REMOVE_FILE), [])}>
                     <ListItemIcon>
                         <DeleteIcon fontSize="small" />
                     </ListItemIcon>

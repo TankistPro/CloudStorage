@@ -16,14 +16,14 @@ export const HomePage = () => {
 
     React.useEffect(() => {
         if (baseWorkspacePath) {
-            fetchFolders();
+            fetchFolders().then();
         }
     }, [location.search, baseWorkspacePath])
 
   return (
       <main className="main container">
           <BreadcrumbsNav/>
-          <Table/>
+          <Table />
       </main>
   )
 }

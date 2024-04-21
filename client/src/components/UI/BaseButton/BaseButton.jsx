@@ -3,10 +3,11 @@ import React from 'react';
 import './baseButton.scss';
 import {Button} from "@mui/material";
 
-const BaseButton = ({ useWrapperDiv = true, children, ...props}) => {
-    const renderButton = () => {
+const BaseButton = React.memo(({ useWrapperDiv = true, children, ...props}) => {
+    const renderButton = React.useCallback(() => {
         return <Button className="base-button" {...props}>{children}</Button>
-    }
+    }, [children, props]);
+
     return (
         <>
             {!useWrapperDiv ?
@@ -19,6 +20,6 @@ const BaseButton = ({ useWrapperDiv = true, children, ...props}) => {
             }
         </>
     );
-};
+});
 
 export default BaseButton;

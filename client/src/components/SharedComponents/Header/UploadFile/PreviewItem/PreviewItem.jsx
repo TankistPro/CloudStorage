@@ -6,7 +6,7 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 
 import { parseSize } from '@helpers/file.helper';
 
-export const PreviewItem = ({ index, file, previewUrl, removeFromFileData }) => {
+export const PreviewItem = React.memo(({ index, file, previewUrl, removeFromFileData }) => {
 
   return (
     <div className="preview-list__item">
@@ -29,11 +29,11 @@ export const PreviewItem = ({ index, file, previewUrl, removeFromFileData }) => 
           aria-label="delete"
           size="large"
           color="error"
-          onClick={() => removeFromFileData(index)}
+          onClick={React.useCallback(() => removeFromFileData(index), [])}
         >
           <DeleteIcon fontSize="inherit" />
         </IconButton>
       </div>
     </div>
   );
-};
+});
