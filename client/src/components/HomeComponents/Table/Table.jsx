@@ -8,16 +8,27 @@ import Loader from "@SharedComponents/Loader/Loader";
 import BaseDropList from "@UI/BaseDropList/BaseDropList.jsx";
 import {ModalContext} from "@context/useModalContext.jsx";
 import {ModalAction} from "@enums/modalAction.enums.js";
+import {useLocation} from "react-router-dom";
+import {useFileSystem} from "@hooks/useFileSystem.js";
 
 export const DropListContext = React.createContext();
 
 export const Table = () => {
   const files = useSelector((state) => state.fileSystem.currentFolder);
   const isLoading = useSelector((state) => state.fileSystem.isLoading);
+  const baseWorkspacePath = useSelector(state => state.user?.user?.baseWorkspacePath);
+  const location = useLocation();
 
+  const { fetchFolders } = useFileSystem();
   const [currentDropListIndex, setCurrentDropListIndex] = React.useState(-1);
 
   const { openModal } = React.useContext(ModalContext);
+
+  React.useEffect(() => {
+      if (baseWorkspacePath) {
+          fetchFolders().then();
+      }
+  }, [location.search, baseWorkspacePath])
 
   const createFolderModal = React.useCallback(() => {
       const configModal = {

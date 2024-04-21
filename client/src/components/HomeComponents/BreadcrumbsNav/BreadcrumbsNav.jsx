@@ -11,9 +11,11 @@ export const BreadcrumbsNav = () => {
 
     const { parseFsPath, goToBackFolder } = useFileSystem();
 
-    const pathStack = parseFsPath();
+    const pathStack = React.useMemo(() => {
+        return parseFsPath();
+    }, [parseFsPath])
 
-    const renderItem = (fileName, index) => {
+    const renderItem = React.useCallback((fileName, index) => {
         const name = baseWorkspacePath === fileName ? "Home" : fileName
 
         if (index + 1 === pathStack.length) {
@@ -21,7 +23,7 @@ export const BreadcrumbsNav = () => {
         }
 
         return <p onClick={() => goToBackFolder(fileName)} className='breadcrumbs__link' key={index} color="inherit">{ name }</p>
-    }
+    }, [baseWorkspacePath, pathStack])
 
   return (
     <div className='breadcrumbs'>

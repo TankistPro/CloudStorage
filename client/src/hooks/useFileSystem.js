@@ -1,3 +1,4 @@
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {createFolderAction, fetchCurrentFolder, uploadFilesAction} from "@store/actions/fileSystem.action";
@@ -9,7 +10,7 @@ export const useFileSystem = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const dispatch = useDispatch();
 
-    const openFolder =  async (fileName) => {
+    const openFolder =  React.useCallback(async (fileName) => {
         const param = searchParams.get('path');
 
         if (!param) {
@@ -17,9 +18,9 @@ export const useFileSystem = () => {
         } else {
             setSearchParams({path: param + `/${ fileName }` })
         }
-    }
+    }, [searchParams])
 
-    const fetchFolders = async () => {
+    const fetchFolders = React.useCallback(async () => {
         if (baseWorkspacePath) {
             const param = searchParams.get('path') ;
             let newPath = baseWorkspacePath;
@@ -30,9 +31,9 @@ export const useFileSystem = () => {
 
             await dispatch(fetchCurrentFolder(newPath));
         }
-    }
+    }, [baseWorkspacePath, searchParams])
 
-    const goToBackFolder = (folderName) => {
+    const goToBackFolder = React.useCallback((folderName) => {
         let pathStack = parseFsPath();
 
         if (folderName === baseWorkspacePath) {
@@ -44,13 +45,13 @@ export const useFileSystem = () => {
             let newPath = pathStack.slice(0, folderIndex + 1).join('/');
             setSearchParams({ path: "/" + newPath })
         }
-    }
+    }, [baseWorkspacePath])
 
     /**
      * Возвращает текущий путь в виде массива -> ['0asad0-1212-12121as', 'folder', 'test'],
      * что соответствует данному пути -> '0asad0-1212-12121as/folder/test'
     */
-    const parseFsPath = () => {
+    const parseFsPath = React.useCallback(() => {
         const param = searchParams.get('path');
 
         if (!param) {
@@ -58,9 +59,9 @@ export const useFileSystem = () => {
         }
 
         return [baseWorkspacePath, ...param.split('/').filter(s => s.length)]
-    }
+    }, [baseWorkspacePath, searchParams])
 
-    const uploadFiles = async (filesArray) => {
+    const uploadFiles = React.useCallback(async (filesArray) => {
         if (!filesArray.length) return;
 
         const currentPath = parseFsPath().join('/');
@@ -78,7 +79,7 @@ export const useFileSystem = () => {
         }
 
         return response;
-    }
+    }, [parseFsPath])
 
     /*
     * Открытие файла для просмотра в отдельной вкладке браузера
@@ -90,9 +91,8 @@ export const useFileSystem = () => {
         window.open(path, '_blank');
     }
 
-    const createFolder = async (folderName) => {
+    const createFolder = React.useCallback(async (folderName) => {
         const folderPath = parseFsPath().join('/') + "/" + folderName;
-        console.log("Создание папки " + folderPath);
 
         const payload = await dispatch(createFolderAction(folderPath));
 
@@ -105,7 +105,7 @@ export const useFileSystem = () => {
             error: payload?.message,
             newFolderName: folderName
         }
-    }
+    }, [parseFsPath])
 
     return {
         openFolder,

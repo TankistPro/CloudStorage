@@ -9,17 +9,6 @@ import {useFileSystem} from "@hooks/useFileSystem";
 import './homePage.scss'
 
 export const HomePage = () => {
-    const baseWorkspacePath = useSelector(state => state.user?.user?.baseWorkspacePath);
-    const location = useLocation();
-
-    const { fetchFolders } = useFileSystem();
-
-    React.useEffect(() => {
-        if (baseWorkspacePath) {
-            fetchFolders().then();
-        }
-    }, [location.search, baseWorkspacePath])
-
   return (
       <main className="main container">
           <BreadcrumbsNav/>
