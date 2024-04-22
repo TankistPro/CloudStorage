@@ -1,8 +1,8 @@
 import React from 'react';
-import BaseIconButton from "@UI/BaseIconButton/IconButton.jsx";
+import BaseIconButton from "@UI/BaseIconButton/IconButton.tsx";
 import {Dialog, DialogTitle} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import {ModalContext} from "@context/useModalContext.jsx";
+import {ModalContext} from "@context/useModalContext.tsx";
 
 const BaseModal = ({ modalTitle, children }) => {
     const { closeModal, isOpenModal } = React.useContext(ModalContext);

@@ -1,8 +1,8 @@
 import {useDispatch} from "react-redux";
 
-import { useFileSystem } from "./useFileSystem";
-import { getFileExtension } from "@helpers/file.helper";
-import { closeDocViewerAction, openDocViewerAction } from "@store/actions/docViewer.action"
+import { useFileSystem } from "./useFileSystem.js";
+import { getFileExtension } from "@helpers/file.helper.js";
+import { closeDocViewerAction, openDocViewerAction } from "@store/actions/docViewer.action.js"
 
 export const useDocViewer = () => {
     const dispatch = useDispatch();

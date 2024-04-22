@@ -1,14 +1,14 @@
 import React from 'react';
 
 import './createFolder.scss';
-import BaseField from "@UI/BaseField/BaseField.jsx";
+import BaseField from "@UI/BaseField/BaseField.tsx";
 
 import folderImg from '@images/folder.svg';
-import {useFileSystem} from "@hooks/useFileSystem.js";
-import BaseButton from "@UI/BaseButton/BaseButton.jsx";
+import {useFileSystem} from "@hooks/useFileSystem.ts";
+import BaseButton from "@UI/BaseButton/BaseButton.tsx";
 import {DialogActions, DialogContent} from "@mui/material";
-import {ModalContext} from "@context/useModalContext.jsx";
-import Toast from "@SharedComponents/Toast/Toast.jsx";
+import {ModalContext} from "@context/useModalContext.tsx";
+import Toast from "@SharedComponents/Toast/Toast.tsx";
 
 const CreateFolder = () => {
     const [folderName, setFolderName] = React.useState('');

@@ -2,11 +2,11 @@ import React from "react";
 
 import {DialogActions, DialogContent} from "@mui/material";
 import folderImg from "@images/folder.svg";
-import BaseField from "@UI/BaseField/BaseField.jsx";
-import BaseButton from "@UI/BaseButton/BaseButton.jsx";
+import BaseField from "@UI/BaseField/BaseField.tsx";
+import BaseButton from "@UI/BaseButton/BaseButton.tsx";
 
-import {ModalContext} from "@context/useModalContext.jsx";
-import {useFileAction} from "@hooks/useFileAction.js";
+import {ModalContext} from "@context/useModalContext.tsx";
+import {useFileAction} from "@hooks/useFileAction.ts";
 
 const EditFile = ({ currentFileName }) => {
     const [newFileName, setNewFileName] = React.useState(currentFileName);

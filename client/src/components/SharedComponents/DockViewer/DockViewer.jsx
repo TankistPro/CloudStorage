@@ -5,7 +5,7 @@ import './dockViewer.scss'
 
 import { useDocViewer } from '@hooks/useDocViewer';
 import PSPDFKit from "pspdfkit";
-import {useAutoCloseModal} from "@hooks/useAutoCloseModal.js";
+import {useAutoCloseModal} from "@hooks/useAutoCloseModal.ts";
 
 export const DockViewer = () => {
     const docViewer = useSelector(state => state.docViewer);
