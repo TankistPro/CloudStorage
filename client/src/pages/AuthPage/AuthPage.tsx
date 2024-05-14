@@ -14,16 +14,17 @@ export const AuthPage = () => {
   const [password, setPassword] = React.useState<string>('');
 
   const navigate = useNavigate();
-  const { loginErrors, login, loginAttempts} = usePassport();
+  const { loginErrors, login, loginAttempts } = usePassport();
 
   React.useEffect(() => {
+    console.log(loginErrors)
     if (loginErrors.status) {
       Toast({
         toastType: 'error',
-        text: loginErrors.message
+        text: loginErrors.message || ""
       })
     }
-  }, [loginAttempts, loginErrors.status])
+  }, [loginAttempts])
 
   const loginHandler = React.useCallback(async () => {
     if (email.trim().length && password.trim().length) {
@@ -43,14 +44,14 @@ export const AuthPage = () => {
             <div className="auth-form">
               <BaseField
                   id="standard-basic"
-                  onInput={React.useCallback((e) => setEmail(e.target.value), [email])}
+                  onInput={React.useCallback((e: any) => setEmail(e.target.value), [email])}
                   label="E-mail"
                   variant="standard"
                   type="text"
               />
               <BaseField
                   id="standard-basic"
-                  onInput={React.useCallback((e) => setPassword(e.target.value), [password])}
+                  onInput={React.useCallback((e: any) => setPassword(e.target.value), [password])}
                   label="Пароль"
                   variant="standard"
                   type="password"

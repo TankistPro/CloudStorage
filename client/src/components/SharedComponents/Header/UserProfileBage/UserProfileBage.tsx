@@ -68,6 +68,13 @@ export const UserProfileBage = () => {
     const ariaExpandedExp = React.useMemo(() => {
         return open ? 'true' : undefined
     },[open])
+
+    // TODO: убрать в useUser
+    const userAvatar = React.useMemo(() => {
+        if(user.avatarHash) return `http://localhost:5520/user-avatars/${user.avatarHash}`;
+        else return defaultAvatar
+    }, [user])
+
   return (
     <div className="user-profile">
           <div className="user-profile__info">
@@ -84,7 +91,7 @@ export const UserProfileBage = () => {
               aria-expanded={ariaExpandedExp}
             >
               <Avatar
-                  src={defaultAvatar}
+                  src={userAvatar}
                   sx={React.useMemo(() => ({ width: 42, height: 42 }), [])}
               />
             </IconButton>

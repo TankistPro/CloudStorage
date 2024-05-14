@@ -16,12 +16,14 @@ export const usePassport = () => {
     const navigate = useNavigate();
 
     const login = useCallback(async (email: string, password: string) => {
-        setLoginAttempts(prevState => prevState + 1);
-
-        return dispatch(
+        const result = await dispatch(
             loginAction({
                 email, password
             }));
+
+        setLoginAttempts(prevState => prevState + 1);
+
+        return result
     }, [])
 
     const logout = () => {

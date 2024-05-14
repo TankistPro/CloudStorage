@@ -29,6 +29,7 @@ export const startServerV1 = async () => {
 
         // TODO: AUTH PROTECT!
         app.use('/cdn', express.static(path.join(__dirname, '../../../users')));
+        app.use('/user-avatars', express.static(path.join(__dirname, '../../../avatars')));
 
         app.use('/api/v1', router);
 

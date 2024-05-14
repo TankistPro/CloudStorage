@@ -9,14 +9,24 @@ import "cropperjs/dist/cropper.css";
 import defaultAvatar from '@images/default-avatar.png';
 import BaseButton from "@UI/BaseButton/BaseButton";
 import {Avatar} from "@mui/material";
+import {useUser} from "@hooks/useUser";
+import {useAppSelector} from "@hooks/useCustomStore";
 
 const ImageCropperEditor = () => {
+    const user = useAppSelector(state => state.user.user);
     const [isOpenCropperEditor, setIsOpenCropperEditor] = React.useState(false);
 
-    const [image, setImage] = React.useState(defaultAvatar);
     const [cropData, setCropData] = React.useState("");
     const cropperRef = React.createRef<any>();
 
+    const { saveAvatar } = useUser();
+
+    const userAvatar = React.useMemo(() => {
+        if(user.avatarHash) return `http://localhost:5520/user-avatars/${user.avatarHash}`;
+        else return defaultAvatar
+    }, [user])
+
+    const [image, setImage] = React.useState(userAvatar);
 
     const getCropData = () => {
         setCropData(cropperRef.current.cropper.getCroppedCanvas().toDataURL());
@@ -41,14 +51,21 @@ const ImageCropperEditor = () => {
         if (isOpenCropperEditor) {
             setCropData(image);
         }
-    }, [isOpenCropperEditor, image])
+    }, [isOpenCropperEditor, image]);
+
+    const saveImageHandel = React.useCallback(async () => {
+        cropperRef.current.cropper.getCroppedCanvas().toBlob(async (data: Blob) => {
+            const response = await saveAvatar(data);
+            console.log(response);
+        })
+    }, [cropData])
 
     return (
         <div className="imageCropper">
             <div className="avatar-preview">
                 <Avatar
                     alt="avatar"
-                    src={defaultAvatar}
+                    src={userAvatar}
                     sx={{ width: '100%', height: '100%' }}
                 />
                 <div className="avatar-preview__btns">
@@ -118,7 +135,7 @@ const ImageCropperEditor = () => {
                             </BaseButton>
                             <span>
                                <BaseButton variant="outlined" onClick={() => setIsOpenCropperEditor(false)}>Отмена</BaseButton>
-                            <BaseButton variant="contained">Применить</BaseButton>
+                                <BaseButton variant="contained" onClick={saveImageHandel}>Применить</BaseButton>
                             </span>
                         </div>
                     </div>
